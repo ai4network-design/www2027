@@ -1,0 +1,89 @@
+{
+  "version": "qwen3-production-calibration-matched-control-v1",
+  "models": [
+    "qwen3_8b",
+    "qwen3_4b"
+  ],
+  "arms": [
+    {
+      "id": "qwen3_8b_model",
+      "model": "qwen3_8b",
+      "controller": "model_actions",
+      "maximum_calls": 16,
+      "reference_model": "qwen7b"
+    },
+    {
+      "id": "qwen3_8b_mpc",
+      "model": "qwen3_8b",
+      "controller": "priority_mpc",
+      "maximum_calls": 5,
+      "reference_model": "qwen7b"
+    },
+    {
+      "id": "qwen3_4b_mpc",
+      "model": "qwen3_4b",
+      "controller": "priority_mpc",
+      "maximum_calls": 5,
+      "reference_model": "qwen3b"
+    },
+    {
+      "id": "qwen3_4b_model",
+      "model": "qwen3_4b",
+      "controller": "model_actions",
+      "maximum_calls": 16,
+      "reference_model": "qwen3b"
+    }
+  ],
+  "ticks": 12,
+  "maximum_total_calls": 42,
+  "maximum_native_steps": 48,
+  "calibration_request": "Deliver an additional 4 megabytes of backup payload with mean delay at most 12 ms and delivered throughput at least 3.8 Mbps, then remove all temporary caps while preserving hard guarantees.",
+  "tasks": [
+    {
+      "id": "backup32",
+      "request": "Deliver an additional 4 megabytes of backup payload with mean delay at most 12 ms and delivered throughput at least 3.8 Mbps, then remove all temporary caps while preserving hard guarantees.",
+      "world": 729005,
+      "reference_world": 717000
+    }
+  ],
+  "limits": {
+    "proposal_ms": 850,
+    "total_ms": 1000,
+    "input_tokens": 2048,
+    "output_tokens": 48,
+    "edits": 6,
+    "routes": 2,
+    "route_cooldown": 5,
+    "rate_min_dwell": 2,
+    "rate_max_dwell": 8,
+    "gpu_bytes": 21474836480,
+    "rss_bytes": 12884901888
+  },
+  "planner_soft_ms_from_tick_start": 650,
+  "preflight_report_sha256": "3493360be55ca19ed510219d29c35f6ae93bc346a98df4ef77120a3556fe4921",
+  "preflight_grammar_sha256": {
+    "qwen3_8b": {
+      "action": "d18745d565862081047cafe54babf04fb2d6701da7a32a3197e7001d26fec86b",
+      "goal": "2de8c10bf5638952010ae39f4480f13afb93a32f46b89f5f46a6d865e114d407"
+    },
+    "qwen3_4b": {
+      "action": "d18745d565862081047cafe54babf04fb2d6701da7a32a3197e7001d26fec86b",
+      "goal": "2de8c10bf5638952010ae39f4480f13afb93a32f46b89f5f46a6d865e114d407"
+    }
+  },
+  "source_group": "multiservice_semantic_direct_group_20260913",
+  "source_head": "f9da27580d4686842b80b8b57b0b4b54ce145ea5",
+  "source_record_sha256": "9867428f1086dafe6f9a60e1505f62b4c1a1cc03709f1c4bcfd7fe51416cd690",
+  "source_manifest_sha256": "de5722ecf89c4cab7637d9a08afe7170069362f5e65a724cbf3914f19d0626b2",
+  "interpretation": "Known engineering request, not held-out or open-language ranking. Each arm independently generates its own goal, then uses the same paid initial priority-MPC. Thereafter original fresh LM operations vs same strong MPC, each with own actual feedback, safety, owned goal and unchanged budgets. Initialization is hybrid. Match actual first messages/token IDs/goal/action/post-prefix state before control attribution. Mismatches and failures stay; never retry or force identical prefixes.",
+  "failure": "Preserve first incomplete/invalid model, no complete planner branch, original850 charged proposal/1000 driver, hard SLA or resource/source failure and unused slots; no replacements. At charged proposal>=850 or preactuation>=1000 abort before action; otherwise unadmitted model/planner may reach original safe HOLD then arm stops.",
+  "runtime": "One fresh model process per arm on the same designated GPU. Four original calibration calls per arm, then at most one original goal plus eleven actions (model) or one goal and eleven planner-only ticks (MPC). Original full input, dynamic necessary-domain syntax, P0 and prompt-only cache; explicit paid resets before goal/control. No action labels, correct reference repair or sibling answers. Current original service-bound protocol only: neither rejected role sentence nor route-effect preview is used. Each arm has its own newly generated goal.",
+  "arm_order": "Qwen3-8B model then MPC, Qwen3-4B MPC then model; fixed before data, known engineering request only.",
+  "expected_parameters": {
+    "qwen3_8b": 8190735360,
+    "qwen3_4b": 4022468096
+  },
+  "original_decode": "Original per-model official GenerationConfig unchanged; serialized repetition_penalty=None under current Transformers5.9, actual no repetition processor. Hard nonthinking official template and explicit greedy/48 kwargs; no injected Qwen2 penalty.",
+  "calibration_preflight_report_sha256": "57edc54dd56810c791b4befda3179386cad8589644cb6ecb46ec43a30e33574e",
+  "calibration": "Four paid original production-goal calls from immutable interface public states 0,2,5,8; same full view, compact MB array, prompt-only cache reset, P0 and850 budget as runtime. No legacy intent object. No reuse of calibration answer; online goal generated again independently. Cold failure preserved; all three warm must pass original gate."
+}

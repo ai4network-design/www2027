@@ -1,0 +1,11 @@
+{
+  "version":"original-quota-eight-calibration-v1",
+  "arms":["qwen7b","qwen3b"],"maximum_calls_per_model":4,"maximum_total_calls":8,"native_runs":0,
+  "request":"Deliver an additional 4 megabytes of backup payload with mean delay at most 12 ms and delivered throughput at least 3.8 Mbps, then remove all temporary caps while preserving hard guarantees.",
+  "calls":"Four intent-phase original-model calls per arm, cold plus three warm, identical original request. Request epoch from saved world715000 before states at ticks0,2,5,8, no private goal or fixture spec sent. No action/native calls. First numerical output is not supplied to later calls; paid prompt-only cache preserves no generated answers.",
+  "gate":"Cold retained separately. All three warm complete parsed quota packets and charged proposal <=850ms, no deadline hit. Report exact unit/spec correctness separately from structural timing gate; never silently correct an interpretation. Keep failed arms and unused slots, no replacement.",
+  "limits":{"proposal_ms":850,"total_ms":1000,"input_tokens":2048,"output_tokens":48,"gpu_bytes":21474836480,"rss_bytes":12884901888,"wall_per_arm_seconds":900},
+  "admission":"Two-tokenizer report passed all108 intent and12318 action packets per model and all24 saved messages within budgets, CPU regression passed; commit/push source plus this contract and record before actual calls. Designated GPU2 must be empty before group creation and each model constructor validates original binding. No GPU swapping or other-user intervention.",
+  "unchanged":"Original Qwen2.5-7B/3B identities, revisions, weights, generation_config including1.05 repetition, tokenizer/chat template, lexical mask, paid prompt cache, full-forward generation and operational budgets. No trained target action labels or private goal input.",
+  "scope":"Development timing/semantic calibration only, not fresh real control or fair method comparison. A separate controller integration/admission is still required before quota LLM ns3."
+}

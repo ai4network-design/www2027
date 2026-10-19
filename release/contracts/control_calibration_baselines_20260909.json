@@ -1,0 +1,20 @@
+{
+  "schema": "vera.control_calibration_baselines/1",
+  "calibration_plan": "contracts/control_cuda_calibration_20260909.json",
+  "calibration_plan_sha256": "d76798475ccc6a46ef09e58bc1ebe0feebcb76e4e6faf4f98343409352ad5df7",
+  "retained_root": "runs/control_cuda_calibration_20260909",
+  "retained_report_sha256": "0f47960a8fa0a2b58a58acc608d4b2c550d713c29961cab377774caa70af910f",
+  "retained_tree_sha256": "e2eab255987379c9e3dcd59ddc6be7f8b2accd2f0f4b37640155720aa5d5ddd3",
+  "retained_files": 381,
+  "retained_review": "runs/control_cuda_independent_review_20260909/report.json",
+  "retained_review_sha256": "b073e92016fcada8f8d592323dbef0cf9ded516243fd5336839d5997b1e49ab1",
+  "small_interface_report": "runs/service_small_online_interface_20260909/report.json",
+  "small_interface_report_sha256": "3851439d5e237ee7d3ebd6805598a7163542223abbc85d951c7639684a5b4b1e",
+  "output": "runs/control_calibration_baselines_20260909",
+  "arms_in_order": ["causal_reference", "service_small"],
+  "limits": {"maximum_native_cells": 2, "maximum_control_decisions": 120, "maximum_small_loads": 1, "maximum_small_forwards": 60, "maximum_backbone_loads": 0, "maximum_backbone_forwards": 0, "maximum_optimizer_updates": 0, "maximum_warmup_forwards": 0, "maximum_wall_seconds": 300, "maximum_output_bytes": 100000000, "minimum_output_host_free_disk_bytes": 2147483648},
+  "gates": {"every_new_control_core_at_most_ms": 1000, "all_actual_inputs_history_witness_packet_audits": true, "all_retained_artifacts_unchanged": true},
+  "scope": "Only the two never-started non-LLM arms of world340001, same admitted Mac ns3 binary, initialC, offset0, FG2973750 and60steps from the immutable calibration plan. Same current information, intent, predictor, verifier/repair and6/2/5/2/8/K3 budgets. Frozen125318-parameter CPU MLP checkpoint loaded once;60 actual proposals, no interface forwards/warmup/fitting. Original LLM cell is retained, never run again.",
+  "estimand": "Posthoc engineering paired rollout comparison, not preregistered heldout/generalization or randomized causal trial. Compare actual first action, all deployed actions, per-tick SLA/packet delays, unsafe/drop, edits/toggles/repair/fallback, driver deadlines and full readiness. No assumption LLM benefit is positive. Reference on LLM states is not reference rollout. Compute host/order differs; do not report same-hardware LLM latency advantage.",
+  "failure_policy": "Exclusive fixed output and reject either arm already started anywhere under runs. CPU regression and preserved evidence/assets gate first. Preserve any real failure and stop later cells; no retry, replacement seed, parameter change or relaxed gate. Missing remaining arm would require a separately frozen unstarted-only continuation. Server only Git and CPU regression, zero server native/model/output/training."
+}

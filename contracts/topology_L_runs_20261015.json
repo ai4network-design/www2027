@@ -1,0 +1,51 @@
+{
+ "schema": "vera.topology_L/1",
+ "status": "REGISTERED 2026-10-15 before any topology-L result (regression: the parameterised binary reproduces the pinned three-path binary's observations 78/78 on 3 seeds x {no maintenance, maintenance}; unit tests pass; one smoke episode on L)",
+ "question": "Do the maintenance closed-loop results (timing channel, path channel, planner value) hold on a second, larger topology?",
+ "topology": "contracts/topology_L_20261015.json: six bottleneck paths (min 4.5/7/9/4.5/7/9 Mbps, delays 5/15/30/8/20/35 ms), five services (query 2, video 4, backup 6, query2 2, video2 4 Mbps; floors as the three-path contract), initial paths 3/2/3/6/5, path 6 spare; base ledger: five QoS obligations, backup deadline, recovery window; 12 intervals",
+ "native": "src/vera/ns3/ns3_multiservice_topo.cc (topology-parameterised; defaults = the pinned maintenance scenario), descriptor runs/ns3_topo_build_20261015/native_topo.json",
+ "code": "controller, shields, static rule and ledger generalised to N services / P paths from the topology contract (VERA_TOPOLOGY_CONTRACT); the three-path contract stays the default",
+ "scenarios": {
+  "maintenance": "v2 notices (159) x {1.5, 2, 3} Mbps, path by hash over paths 1-5; arms R0_reactive, M_worst, M_rule, M_qwen7b_extract (post-fix outputs), M_oracle",
+  "affected": "affected-object test items x {1.5, 2, 3} Mbps, region -> path by hash over paths 1-6; arms R0_reactive, M_rule, M_qwen7b, M_oracle, X_oracle_time_rule_path, X_oracle_time_qwen7b_path",
+  "controls": "C_lead2_qwen7b, C_greedy_qwen7b on the maintenance worlds"
+ },
+ "analysis": "the same paired differences and clustering as the three-path runs (scripts/summarise_maintenance_diagnostic.py conventions); reported side by side with the three-path numbers; descriptive",
+ "budgets": {
+  "model_calls": 0,
+  "training": 0,
+  "ns3_episodes": "maintenance 2,385 + controls 954 + affected 4,830 (amendment 1); timing smoke 9; first affected attempt discarded (about 800 episodes)"
+ },
+ "runner": "scripts/run_topology_L.py (VERA_TOPOLOGY_CONTRACT=contracts/topology_L_20261015.json)",
+ "sources": {
+  "scripts/run_topology_L.py": "7412a4e09ce1ddd80f4fe3de0805dc6e46e867ce6feb7bc43f1bb888f4765e68",
+  "scripts/run_maintenance_diagnostic.py": "16379b47f53694dc21177daaac75f89d85b8b5718c7d0f7d5cdea276031f89bb",
+  "scripts/run_maintenance_affected.py": "f9159f52b67452d935bde3bb7460a1c440e60699b40868d035203233b2c588af",
+  "scripts/affected_compile_eval.py": "7b3596202e635a025ae69f734175afa4e79d7e8c944f007ed09d007bc09f0104",
+  "scripts/affected_items.py": "768ba5acc351a089a9a318d515978b375b8d46bc100bc9bc0d515ef074af23cf",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "src/vera/multiservice_control.py": "1e40182494bf2d4ee89de6e077a92c76c97b6e49033b8e95331b56223ead8e54",
+  "src/vera/maintenance_shield.py": "fd281911479873488564404727ab0129a4c4dcdd92fbd5ade3e0d622ca22a631",
+  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+  "src/vera/maintenance_episode.py": "c7cfe89ac8ea8779cfd19ceed6f444b8aba254d21aaf890a5a47d19630a12d0b",
+  "src/vera/maintenance_native.py": "42fcdc348e92929a71c5be940b6591e8ac7356812e5149200942bd768c2da468",
+  "src/vera/obligation_planner.py": "666777861aaee261270af778425ee01a84413f94755a3b879e1f76d7f4eaf626",
+  "src/vera/obligation_ledger.py": "df7ede6e0bff97e2503a3a2cf41e9cd9c5010c99195b1fe55f98e3fea68c6b71",
+  "src/vera/recovery_shield.py": "879bb9a6885e685defb34e142ec83caa9d3856da495c9c66dc75f00e6758eecc",
+  "src/vera/ns3/ns3_multiservice_topo.cc": "e0ddab4d0d565e0a0b126a7c69a1d708b2d9832e16bca39fe0e4e08ccc4e2ec9",
+  "contracts/topology_L_20261015.json": "9aab9409ba7b80d582dda879a2628f581a5caad9b2cc8779fb4ae01f436a420a",
+  "contracts/multiservice_comparison_20260911.json": "858d41b79913138dcf2518d6458d429a9ad93d64666c68826d81312f24e87fff",
+  "runs/ns3_topo_build_20261015/native_topo.json": "51487d70694838ae169183b78ceba3d15bfda162270e7791bb2d4c535c756efe",
+  "runs/converter_fix_20261001/compile_test/qwen7b_extract.jsonl": "255a0d615c2e314eaffe2e8a92dc600b1518ca59d9a5bf890d1b30b945809e7c",
+  "runs/affected_scenario_20261013/compile/test/qwen7b_extract.rescored.jsonl": "cf6a59d425768570f82da58f64093a158d87b67bd406f678966b1590b55c85d9",
+  "runs/affected_scenario_20261013/compile/test/rule.rescored.jsonl": "eb1a76dc742e44eb292c75f7a6625abfbbef035b00a53672f4d2a02bbb050109",
+  "data/affected_items_20261013.json": "c95c3f007e99b8c645be9f3d7092648093c4716d01f353fb840ce12d7ae34215"
+ },
+ "amendments": [
+  {
+   "date": "2026-10-15",
+   "before": "any affected-L result was read (the maintenance and control arms were complete; affected runs were in progress at 785 of 9,660 shard lines and were stopped and discarded)",
+   "text": "Affected scenario on L restricted to 2 Mbps remaining capacity (805 worlds per arm, six arms). Reason: on L the 3 Mbps worlds are satisfied by every arm (maintenance scenario: 1.000 in all arms) and the grid of three capacities was running at about 0.2 episodes per second on 24 processes, about a day for 14,490 episodes. Partial outputs of the first attempt were deleted; nothing from them was read. Budget: affected 4,830 episodes."
+  }
+ ]
+}

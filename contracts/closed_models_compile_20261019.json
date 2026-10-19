@@ -1,0 +1,31 @@
+{
+ "schema": "vera.closed_models_compile/1",
+ "status": "REGISTERED 2026-10-19 before any test-split result (development smoke only: 10 announcements per model with the frozen extract prompt, 9/10 starts each, JSON parsed)",
+ "question": "With OUR frozen prompts (transcribe-then-convert) instead of the industry parser's prompt, do two current closed models exceed the open 7B on the three compile benchmarks? A dated reference point for the ceiling of the reading step; no closed loop (the closed loop is insensitive to the reader once the window is read, per tool_baselines_2).",
+ "models": [
+  "gpt-6-luna",
+  "gpt-5.6-terra"
+ ],
+ "prompts": "identical to the Qwen runs: scripts/maintenance_compile_eval.py EXTRACT, scripts/revision_compile_eval.py EXTRACT (target upd), scripts/affected_compile_eval.py EXTRACT_REGION; decoding mce.decode, conversion mce.convert / RCE.convert_rev, scoring unchanged; temperature 0 where accepted",
+ "arms": "<model>_extract on announcements test (240), revision posts test (155), affected objects test (805); compared with the stored Qwen 7B/72B and rule outputs by scripts/compare_maintenance_compile.py, rescore_revision_compile.py, rescore_affected_compile.py (provider-clustered for announcements and regions, notice-clustered for revisions)",
+ "budgets": {
+  "model_calls": "at most 2 x 1,200 test calls + 20 development smoke calls; resumable, no item called twice",
+  "training": 0,
+  "ns3_episodes": 0
+ },
+ "sources": {
+  "scripts/closed_model_compile.py": "a0d7270d17f5e6bc14f5931600354e445afb6c75dbaab487c077b041171192ee",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/revision_compile_eval.py": "0ce6803bfa4e2b549eb095c85830085dd7d87cef32160db14a2f59a1967cc958",
+  "scripts/affected_compile_eval.py": "7b3596202e635a025ae69f734175afa4e79d7e8c944f007ed09d007bc09f0104",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "scripts/affected_rule.py": "5c544106d402c6b24cc7d4228ed0f82bd203209258777fc02402688a6b1697a8",
+  "scripts/affected_items.py": "768ba5acc351a089a9a318d515978b375b8d46bc100bc9bc0d515ef074af23cf",
+  "scripts/compare_maintenance_compile.py": "7dcfa67bf9e83384cee65dc37ffddea8935bd06a233b68df00298a5759a44562",
+  "scripts/rescore_revision_compile.py": "39ba026549780f966a444bf1a9b3c122a8c000103a5adf1f1bff640707e1f1ee",
+  "scripts/rescore_affected_compile.py": "18634484486c82b314db1987eb487a7cdbf6614bf629bb30f19c760704a61bb1",
+  "data/maintenance_revisions_merged_20261011.json": "48a6d278dc04d60f7304246d0bab148658e82b446dba76562827c5b627a418c6",
+  "data/affected_items_20261013.json": "c95c3f007e99b8c645be9f3d7092648093c4716d01f353fb840ce12d7ae34215"
+ },
+ "amendments": []
+}

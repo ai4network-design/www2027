@@ -1,0 +1,48 @@
+{
+ "schema": "vera.tool_baselines_2/1",
+ "status": "REGISTERED 2026-10-19 before any test-split result of HeidelTime or circuit-maintenance-parser (development checks only: HeidelTime raw 25 / glue 39 of 134 announcement starts, 7/7 revision actions by keywords with 0/7 bounds; circuit-maintenance-parser provider parsers 0 of 134 and 0 of 7; the LLM fallback arm was not run on development before registration)",
+ "question": "Do the industry maintenance-notification parser (circuit-maintenance-parser 2.12, as published, with and without its OpenAI LLM fallback) and the TempEval-3 temporal tagger HeidelTime reach the hand rule or the language models on the announcement and revision benchmarks, and in the maintenance closed loop?",
+ "tools": {
+  "heideltime": "HeidelTime standalone (py_heideltime 1.0.6, bundled TreeTagger), document type news, dct = posting date; raw and glue conversions as scripts/sota_baselines.py; the tool does not tag bare 24-hour clocks, kept as published",
+  "cmp_rules": "circuit-maintenance-parser 2.12: every registered provider class tried on the post as text/plain with the title as subject and the posting time as e-mail date; first Maintenance wins; no LLM (key unset)",
+  "cmp_llm": "the same library's LLM fallback path (GenericProvider, subject appended, CombinedProcessor[EmailDateParser, LLM parser], the library's own prompt and JSON handling). Amendment 1: served by the local Qwen2.5-7B-Instruct (project asset qwen7b, greedy, 640 output tokens, TZ=UTC so naive datetimes read as UTC as the prompt asks) as the primary arm cmp_llm_local_qwen7b, scored strictly (the library builds a Maintenance) and leniently (start/end read from the LLM JSON by the library's own key lookup and conversion; epoch integers accepted); plus one closed small model without an announced retirement as a dated reference point (name to be registered before its run). gpt-3.5-turbo dropped (announced retirement 2026-10-23)."
+ },
+ "step1_time": "announcement test split (240) and revision posts test (155); scoring, window-correct count and paired provider-clustered comparison as the Qwen and SOTA runs",
+ "step2_closed_loop": "M_heideltime_glue, M_cmp_llm_local_qwen7b (strict), M_cmp_llm_local_qwen7b_lenient and, if run, M_cmp_llm_<closed model> beliefs on the v2 maintenance worlds (477 each) beside R0_reactive, M_rule, M_qwen7b_extract, M_oracle, M_sutime_glue; 0 model calls in the loop",
+ "budgets": {
+  "model_calls": "local Qwen 7B: 536 calls plus 268 development calls spent on adapter fixes (amendment 1); closed models gpt-6-luna and gpt-5.6-terra: at most 529 calls each (134 development + 395 test)",
+  "training": 0,
+  "ns3_episodes": "477 per closed-loop arm, at most 3 arms"
+ },
+ "sources": {
+  "scripts/tool_baselines_2.py": "1e89ef6ac4b9f8d815eb5fbcba9e4b9953ed1bea223168eadad04c639f341540",
+  "scripts/sota_baselines.py": "770de8cc17668285aca73a86e8891e6dbd7267a57aec922039e57edd6fdedab2",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/revision_compile_eval.py": "0ce6803bfa4e2b549eb095c85830085dd7d87cef32160db14a2f59a1967cc958",
+  "scripts/affected_compile_eval.py": "7b3596202e635a025ae69f734175afa4e79d7e8c944f007ed09d007bc09f0104",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "scripts/analyse_notice_updates.py": "d8a3b9b29eb887bd4cc2434644be7ba0675d0b5d3aa1740d96258f6fa1932757",
+  "scripts/compare_maintenance_compile.py": "7dcfa67bf9e83384cee65dc37ffddea8935bd06a233b68df00298a5759a44562",
+  "scripts/rescore_revision_compile.py": "39ba026549780f966a444bf1a9b3c122a8c000103a5adf1f1bff640707e1f1ee",
+  "scripts/run_sota_closed_loop.py": "50263d0307556c852eac9b5fa42504da79317f3721a66ad79aaf9ec190cca484",
+  "scripts/run_maintenance_v2.py": "a94353c5b19c0118afbb94189281f1782a24a0fe8ca441f4d58ace6d4dc5fbaf",
+  "scripts/run_maintenance_diagnostic.py": "16379b47f53694dc21177daaac75f89d85b8b5718c7d0f7d5cdea276031f89bb",
+  "data/maintenance_revisions_merged_20261011.json": "48a6d278dc04d60f7304246d0bab148658e82b446dba76562827c5b627a418c6",
+  "scripts/compare_tool2.py": "0fd5f21eed7d87e9f2f900049b6fac74d3824d83fb1831d1af8e5183ef2a2e40",
+  "scripts/run_tool2_closed_loop.py": "ee0d11be9ef543f902e78da2518edf3295c628e057c5896c8d1e58d5129b0f11",
+  "scripts/summarise_tool2.py": "09c61a3a2dd27ed64b0e05a22065e7e7d92ecd9bb13d5614c46e7f35f30d76a6",
+  "scripts/offline_compile_eval.py": "d9510cfeb783032fb42101e42239a3d45a231128f2b52b4d43ac66c937e05522"
+ },
+ "amendments": [
+  {
+   "date": "2026-10-19",
+   "before": "any test-split result of the LLM-fallback arm (development only: three runs of 134 local calls while fixing the adapter: output cap 320 -> 640 tokens, epoch answers accepted in the lenient scoring; final development numbers strict 8/134 starts, lenient 104/134)",
+   "text": "The LLM-fallback arm is served by the local Qwen2.5-7B-Instruct through the library's own path instead of gpt-3.5-turbo, whose retirement (2026-10-23, user information) would make the result irreproducible during review; strict and lenient scorings both reported; one closed small model may be added as a dated reference point once named. Pinned hashes updated for scripts/tool_baselines_2.py (adapter) and added for compare_tool2.py, run_tool2_closed_loop.py, summarise_tool2.py, offline_compile_eval.py (the Chat loader). HeidelTime and cmp_rules results are unaffected."
+  },
+  {
+   "date": "2026-10-19",
+   "before": "any closed-model result (no closed-model call made yet) and before the local-Qwen test outputs are consumed by the closed loop",
+   "text": "Closed reference points named: gpt-6-luna (the vendor's designated replacement for gpt-4o-mini and gpt-4.1-mini, no announced retirement, $0.10/$0.50 per 1M tokens) and gpt-5.6-terra (the vendor's designated replacement for gpt-3.5-turbo, the library's shipped default, no announced retirement, $2/$12). Both run through the library's own OpenAI fallback path with its prompt, chat.completions, no temperature set; strict and lenient scorings as the local arm (the JSON the parser receives is kept). Budget: per model 134 development announcements as a connectivity/format check, then 240 + 155 test items; at most 2 x 529 calls. Run date and model version strings recorded in the output rows. Pinned hashes updated: scripts/tool_baselines_2.py (JSON capture on the OpenAI path), compare_tool2.py, run_tool2_closed_loop.py, summarise_tool2.py (arm names). Local-Qwen, HeidelTime and cmp_rules results unaffected. Housekeeping: a spurious sources entry ['files'] introduced by a git log line while writing amendment 1 is removed (it was never a file)."
+  }
+ ]
+}

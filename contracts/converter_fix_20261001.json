@@ -1,0 +1,41 @@
+{
+ "schema": "vera.converter_fix/1",
+ "status": "REGISTERED 2026-10-01 before any closed-loop result under the fixed converter (compile re-scoring already done, 0 calls)",
+ "what": "Bug fix of the shared engine-side zone table (scripts/maintenance_rule.py offset/TZ_RE): city and region names resolved through the IANA database with the daylight-saving rule of the stated date. Adopted AFTER the 2026-09-29 test run had shown 'Paris Time' notices wrong in every arm; the table is a general list of major cities, not a per-provider patch, and leaves development scores unchanged (rule 124/134, 7B extract 122/134).",
+ "step1_compile": "stored extract-mode outputs re-converted without model calls (scripts/reconvert_maintenance_compile.py); rule re-run; before/after reported side by side (runs/converter_fix_20261001/compile_test)",
+ "step2_closed_loop": {
+  "worlds": "the 477 v2 worlds (contracts/maintenance_diagnostic_v2_20260930.json); same shield, goal keeping, metric",
+  "rerun_arms": [
+   "M_rule",
+   "M_qwen7b_extract",
+   "M_qwen1p5b_lora",
+   "M_qwen32b_extract",
+   "M_qwen72b_extract"
+  ],
+  "reused": "R0_reactive, M_worst, M_oracle, M_qwen7b_direct (v2); M_qwen32b_direct, M_qwen72b_direct (model-scale run)",
+  "analysis": "scripts/summarise_maintenance_diagnostic.py conventions (provider-clustered bootstrap); paired differences vs the reused arms and vs the pre-fix v2 arms; descriptive, no advance/stop verdict"
+ },
+ "budgets": {
+  "model_calls": 0,
+  "training": 0,
+  "ns3_episodes": 2385
+ },
+ "runner": "scripts/run_maintenance_fix.py",
+ "sources": {
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/reconvert_maintenance_compile.py": "2d4b6c4b3b7c36bf62ae4e0ba2c6b4768540897ab871f843859e8b59ad9555e4",
+  "scripts/run_maintenance_fix.py": "650acd100c17fd13314b8a4b8f52a78ba8881a1d552b4a2a87511ecb49f6c7fe",
+  "scripts/run_maintenance_v2.py": "a94353c5b19c0118afbb94189281f1782a24a0fe8ca441f4d58ace6d4dc5fbaf",
+  "scripts/run_maintenance_diagnostic.py": "16379b47f53694dc21177daaac75f89d85b8b5718c7d0f7d5cdea276031f89bb",
+  "scripts/summarise_maintenance_diagnostic.py": "787f73cdff35e87fd563719d739cf294236d5527db80d4980f448d34aa350678",
+  "src/vera/maintenance_shield.py": "0dffebec62b3e566ed27f44bb184e34077da9ca7e5a740ac6baf9ae1019ee71a",
+  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+  "src/vera/maintenance_episode.py": "d11643d22751aff51c61fbe6b60e387812d040317622d4c02e3264b8aa88f05b",
+  "contracts/maintenance_diagnostic_v2_20260930.json": "a7c564f5ce34d3f834bc7c96cfa4fe773be352a4a23cf3cf843c57f07d1687e1",
+  "runs/converter_fix_20261001/compile_test/qwen7b_extract.jsonl": "255a0d615c2e314eaffe2e8a92dc600b1518ca59d9a5bf890d1b30b945809e7c",
+  "runs/converter_fix_20261001/compile_test/qwen1p5b_lora_extract.jsonl": "56ef6284627db13ca0487ae7a8a4789b4442ca4105f67afab1f4633864f57e64",
+  "runs/converter_fix_20261001/compile_test/qwen32b_extract.jsonl": "28025c9f0156c253ce2712fc6432e82a008fb3f41ca3635dedfe852922a3b31b",
+  "runs/converter_fix_20261001/compile_test/qwen72b_extract.jsonl": "4b716a4983fa4bf487971784544018cd05872b1f63326a16e2118d25d2074d26"
+ }
+}

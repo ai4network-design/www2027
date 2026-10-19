@@ -1,0 +1,32 @@
+{
+  "schema": "vera.soft_sla_calibration/1",
+  "parent_route_sha256": "4c28972af61f70c80b2ed44927b23cdb3886f113ec640850f3f51e1a0582aaa0",
+  "rule_sha256": "03f9adb3849a1e4b174a968295c5059dd904f7118bc1c524da7bc1448cb4d73f",
+  "ceiling_report": "runs/one_tick_delivery_audit_20260910/report.json",
+  "ceiling_report_sha256": "b0f416f19a69f4ac4738a9a6278f1d98c05c4de6924cf85f008bd1c289e7bb37",
+  "output": "runs/soft_sla_calibration_20260910",
+  "review_output": "runs/soft_sla_calibration_review_20260910",
+  "server_root": "/dev/shm/vera_yx_soft_sla_calibration_20260910",
+  "worker_module": "vera.soft_sla_calibration_worker",
+  "worlds": [{"seed": 450001, "initial_path": 3, "event_offset": 0, "fg_offered_bps": 2500000, "decisions": 60}],
+  "arms": [
+    {"name": "llm_ceiling_off", "prior": "service_llm", "loop": "certificate_economy_vera", "route_preselection": true, "soft_sla_ceiling": false},
+    {"name": "llm_ceiling_on", "prior": "service_llm", "loop": "certificate_economy_vera", "route_preselection": true, "soft_sla_ceiling": true},
+    {"name": "reference_ceiling_off", "prior": "causal_reference", "loop": "certificate_economy_vera", "route_preselection": true, "soft_sla_ceiling": false},
+    {"name": "reference_ceiling_on", "prior": "causal_reference", "loop": "certificate_economy_vera", "route_preselection": true, "soft_sla_ceiling": true}
+  ],
+  "limits": {
+    "maximum_backbone_loads": 1, "maximum_small_loads": 0,
+    "maximum_llm_forwards": 120, "maximum_small_forwards": 0,
+    "maximum_native_cells": 4, "maximum_native_steps": 240,
+    "maximum_optimizer_updates": 0, "maximum_extra_warmup_forwards": 0,
+    "maximum_wall_seconds": 900, "maximum_ram_tree_bytes": 200000000,
+    "maximum_output_bytes": 150000000
+  },
+  "audit_limits": {
+    "maximum_rows": 240, "maximum_candidate_calls": 1440,
+    "maximum_llm_numpy_rows": 120, "maximum_small_numpy_rows": 0,
+    "maximum_wall_seconds": 300, "maximum_output_bytes": 120000000
+  },
+  "claims": "Exactly one deterministic phase1 engineering world at2500000bps, C/middle, old LLM/strong unchanged full-enumeration reference each ceiling off/on. Economy and route preselection ON for all. ID450001 historically excluded before freeze, not unseen physical diversity/random heldout/generalization. One new negative-only soft-SLA axis; hard safety, budgets6/2/5/2/8/K3, original fluid predictions/rankings, SLA units and thresholds, native and frozen model/input unchanged. No training/migration/extra warmup, one Qwen120 and zero small, four new real cells240ticks. Existing TRAIN bound audit reused, no replay. Independent new240rows1440 old current-candidate snapshots and120 NumPy head reconstructions; bounded per-event current mathematical bound/decoration checks, no additional verifier or model. Record original verdict, bound, effective verdict, extra time/call, raw P0 and actual edits separately. Full-reference original ranking preserved as proposed action, same gate downstream, no LLMonly advantage claim. Only-hard-safe C must remain deployable under SLA impossibility; no-full-found is bounded policy, not global physical proof. Hold branch untested unless actually occurs. Preserve old and all new negative results, stop unstarted on actual failure, no replacement seeds or relaxed budgets. Exclusive roots, identical pushed source/record, resource watchdog and durable Mac ACK before next cell."
+}

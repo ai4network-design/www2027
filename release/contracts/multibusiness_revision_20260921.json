@@ -1,0 +1,160 @@
+{
+  "schema": "vera.multibusiness_revision/1",
+  "arms": [
+    "patch",
+    "full_rebuild"
+  ],
+  "initial_ledger": {
+    "version": 1,
+    "epoch_tick": 0,
+    "obligations": {
+      "query.qos": {
+        "service": "query",
+        "delay_ms": 40,
+        "min_mbps": 1.8,
+        "release_event": "ended"
+      },
+      "video.qos": {
+        "service": "video",
+        "delay_ms": 25,
+        "min_mbps": 3.6,
+        "release_event": "ended"
+      },
+      "backup.qos": {
+        "service": "backup",
+        "delay_ms": 40,
+        "min_mbps": 3.8,
+        "release_event": "ended"
+      },
+      "backup.deadline": {
+        "service": "backup",
+        "total_bytes": 4000000,
+        "deadline_tick": 8
+      },
+      "recovery": {
+        "target": "all_caps_removed",
+        "condition_events": [
+          "ended"
+        ],
+        "max_intervals": 2
+      }
+    }
+  },
+  "ticks": 12,
+  "request_tick": 3,
+  "release_tick": 8,
+  "maximum_native_intervals": 192,
+  "new_model_calls": 0,
+  "training": 0,
+  "limits": {
+    "proposal_ms": 850,
+    "ack_ms": 1000,
+    "cell_seconds": 120,
+    "total_seconds": 1200
+  },
+  "frozen_sources": {
+    "src/vera/obligation_retention.py": "b2583fd1028de5744c379471c52d9b6524142163d1ad54637cbf8a6e6c652ff1",
+    "src/vera/multiservice_cooperative_control.py": "7883c82ef6587b25824114c97ceaf3b63df6debf8bda3ad3b3912510fd9da564",
+    "src/vera/multiservice_control.py": "dbd1a19acc63eb30980e1005260b39e71f66c0ccc4ace1c7ec609d4b674d5882",
+    "src/vera/multiservice_cooperative.py": "0f9cab6603e62cbb3f5b0d2af40346752eb43ea5452f63f1039ce0691af1db6a",
+    "src/vera/multiservice_native.py": "cb6f91570ff91ada57da11c6f0a3386092e5c04bc71c48b2b28d84843325e6c7",
+    "src/vera/ns3/ns3_multiservice_online.cc": "d0c8832a7b002b2994867892162c89382e25f77f4b59812b1f202e20952a52f6",
+    "src/vera/obligation_admission.py": "a24b8f79b6fd990c759a218ea904dec32e33c97de9d9a9a70c8a1e0e292ac77f",
+    "src/vera/obligation_static_rule.py": "b341d3a8fbac164875b4071b76d0344de24c94f1887eb32416eb021a1f1e77a4"
+  },
+  "cases": [
+    {
+      "id": "query_delay_916213",
+      "world": 916213,
+      "request": {
+        "base_version": 1,
+        "obligation_id": "query.qos",
+        "field": "delay_ms",
+        "value": 14
+      },
+      "prospective_expected_status": "applied"
+    },
+    {
+      "id": "video_delay_916213",
+      "world": 916213,
+      "request": {
+        "base_version": 1,
+        "obligation_id": "video.qos",
+        "field": "delay_ms",
+        "value": 12
+      },
+      "prospective_expected_status": "applied"
+    },
+    {
+      "id": "deadline_feasible_916213",
+      "world": 916213,
+      "request": {
+        "base_version": 1,
+        "obligation_id": "backup.deadline",
+        "field": "deadline_tick",
+        "value": 7
+      },
+      "prospective_expected_status": "applied"
+    },
+    {
+      "id": "deadline_conflict_916213",
+      "world": 916213,
+      "request": {
+        "base_version": 1,
+        "obligation_id": "backup.deadline",
+        "field": "deadline_tick",
+        "value": 5
+      },
+      "prospective_expected_status": "deferred"
+    },
+    {
+      "id": "query_delay_928817",
+      "world": 928817,
+      "request": {
+        "base_version": 1,
+        "obligation_id": "query.qos",
+        "field": "delay_ms",
+        "value": 14
+      },
+      "prospective_expected_status": "applied"
+    },
+    {
+      "id": "video_delay_928817",
+      "world": 928817,
+      "request": {
+        "base_version": 1,
+        "obligation_id": "video.qos",
+        "field": "delay_ms",
+        "value": 12
+      },
+      "prospective_expected_status": "applied"
+    },
+    {
+      "id": "deadline_feasible_928817",
+      "world": 928817,
+      "request": {
+        "base_version": 1,
+        "obligation_id": "backup.deadline",
+        "field": "deadline_tick",
+        "value": 7
+      },
+      "prospective_expected_status": "applied"
+    },
+    {
+      "id": "deadline_conflict_928817",
+      "world": 928817,
+      "request": {
+        "base_version": 1,
+        "obligation_id": "backup.deadline",
+        "field": "deadline_tick",
+        "value": 5
+      },
+      "prospective_expected_status": "deferred"
+    }
+  ],
+  "purpose": "Single typed field revision, preserving all unrelated obligations in ledger and native execution. Strong correct full reconstruction versus scoped patch. Structured component diagnosis, not raw-language or model evaluation.",
+  "controller": "Existing multiservice_control.plan horizon2 with all active service QoS maps, and select; replaces previous experiment single-service wrapper, does not change numerical algorithm. Same static admission rule in both arms. No complex admission rollout.",
+  "gate": "Exact unmodified fields and epoch preserved; actual unmodified QoS before release, absolute backup deadline and recovery met; feasible amendments applied, deadline conflict explicitly deferred; count requested new requirement even when deferred. No superiority claim on a tie.",
+  "limits_note": "One 8case x2arm x12interval group, no retries or post-result tuning, CPU-only Ubuntu. Shared-host time is operational evidence only. Recovery is observed but may be unexercised if no caps are installed.",
+  "information": "Both arms receive same previous ledger, typed amendment, real state/history and fixed static rule. Neither admission nor planner receives future release time. Deadline uses original epoch receipt bytes; no data credit reset."
+}

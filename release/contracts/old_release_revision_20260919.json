@@ -1,0 +1,362 @@
+{
+  "ticks": 12,
+  "arms": [
+    "whole",
+    "retain"
+  ],
+  "maximum_native_intervals": 96,
+  "new_model_calls": 0,
+  "training": 0,
+  "alias": {
+    "Iris": "query",
+    "Maple": "video",
+    "Quartz": "backup"
+  },
+  "supplement": {
+    "min_mbps": {
+      "query": 1.8,
+      "video": 3.6,
+      "backup": 3.8
+    },
+    "backup_received_mb": 4,
+    "backup_deadline_after_intervals": 8
+  },
+  "limits": {
+    "proposal_ms": 850,
+    "ack_ms": 1000,
+    "cell_seconds": 120,
+    "total_seconds": 1200
+  },
+  "schema": "vera.old_release_revision/1",
+  "world": 748021,
+  "deadlines": [
+    8,
+    6
+  ],
+  "backup_received_mb": 4,
+  "expected_cases": 4,
+  "purpose": "Frozen U output in supplied structured revision contexts; actual own-process ns-3 feedback, not new natural-language parsing.",
+  "frozen_sources": {
+    "src/vera/obligation_retention.py": "b2583fd1028de5744c379471c52d9b6524142163d1ad54637cbf8a6e6c652ff1",
+    "src/vera/multiservice_cooperative_control.py": "7883c82ef6587b25824114c97ceaf3b63df6debf8bda3ad3b3912510fd9da564",
+    "src/vera/multiservice_control.py": "dbd1a19acc63eb30980e1005260b39e71f66c0ccc4ace1c7ec609d4b674d5882",
+    "src/vera/multiservice_cooperative.py": "0f9cab6603e62cbb3f5b0d2af40346752eb43ea5452f63f1039ce0691af1db6a",
+    "src/vera/multiservice_native.py": "cb6f91570ff91ada57da11c6f0a3386092e5c04bc71c48b2b28d84843325e6c7",
+    "src/vera/ns3/ns3_multiservice_online.cc": "d0c8832a7b002b2994867892162c89382e25f77f4b59812b1f202e20952a52f6"
+  },
+  "controls": "Only whole versus retain policy differs within each pair. Parser/model/weights/MPC/safety fixed; 0 model calls/training. Same frozen Iris U output reused in two explicitly supplied business-binding contexts. These are authored structured transaction fixtures, not the semantics of its historical source request.",
+  "revision": "Prior Iris E ended at tick8 delay40ms; at tick3 known delay11ms plus unresolved release U. Scope of revision does not revoke old release. Both arms receive same fields. Retain updates QoS and preserves old release, whole retains old entire contract.",
+  "deadline_scope": "4 decimal MB counted from common initial observation, deadlines8 and6 scored on same trajectories; current MPC does not consume cumulative deadline state. No duplicate runs to score deadline-only variations.",
+  "advancement": "All cells complete; known updated QoS improves at least one tick per context and never worsens; old release preserved and restore phase starts tick8; unresolved remains explicit. All hard SLA/escape certificates pass, deadlines both met with no greater shortfall than whole, no increased uncapped restoration delay beyond2intervals or final caps; edits <=6 and route edits<=2. Any failing required item blocks promotion. Record both absolute failure and relative regression.",
+  "stop": "One execution per frozen cell, 4 cases x 2 arms x12=96 max native intervals. No retries/replacements/search or new parser calls. Preserve failed prefixes. Deadline or soft-goal failure is a measured result; hard safety/timing failure stops that cell.",
+  "cases": [
+    {
+      "id": "query_748021",
+      "semantic_case_id": "position-N-00-B",
+      "source_report": "runs/relation_pairs_20260919/revised/worker/report.json",
+      "source_report_sha256": "a87bf7cb18adbfb132db33894e1ab32b49b11e5e69e0ac7e52c1da8948bd8ef7",
+      "source_generation": "runs/relation_pairs_20260919/revised/worker/generation_069.json",
+      "source_generation_sha256": "0f43baf8edf5e0fdf23a3c7566da1bc291794ac5987a74704dd4cb5f81693aeb",
+      "source_request": "Keep Iris mean latency below 11 ms. Maple must finish transfer batch 3000100 by 25 seconds. For Quartz, send notification 3000100 when the backup receipt arrives. For Quartz, stop log 3000100 when the conference ends. Record the counters for batch 3000100. For Iris, this protection lasts throughout the episode; no public event ends it.",
+      "public_event_descriptions": {
+        "ended": "Existing release event occurs at tick8; revision does not revoke it."
+      },
+      "actual_row": {
+        "abstained": true,
+        "accepted": true,
+        "calls": [
+          69
+        ],
+        "charged_ms": 427.8302620004979,
+        "charged_tokens": 31,
+        "cohort": "test",
+        "event_set_correct": true,
+        "extra_events": 0,
+        "full_roles_correct": false,
+        "id": "position-N-00-B",
+        "missing_events": 0,
+        "relation_correct": false,
+        "resolvable": true,
+        "skipped": false,
+        "success": false,
+        "timely": true,
+        "unsafe_assertion": false,
+        "value": {
+          "abstained": true,
+          "business": "Iris",
+          "component_only": true,
+          "condition_evidence": 4,
+          "entailment_verified": false,
+          "events": [],
+          "links": [],
+          "mode": "U",
+          "obligation": 1,
+          "roles": [
+            [
+              "U",
+              -1
+            ],
+            [
+              "U",
+              -1
+            ]
+          ]
+        }
+      },
+      "delay_ms": 11,
+      "event_realizations": {
+        "ended": {
+          "tick": 8
+        }
+      },
+      "request_tick": 3,
+      "prior": {
+        "business": "Iris",
+        "mode": "E",
+        "events": [
+          "ended"
+        ],
+        "delay_ms": 40
+      },
+      "context": "query",
+      "world": 748021,
+      "alias": {
+        "Iris": "query",
+        "Maple": "video",
+        "Quartz": "backup"
+      },
+      "source_request_is_not_current_fixture": true
+    },
+    {
+      "id": "query_748022",
+      "semantic_case_id": "position-N-00-B",
+      "source_report": "runs/relation_pairs_20260919/revised/worker/report.json",
+      "source_report_sha256": "a87bf7cb18adbfb132db33894e1ab32b49b11e5e69e0ac7e52c1da8948bd8ef7",
+      "source_generation": "runs/relation_pairs_20260919/revised/worker/generation_069.json",
+      "source_generation_sha256": "0f43baf8edf5e0fdf23a3c7566da1bc291794ac5987a74704dd4cb5f81693aeb",
+      "source_request": "Keep Iris mean latency below 11 ms. Maple must finish transfer batch 3000100 by 25 seconds. For Quartz, send notification 3000100 when the backup receipt arrives. For Quartz, stop log 3000100 when the conference ends. Record the counters for batch 3000100. For Iris, this protection lasts throughout the episode; no public event ends it.",
+      "public_event_descriptions": {
+        "ended": "Existing release event occurs at tick8; revision does not revoke it."
+      },
+      "actual_row": {
+        "abstained": true,
+        "accepted": true,
+        "calls": [
+          69
+        ],
+        "charged_ms": 427.8302620004979,
+        "charged_tokens": 31,
+        "cohort": "test",
+        "event_set_correct": true,
+        "extra_events": 0,
+        "full_roles_correct": false,
+        "id": "position-N-00-B",
+        "missing_events": 0,
+        "relation_correct": false,
+        "resolvable": true,
+        "skipped": false,
+        "success": false,
+        "timely": true,
+        "unsafe_assertion": false,
+        "value": {
+          "abstained": true,
+          "business": "Iris",
+          "component_only": true,
+          "condition_evidence": 4,
+          "entailment_verified": false,
+          "events": [],
+          "links": [],
+          "mode": "U",
+          "obligation": 1,
+          "roles": [
+            [
+              "U",
+              -1
+            ],
+            [
+              "U",
+              -1
+            ]
+          ]
+        }
+      },
+      "delay_ms": 11,
+      "event_realizations": {
+        "ended": {
+          "tick": 8
+        }
+      },
+      "request_tick": 3,
+      "prior": {
+        "business": "Iris",
+        "mode": "E",
+        "events": [
+          "ended"
+        ],
+        "delay_ms": 40
+      },
+      "context": "query",
+      "world": 748022,
+      "alias": {
+        "Iris": "query",
+        "Maple": "video",
+        "Quartz": "backup"
+      },
+      "source_request_is_not_current_fixture": true
+    },
+    {
+      "id": "backup_748021",
+      "semantic_case_id": "position-N-00-B",
+      "source_report": "runs/relation_pairs_20260919/revised/worker/report.json",
+      "source_report_sha256": "a87bf7cb18adbfb132db33894e1ab32b49b11e5e69e0ac7e52c1da8948bd8ef7",
+      "source_generation": "runs/relation_pairs_20260919/revised/worker/generation_069.json",
+      "source_generation_sha256": "0f43baf8edf5e0fdf23a3c7566da1bc291794ac5987a74704dd4cb5f81693aeb",
+      "source_request": "Keep Iris mean latency below 11 ms. Maple must finish transfer batch 3000100 by 25 seconds. For Quartz, send notification 3000100 when the backup receipt arrives. For Quartz, stop log 3000100 when the conference ends. Record the counters for batch 3000100. For Iris, this protection lasts throughout the episode; no public event ends it.",
+      "public_event_descriptions": {
+        "ended": "Existing release event occurs at tick8; revision does not revoke it."
+      },
+      "actual_row": {
+        "abstained": true,
+        "accepted": true,
+        "calls": [
+          69
+        ],
+        "charged_ms": 427.8302620004979,
+        "charged_tokens": 31,
+        "cohort": "test",
+        "event_set_correct": true,
+        "extra_events": 0,
+        "full_roles_correct": false,
+        "id": "position-N-00-B",
+        "missing_events": 0,
+        "relation_correct": false,
+        "resolvable": true,
+        "skipped": false,
+        "success": false,
+        "timely": true,
+        "unsafe_assertion": false,
+        "value": {
+          "abstained": true,
+          "business": "Iris",
+          "component_only": true,
+          "condition_evidence": 4,
+          "entailment_verified": false,
+          "events": [],
+          "links": [],
+          "mode": "U",
+          "obligation": 1,
+          "roles": [
+            [
+              "U",
+              -1
+            ],
+            [
+              "U",
+              -1
+            ]
+          ]
+        }
+      },
+      "delay_ms": 11,
+      "event_realizations": {
+        "ended": {
+          "tick": 8
+        }
+      },
+      "request_tick": 3,
+      "prior": {
+        "business": "Iris",
+        "mode": "E",
+        "events": [
+          "ended"
+        ],
+        "delay_ms": 40
+      },
+      "context": "backup",
+      "world": 748021,
+      "alias": {
+        "Iris": "backup",
+        "Maple": "video",
+        "Quartz": "query"
+      },
+      "source_request_is_not_current_fixture": true
+    },
+    {
+      "id": "backup_748022",
+      "semantic_case_id": "position-N-00-B",
+      "source_report": "runs/relation_pairs_20260919/revised/worker/report.json",
+      "source_report_sha256": "a87bf7cb18adbfb132db33894e1ab32b49b11e5e69e0ac7e52c1da8948bd8ef7",
+      "source_generation": "runs/relation_pairs_20260919/revised/worker/generation_069.json",
+      "source_generation_sha256": "0f43baf8edf5e0fdf23a3c7566da1bc291794ac5987a74704dd4cb5f81693aeb",
+      "source_request": "Keep Iris mean latency below 11 ms. Maple must finish transfer batch 3000100 by 25 seconds. For Quartz, send notification 3000100 when the backup receipt arrives. For Quartz, stop log 3000100 when the conference ends. Record the counters for batch 3000100. For Iris, this protection lasts throughout the episode; no public event ends it.",
+      "public_event_descriptions": {
+        "ended": "Existing release event occurs at tick8; revision does not revoke it."
+      },
+      "actual_row": {
+        "abstained": true,
+        "accepted": true,
+        "calls": [
+          69
+        ],
+        "charged_ms": 427.8302620004979,
+        "charged_tokens": 31,
+        "cohort": "test",
+        "event_set_correct": true,
+        "extra_events": 0,
+        "full_roles_correct": false,
+        "id": "position-N-00-B",
+        "missing_events": 0,
+        "relation_correct": false,
+        "resolvable": true,
+        "skipped": false,
+        "success": false,
+        "timely": true,
+        "unsafe_assertion": false,
+        "value": {
+          "abstained": true,
+          "business": "Iris",
+          "component_only": true,
+          "condition_evidence": 4,
+          "entailment_verified": false,
+          "events": [],
+          "links": [],
+          "mode": "U",
+          "obligation": 1,
+          "roles": [
+            [
+              "U",
+              -1
+            ],
+            [
+              "U",
+              -1
+            ]
+          ]
+        }
+      },
+      "delay_ms": 11,
+      "event_realizations": {
+        "ended": {
+          "tick": 8
+        }
+      },
+      "request_tick": 3,
+      "prior": {
+        "business": "Iris",
+        "mode": "E",
+        "events": [
+          "ended"
+        ],
+        "delay_ms": 40
+      },
+      "context": "backup",
+      "world": 748022,
+      "alias": {
+        "Iris": "backup",
+        "Maple": "video",
+        "Quartz": "query"
+      },
+      "source_request_is_not_current_fixture": true
+    }
+  ]
+}

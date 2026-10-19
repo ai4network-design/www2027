@@ -1,0 +1,47 @@
+{
+ "schema": "vera.sota_baselines/1",
+ "status": "REGISTERED 2026-10-15 before any test-split result of the published tools (dateparser and rapidfuzz designed/checked on the development split only: dateparser raw 44 / glue 51 of 134 announcements, rapidfuzz 20 of 36 regions)",
+ "question": "Do published, non-LLM tools for temporal-expression extraction and entity matching reach the hand rule or the language models on the three compile benchmarks, and in the closed loop?",
+ "tools": {
+  "dateparser": "dateparser 1.4 search_dates (pure Python); conversions 'raw' and 'glue' as documented in scripts/sota_baselines.py",
+  "sutime": "Stanford SUTime via the sutime wrapper (needs a JRE and the CoreNLP jars; arms run only if the user authorises the downloads; otherwise reported as not run)",
+  "rapidfuzz": "max(partial_ratio, token_set_ratio) of each candidate against the text",
+  "embed": "sentence-transformers BAAI/bge-small-en-v1.5 cosine similarity (needs the model download; conditional as sutime)"
+ },
+ "step1_time": "announcement benchmark test split (240) and revision posts test (155, action from the selection keywords as rule_kw); scoring and paired comparison as the Qwen runs (scripts/compare_maintenance_compile.py, scripts/rescore_revision_compile.py)",
+ "step2_entity": "affected-object test items (805); scoring with the shared resolver (scripts/rescore_affected_compile.py)",
+ "step3_closed_loop": "M_dateparser_glue (and M_sutime_glue if run) on the v2 maintenance worlds; M_rapidfuzz (and M_embed) on the affected worlds with the 7B window; compared with the existing arms; 0 model calls",
+ "budgets": {
+  "model_calls": 0,
+  "training": 0,
+  "ns3_episodes": "477 per time arm + 2,415 per entity arm"
+ },
+ "sources": {
+  "scripts/sota_baselines.py": "770de8cc17668285aca73a86e8891e6dbd7267a57aec922039e57edd6fdedab2",
+  "scripts/run_sota_closed_loop.py": "50263d0307556c852eac9b5fa42504da79317f3721a66ad79aaf9ec190cca484",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/revision_compile_eval.py": "0ce6803bfa4e2b549eb095c85830085dd7d87cef32160db14a2f59a1967cc958",
+  "scripts/affected_compile_eval.py": "7b3596202e635a025ae69f734175afa4e79d7e8c944f007ed09d007bc09f0104",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "scripts/analyse_notice_updates.py": "d8a3b9b29eb887bd4cc2434644be7ba0675d0b5d3aa1740d96258f6fa1932757",
+  "scripts/compare_maintenance_compile.py": "7dcfa67bf9e83384cee65dc37ffddea8935bd06a233b68df00298a5759a44562",
+  "scripts/rescore_revision_compile.py": "39ba026549780f966a444bf1a9b3c122a8c000103a5adf1f1bff640707e1f1ee",
+  "scripts/rescore_affected_compile.py": "18634484486c82b314db1987eb487a7cdbf6614bf629bb30f19c760704a61bb1",
+  "scripts/run_maintenance_v2.py": "a94353c5b19c0118afbb94189281f1782a24a0fe8ca441f4d58ace6d4dc5fbaf",
+  "scripts/run_maintenance_affected.py": "f9159f52b67452d935bde3bb7460a1c440e60699b40868d035203233b2c588af",
+  "data/maintenance_revisions_merged_20261011.json": "48a6d278dc04d60f7304246d0bab148658e82b446dba76562827c5b627a418c6",
+  "data/affected_items_20261013.json": "c95c3f007e99b8c645be9f3d7092648093c4716d01f353fb840ce12d7ae34215"
+ },
+ "amendments": [
+  {
+   "date": "2026-10-15",
+   "before": "any M_rapidfuzz closed-loop episode completed (the arm crashed at start: the wrapper had replaced the compiler file map that defines the world set)",
+   "text": "Wrapper fix only: the affected arms keep the original 805-world set and read the tool outputs by relative path. Pinned hash updated. M_dateparser_glue had already completed and is unaffected."
+  },
+  {
+   "date": "2026-10-15",
+   "before": "any SUTime or embedding test-split result (development checks only: SUTime raw 37 / glue 118 of 134 announcements; embedding 19 of 36 regions)",
+   "text": "Tooling for the conditional arms after the user authorised the downloads: portable JRE 17 and Stanford CoreNLP 4.5.7 (SUTime, wrapper jar names mapped by symlink), BAAI/bge-small-en-v1.5. SUTime conversion developed on the development split: TIMEX3 values with the tool's own zone offsets (it maps PDT to -0800; kept as published), time-only range values take the posting date, the date glue applies before the offset, and a date counts as written only when the text contains one. Pinned hash of scripts/sota_baselines.py updated; dateparser and rapidfuzz results are unchanged by these edits (dateparser dev 44/51 as before)."
+  }
+ ]
+}

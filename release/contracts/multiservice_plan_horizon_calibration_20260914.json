@@ -1,0 +1,69 @@
+{
+  "schema": "vera.plan_horizon_production_calibration/1",
+  "status": "candidate_finite_calibration_requires_record_admission_after_CPU_tests",
+  "preflight_report_sha256": "17b54444db12ec3e13b112bb594d1b6f6dd3ead5fbd9df696411743865028e9b",
+  "preflight_contract": "contracts/multiservice_plan_horizon_preflight_20260914.json",
+  "source_group": "multiservice_persistent_group_20260914",
+  "source_head": "e6caf8ceea8e5ccbb49030509015e90810435d92",
+  "source_record_sha256": "d6c2ff7f5ab87f9b2c54f288be56ded3dc5278a486120d306553d57f6e94fe8d",
+  "source_manifest_sha256": "7128b66150dbbd275fa47c5ae29fc6393641447d94845c6698b1acd86c1d5d59",
+  "source_world": 726002,
+  "source_tick": 0,
+  "arms": [
+    {
+      "id": "qwen7b_one",
+      "model": "qwen7b",
+      "max_operations": 1,
+      "maximum_calls": 4
+    },
+    {
+      "id": "qwen3b_two",
+      "model": "qwen3b",
+      "max_operations": 2,
+      "maximum_calls": 4
+    },
+    {
+      "id": "qwen7b_two",
+      "model": "qwen7b",
+      "max_operations": 2,
+      "maximum_calls": 4
+    },
+    {
+      "id": "qwen3b_one",
+      "model": "qwen3b",
+      "max_operations": 1,
+      "maximum_calls": 4
+    }
+  ],
+  "slots": [
+    "cold_original_goal",
+    "warm_original_goal",
+    "original_action",
+    "original_action"
+  ],
+  "maximum_total_calls": 16,
+  "maximum_native_steps": 0,
+  "maximum_model_loads": 4,
+  "group": "multiservice_plan_horizon_calibration_group_20260914",
+  "limits": {
+    "proposal_ms": 850,
+    "total_ms": 1000,
+    "input_tokens": 2048,
+    "output_tokens": 48,
+    "edits": 6,
+    "routes": 2,
+    "route_cooldown": 5,
+    "rate_min_dwell": 2,
+    "rate_max_dwell": 8,
+    "gpu_bytes": 21474836480,
+    "rss_bytes": 12884901888
+  },
+  "rules": [
+    "Each arm separate original model process; fixed cold sample retained.",
+    "All warm calls must be complete, structurally valid, under full 850ms and original resources; stop arm on warm failure, no replacements.",
+    "Same original raw request and initial archived actual state/history. Archived ledger never supplied.",
+    "Only this arm newly admitted warm goal enters its action views; goal errors are not corrected.",
+    "No actions are actuated, no synthetic predicted feedback is presented as native; no calibration result is a control score.",
+    "A new separately frozen manifest is required for native comparison after first original-model audit."
+  ]
+}

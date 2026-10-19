@@ -1,0 +1,132 @@
+{
+ "schema": "vera.calibration_diagnostic/1",
+ "status": "DESIGN_REGISTERED 2026-09-25; amendment 1 adopted 2026-09-30 (user decision) before any result: the formal run starts as soon as the receipt is regenerated; implementation complete",
+ "question": "Can per-source calibration of administrator release-time statements keep the information gain of the statement while bringing the recovery risk inside a pre-set budget, and does it then beat, at matched risk, a history forecaster, a fixed margin and a calibrated direct language-model forecaster that sees the same text?",
+ "claim_scope": "control/calibration mechanism on the release event only. The statements are agent-authored (ineligible); results cannot be cited as evidence about human phrasing or language generalization. Source profiles are designed, not measured (docs/reproduce/maintenance_data_survey_20260925.md: no public announced-vs-measured data found).",
+ "window": {
+  "start": "2026-09-30 (amendment 1: immediately after the regenerated receipt; originally 2026-10-09)",
+  "end": "2026-10-23",
+  "freeze_deadline": "superseded by amendment 1: the regenerated receipt precedes the formal run",
+  "rule": "no change of task, metric, arms, alpha, n_min, calibration window, source profiles, sequence seeds, decision rules or budgets inside the window; a bug fix is recorded in the record and forces a full rerun of every arm"
+ },
+ "task": {
+  "event": "release of the protected meeting (events['ended'] from the true release interval tau)",
+  "episode": "12 native intervals, base ledger of contracts/frozen_protocol_20260924_20261008.json, ledger v2, obligation planner, admission 'forecast', per-interval recovery-window invariant (src/vera/recovery_shield.py) for every arm unless stated",
+  "messages": "tick 2: a release-time statement; tick 4: its backup-delay request, as in the 19 distinct statements of data/open_requests/agent_test_corpus_v4_20260923.json and chain_corpus_20260924.json selected by scripts/run_release_diagnostic.py items()",
+  "deadline_timing": "state (observation at state tick D)"
+ },
+ "sources": {
+  "residual": "delta = tau - e_ref, e_ref = annotated earliest tick of the statement; tau = clip(e_ref + delta, 3, 12); tau 12 means no release inside the episode",
+  "profiles": {
+   "accurate": "delta uniform on {0, +1, +2}",
+   "early_biased": "delta uniform on {-3, -2, -1, 0}",
+   "noisy": "delta uniform on {-3, ..., +3}",
+   "drifting": "episodes 1-15 as accurate, episodes 16-30 as early_biased"
+  },
+  "sequences": "4 profiles x 5 seeds (0-4) = 20 sequences of 30 episodes; statement of each episode drawn with replacement from the 19 by the sequence seed; the same 600 (statement, tau) worlds are used by every arm",
+  "secondary_profile": "optional, only if the user approves prospective status-page collection and its terms of use are checked before the freeze deadline: an end-time residual profile derived from collected completion deviations, frozen with a SHA receipt before the window; otherwise omitted; never added inside the window"
+ },
+ "calibration": {
+  "target": "lower bound for tau with miscoverage alpha per in-episode event",
+  "alpha": 0.1,
+  "n_min": 9,
+  "memory": "last 20 residuals of the same sequence",
+  "residual": "r = tau - e_hat, e_hat = the estimate the arm itself used for that episode (compiled contract value, or the forecaster's answer); observed after the episode ends; tau = 12 is right-censored and recorded as 12 - e_hat (conservative for a lower quantile)",
+  "bound": "k = floor(alpha * (n + 1)); if n < n_min or k = 0 the belief is 'may happen now' (A0); else e = e_hat + r_(k), the k-th smallest residual (may move the belief earlier or later)",
+  "cold_start": "the first n_min episodes of every sequence run as A0 for calibrated arms and are reported separately; decisions use episodes 10-30 (evaluation episodes)"
+ },
+ "arms": {
+  "A0_now": "belief: the event may happen now",
+  "A1_margin": "belief: 6 intervals after the latest administrator message",
+  "A2_history": "belief: conditional 10% lower quantile of past tau in the same sequence given no release yet; A0 until 9 past tau",
+  "A2p_cal_qwen7b": "7B asked directly for an earliest release interval from the past tau of the sequence and the administrator messages (release_forecast.TextForecastBelief prompt); its answers calibrated by the same algorithm",
+  "A3_raw_annotated": "belief: annotated release estimate, uncalibrated",
+  "A3_cal_annotated": "PRIMARY: annotated release estimate, calibrated",
+  "A3_cal_rule": "frozen rule compilation, calibrated",
+  "A3_cal_qwen7b": "7B two-stage lenient compilation, calibrated",
+  "A4_oracle": "belief: true tau (extra information, reference only)",
+  "A3_cal_annotated_legacy": "calibrated annotated belief with the old one-shot timed admission and no per-interval invariant (controller-layer comparison)"
+ },
+ "metrics": {
+  "primary": "administrator_obligation_satisfaction per episode (frozen protocol definition, deadline at state tick D)",
+  "risk": "episode recovery violation indicator over episodes whose release falls inside the episode; recovery violation intervals reported alongside",
+  "gates": "deadline misses and hard-SLA violation intervals of an arm not above A0_now"
+ },
+ "analysis": {
+  "unit": "evaluation episodes (10-30) of the 20 sequences",
+  "uncertainty": "cluster bootstrap over sequences stratified by profile, 10000 resamples, seed 0, 95% percentile intervals",
+  "risk_budget": "an arm is within budget when its episode violation rate is <= 0.10 and the upper bound of its interval is <= 0.15",
+  "H1_calibration_reduces_risk": "A3_cal_annotated minus A3_raw_annotated violation rate: upper bound < 0",
+  "H2_value_at_matched_risk": "A3_cal_annotated within budget and passes the gates; satisfaction minus A2_history lower bound > 0 and minus A0_now lower bound > 0; for A1_margin and A2p_cal_qwen7b each: either the comparator is outside budget or A3_cal_annotated minus it has satisfaction lower bound > 0",
+  "advance": "H1 and H2 hold: calibration of structured statements is a supported mechanism on this task (diagnostic scope)",
+  "narrow": "if A2p_cal_qwen7b is within budget and A3_cal_annotated minus A2p_cal_qwen7b satisfaction interval covers 0 or is negative: the structured statement route has no advantage over calibrated direct forecasting; the claim is narrowed to calibrated text forecasts",
+  "stop": "if A3_cal_annotated is outside budget overall or in 2 or more of the 4 profiles, or H2 fails against A2_history: calibration is not a contribution on this task; write up and stop; no re-prompting, new arms or new profiles in the window",
+  "secondary": "A3_cal_qwen7b vs A3_cal_rule at matched risk (language-model attribution; parity with A3_cal_annotated means compilation is solved); A3_cal_annotated_legacy vs A3_cal_annotated (controller layer); per-profile results; cold-start episodes",
+  "not_a_failure": "parity of a small or rule compiler with 7B is not evidence against language value"
+ },
+ "budgets": {
+  "ns3_episodes": 6500,
+  "note_episodes": "10 arms x 600 = 6000 planned, retries included in the cap",
+  "model_calls": 1800,
+  "note_calls": "A2p about 1200 (history changes every episode, no cache); A3_cal_qwen7b compile results may be cached by identical prompt because decoding is greedy; the cache is declared in the report",
+  "training": 0,
+  "pre_window_smoke": "stand-in native only, plus at most 2 real episodes per arm for timing",
+  "numeric": "850/1000 ms and 6/2/5/2/8 operational limits unchanged; forecaster calls happen outside the numerical proposal budget"
+ },
+ "host": "Ubuntu RTX PRO 6000, <repo>; outputs runs/calibration_diagnostic_<date>/",
+ "runner": {
+  "to_implement": [
+   "release_forecast.CalibratedBelief (per-sequence residual memory, conformal lower quantile, censoring rule)",
+   "sequence runner with profile generator and fixed seeds",
+   "summariser with cluster bootstrap and the decision rules above",
+   "tests: coverage on synthetic residuals, censoring, cold start, drift memory"
+  ],
+  "sources": [
+   "contracts/calibration_diagnostic_20261009_20261023.json",
+   "src/vera/frozen_protocol.py",
+   "src/vera/recovery_shield.py",
+   "src/vera/release_forecast.py",
+   "src/vera/obligation_planner.py",
+   "src/vera/obligation_ledger.py",
+   "src/vera/revision_v2.py",
+   "src/vera/multiservice_control.py",
+   "scripts/run_release_diagnostic.py",
+   "the new sequence runner and summariser"
+  ]
+ },
+ "basis": [
+  "docs/reproduce/anticipatory_feasibility_review_20260924.md sections 4 and 7",
+  "docs/reproduce/fixes108_release_diagnostic_20260924.md: A3 annotated +0.145 over A2 with all 15 recovery intervals in worlds where the statement was wrong; A2' and 7B compilation more aggressive; no arm dominant",
+  "docs/reproduce/maintenance_data_survey_20260925.md"
+ ],
+ "relation_to_other_contracts": "independent of contracts/frozen_protocol_20260924_20261008.json (unchanged, window to 2026-10-08); does not implement amendment C; load and maintenance events are out of scope",
+ "reporting": "record STARTED/COMPLETED; report docs/reproduce/calibration_diagnostic_results_<date>.md with every arm, per profile, cold start separately, budgets used, failures kept; knowledge note",
+ "secondary_human_statements": {
+  "pool": "the 16 eligible in_schema_pair items of the frozen corpus (docs/reproduce/open_requests_freeze_20260930.json), written by lab members outside the loop; e_ref = the annotated release_estimate.earliest_tick; the second message is the item's own QoS request",
+  "worlds": "same generator as the primary analysis (4 profiles x seeds 0-4 x 30 episodes, tau = clip(e_ref + delta, 3, 12)), drawn from this pool",
+  "arms": [
+   "A0_now",
+   "A3_raw_annotated",
+   "A3_cal_annotated",
+   "A3_raw_qwen7b",
+   "A3_cal_qwen7b",
+   "A4_oracle"
+  ],
+  "hypotheses": {
+   "Hs1": "A3_cal_qwen7b minus A3_raw_qwen7b violation rate: upper bound < 0",
+   "Hs2": "A3_cal_qwen7b within the risk budget",
+   "report": "A3_cal_qwen7b minus A3_cal_annotated satisfaction and violation rate; A3_raw_qwen7b minus A3_raw_annotated"
+  },
+  "disclosure": "the hypothesis that calibration absorbs the one-interval lateness of 7B on hedged release statements was formed from the post-hoc breakdown of the formal frozen-protocol run on these same texts; secondary only, it cannot change the primary decision",
+  "analysis": "evaluation episodes 10-30, cluster bootstrap over sequences stratified by profile, 10000 resamples, seed 0"
+ },
+ "amendments": [
+  {
+   "id": 1,
+   "date": "2026-09-30",
+   "status": "ADOPTED (user decision) before any calibration result existed",
+   "change": "formal run starts immediately after the regenerated receipt instead of 2026-10-09; secondary analysis on human-written statements added; model-call cap 1600 -> 1800",
+   "unchanged": "primary arms, profiles, sequences, alpha, n_min, memory, censoring, risk budget, H1/H2, narrow and stop rules, ns-3 cap"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+ "schema": "vera.live_snapshot/1",
+ "status": "REGISTERED 2026-10-19 before the crawl",
+ "question": "Read today's upcoming maintenance notices end to end (crawl under robots, compile with the frozen 7B extract prompt and the hand rule) and register the predicted windows so that they can be checked prospectively against the platform's automatic transitions at camera-ready.",
+ "procedure": "scripts/collect_maintenance_notices.py --sites data/maintenance_notices_20260929/sites.json --pages 2 --per-site 20 --delay 1.0 --out runs/live_snapshot_20261019/notices; then scripts/live_snapshot.py --root runs/live_snapshot_20261019 (upcoming = Scheduled post with a clock time and no In-progress/Completed transition)",
+ "outputs": "runs/live_snapshot_20261019/registration.json (counts, SHA-256 of predictions.jsonl, public predictions without text) copied to docs/reproduce/live_snapshot_20261019_registration.json; the check is a separate, later contract",
+ "budgets": {
+  "http_requests": "at most 57 sites x (2 history pages + 20 event pages) = 1,254 at one per second, robots-respecting, no /api/",
+  "model_calls": "at most 150 local Qwen 7B calls",
+  "ns3_episodes": 0
+ },
+ "sources": {
+  "scripts/live_snapshot.py": "0fd37be3095ac1a60df6bc40b44e3b32df968dbc73d38b13f5a0ca3b2c2259d8",
+  "scripts/collect_maintenance_notices.py": "9daf77cec68f6dee4d65b07582e251153146e9430596112aeebb80407cfa083c",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "scripts/offline_compile_eval.py": "d9510cfeb783032fb42101e42239a3d45a231128f2b52b4d43ac66c937e05522",
+  "data/maintenance_notices_20260929/sites.json": "6385ccd6ea4bf26c5ee2a12f9a7a9df9790fc2de8b864eed4fdacb69119b472d",
+  "scripts/collect_front_page.py": "create"
+ },
+ "amendments": [
+  {
+   "date": "2026-10-19",
+   "before": "any front-page request (the history crawl had completed: 465 requests, 312 notices, 0 of them upcoming)",
+   "text": "The history pages list only maintenances that have started or finished; upcoming ones are linked from each site's front page. Amendment: one front-page request per site (57) plus at most 10 linked event pages per site, same robots check and delay, appended to the snapshot's notices; the total stays within the registered request budget. scripts/collect_front_page.py pinned."
+  }
+ ]
+}

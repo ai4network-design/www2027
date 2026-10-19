@@ -1,0 +1,38 @@
+{
+ "schema": "vera.revision_scenario/2",
+ "status": "REGISTERED 2026-10-13 before any v2 result",
+ "relation": "confirmatory replication of contracts/revision_scenario_20261011.json step 2 over world parameters: the same 35 informative test items (cancelled 9, moved 26 after amendment 2), each at remaining capacity {1.5, 2, 3} Mbps and lead {4, 6} intervals (210 worlds per arm). Not a fresh-sample test.",
+ "arms": [
+  "R0_reactive",
+  "M_initial_rule",
+  "M_update_rule",
+  "M_update_rule_kw",
+  "M_initial_qwen7b_extract",
+  "M_update_qwen7b_extract",
+  "M_initial_qwen72b_direct",
+  "M_update_qwen72b_direct",
+  "M_oracle"
+ ],
+ "beliefs": "stored compile outputs of runs/revision_scenario_20261011/compile (pinned below); rule arms recomputed; capacity of the belief follows the world",
+ "analysis": "as the first run: paired differences, cluster bootstrap over notices (worlds of one notice are dependent); primary pairs M_update_qwen7b_extract − M_initial_qwen7b_extract, − M_update_rule, − M_update_rule_kw, − R0_reactive; descriptive, no verdict",
+ "budgets": {
+  "model_calls": 0,
+  "ns3_episodes": 1890
+ },
+ "runner": "scripts/run_maintenance_revision_v2.py; summary scripts/summarise_revision_scenario.py",
+ "sources": {
+  "scripts/run_maintenance_revision_v2.py": "9efdf2597dad92b83d9b0de004f4d4dfece59016f2f92610dc3eb3b20aff7f08",
+  "scripts/run_maintenance_revision.py": "36bb8a7cc554b86252d4319d26cea7cbfb4ffd4153bc032b5197d96a0f5ee002",
+  "scripts/revision_compile_eval.py": "0ce6803bfa4e2b549eb095c85830085dd7d87cef32160db14a2f59a1967cc958",
+  "scripts/analyse_notice_updates.py": "d8a3b9b29eb887bd4cc2434644be7ba0675d0b5d3aa1740d96258f6fa1932757",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "src/vera/maintenance_episode.py": "202886000e1d12bad2652f1e2a4a09d989de52d1521ad1f29b68fe8a368acdb6",
+  "src/vera/maintenance_shield.py": "0dffebec62b3e566ed27f44bb184e34077da9ca7e5a740ac6baf9ae1019ee71a",
+  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+  "data/maintenance_revisions_merged_20261011.json": "48a6d278dc04d60f7304246d0bab148658e82b446dba76562827c5b627a418c6",
+  "runs/revision_scenario_20261011/compile/upd/qwen7b_extract.jsonl": "bfae0e14218aa4e1ce6e14d0639e817d99dd569658e694e9e177a97294536f7a",
+  "runs/revision_scenario_20261011/compile/ann/qwen7b_extract.jsonl": "30fcfe8a2b5c44a1006397b14a120a08cc76bf0a61e9b8d36f778141b94587f1",
+  "runs/revision_scenario_20261011/compile/upd/qwen72b_direct.jsonl": "3f3657a7fe9242df27dabe49a45e48b2563ecc062d5073caadf1fb11b42ab568",
+  "runs/revision_scenario_20261011/compile/ann/qwen72b_direct.jsonl": "2b31ab735b174ba9ad7e02adba7901dc7fb7090b1bc2c209064fe49077f2e704"
+ }
+}

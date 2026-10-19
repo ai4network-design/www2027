@@ -1,0 +1,55 @@
+{
+ "schema": "vera.perturbation/1",
+ "status": "REGISTERED 2026-10-19 before any perturbation result (no development stage: arms are fixed transformations of existing beliefs)",
+ "question": "What does a wrong or false maintenance notice cost the anticipatory controller, and does the invariant shield bound the harm? Beliefs from the post-fix 7B extract outputs or the oracle are perturbed (start 1-2 intervals early/late, wrong path, false notice on a world without an event) on the 477 v2 worlds.",
+ "arms": [
+  "P_early1_qwen7b",
+  "P_early2_qwen7b",
+  "P_late1_qwen7b",
+  "P_late2_qwen7b",
+  "P_path_qwen7b",
+  "P_phantom_qwen7b",
+  "P_early1_oracle",
+  "P_early2_oracle",
+  "P_late1_oracle",
+  "P_late2_oracle",
+  "P_path_oracle",
+  "P_phantom_oracle",
+  "R0_phantom"
+ ],
+ "references": {
+  "unperturbed_qwen7b": "runs/converter_fix_20261001/closed_loop/M_qwen7b_extract",
+  "unperturbed_oracle": "runs/maintenance_diagnostic_v2_20260930/primary/M_oracle",
+  "reactive": "runs/maintenance_diagnostic_v2_20260930/primary/R0_reactive"
+ },
+ "primary_metric": "obligation satisfaction per episode (as v2), with hard-SLA violation intervals; paired differences against the unperturbed arm of the same belief source and against R0 (R0_phantom for the phantom arms), provider-clustered bootstrap 10,000 resamples seed 0",
+ "decision": "descriptive: report the cost of each perturbation and whether hard-SLA violations stay at the unperturbed level (shield) or rise; no advance/stop rule",
+ "budgets": {
+  "model_calls": 0,
+  "training": 0,
+  "ns3_episodes": "13 arms x 477 = 6,201"
+ },
+ "sources": {
+  "scripts/run_maintenance_perturbed.py": "942b9ea3dd141875b3bb07e7991358eec880e67cebc460f0d46cec6030435cf0",
+  "scripts/run_maintenance_v2.py": "a94353c5b19c0118afbb94189281f1782a24a0fe8ca441f4d58ace6d4dc5fbaf",
+  "scripts/run_maintenance_diagnostic.py": "16379b47f53694dc21177daaac75f89d85b8b5718c7d0f7d5cdea276031f89bb",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "src/vera/maintenance_episode.py": "c7cfe89ac8ea8779cfd19ceed6f444b8aba254d21aaf890a5a47d19630a12d0b",
+  "src/vera/maintenance_shield.py": "fd281911479873488564404727ab0129a4c4dcdd92fbd5ade3e0d622ca22a631",
+  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+  "src/vera/maintenance_native.py": "42fcdc348e92929a71c5be940b6591e8ac7356812e5149200942bd768c2da468",
+  "src/vera/obligation_planner.py": "666777861aaee261270af778425ee01a84413f94755a3b879e1f76d7f4eaf626",
+  "src/vera/multiservice_control.py": "1e40182494bf2d4ee89de6e077a92c76c97b6e49033b8e95331b56223ead8e54",
+  "runs/converter_fix_20261001/compile_test/qwen7b_extract.jsonl": "255a0d615c2e314eaffe2e8a92dc600b1518ca59d9a5bf890d1b30b945809e7c",
+  "runs/ns3_maintenance_build_20260930/native_maint.json": "c502ea102d596c22b324fe0415db0da8fccf43a8908ac21e2709c49dca5e7d05",
+  "contracts/frozen_protocol_20260924_20261008.json": "4daff49892fd8b3efae37284add972ae384531773a1cba632eccce138981bfa3"
+ },
+ "amendments": [
+  {
+   "date": "2026-10-19",
+   "before": "any use of the P_phantom_oracle result (the arm had completed once: its belief was the phantom world's own tuple, whose window is empty, so it behaved as no belief and scored 1.000 = R0_phantom)",
+   "text": "Bug fix in scripts/run_maintenance_perturbed.py: for the phantom arms the oracle belief is the original window of the notice, i.e. a false notice with exact timing. The first P_phantom_oracle output is kept under P_phantom_oracle_void_empty_belief and the arm is rerun. Pinned hash updated; no other arm is affected (their beliefs do not depend on the phantom tuple)."
+  }
+ ]
+}

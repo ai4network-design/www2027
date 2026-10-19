@@ -1,0 +1,38 @@
+{
+  "purpose": "New bounded DEV integration acceptance, not held-out language generalization or ns-3 benefit",
+  "frontend_frozen_before_cases": "5af6e8f",
+  "models": ["qwen7b", "qwen3b", "qwen1p5b"],
+  "arms": ["continue", "release"],
+  "arm_order": {"qwen7b": ["continue", "release"], "qwen3b": ["release", "continue"], "qwen1p5b": ["continue", "release"]},
+  "maximum_calls_per_model": 11,
+  "maximum_calls_total": 33,
+  "budgets": {"output_tokens": 48, "input_tokens": 2048, "deadline_ms": 850, "training_updates": 0, "solved_examples": 0, "retries": 0},
+  "initial_protocol": "compact for both new cases; one attempt each; no gold base, prior-run state or correctness feedback",
+  "gate": "Two exact transport copies per arm. Initial correctness, commit and deadline required for that model-owned base. Skipped revisions remain unsuccessful in planned denominator.",
+  "success": "Committed timely atomic effective revision; all requested numerical and condition changes correct; every other physical field and episode epoch preserved. Rejection, no-op and partial changes fail.",
+  "businesses": [{"name":"Iris","flow_index":0},{"name":"Maple","flow_index":1},{"name":"Quartz","flow_index":2}],
+  "transport": [
+    {"id":"COPY-NUM","payload":{"maximum_mean_latency":"12 ms","required_data":"2.6 MB","absolute_deadline":"12 s"}},
+    {"id":"COPY-COND","payload":{"minimum_throughput":"4.4 Mbps","restore_bandwidth":1},"predicate":"!(ended|archived)"}
+  ],
+  "cases": [
+    {
+      "id":"JOINT-AND",
+      "events":{"ended":"The operator has cleared the temporary hold.","archived":"The workshop has concluded."},
+      "initial":"For Quartz, until the workshop concludes, mean latency must be at most 11 ms and throughput at least 4.1 Mbps. Iris must deliver 2.6 decimal MB by 12 seconds from episode start. When temporary protection is released, remove the temporary bandwidth ceilings.",
+      "initial_reference":[2,11,4.1,"archived",0,2.6,12,1],
+      "amendment":"Raise Quartz's minimum throughput to 4.4 Mbps. Temporary protection must continue whenever the workshop has not concluded or the operator has not yet cleared the temporary hold. Leave every other requirement as it stands.",
+      "final_reference":[2,11,4.4,"archived&ended",0,2.6,12,1],
+      "changed_indices":[2,3]
+    },
+    {
+      "id":"JOINT-OR",
+      "events":{"ended":"The delivery receipt has arrived.","archived":"The room is empty."},
+      "initial":"Keep Quartz's mean latency at or below 14 ms and throughput at or above 4.2 Mbps until the room is empty. Iris has 13 seconds from episode start to deliver 2.8 decimal MB. Once temporary protection ends, lift the temporary bandwidth ceilings.",
+      "initial_reference":[2,14,4.2,"archived",0,2.8,13,1],
+      "amendment":"Tighten Quartz's maximum mean latency to 12 ms. From now on, protection must continue only while the room is not empty and the delivery receipt has not arrived; otherwise end protection. All other obligations are unchanged.",
+      "final_reference":[2,12,4.2,"archived|ended",0,2.8,13,1],
+      "changed_indices":[1,3]
+    }
+  ]
+}

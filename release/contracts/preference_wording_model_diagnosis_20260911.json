@@ -1,0 +1,82 @@
+{
+  "schema": "vera.preference_wording_model_diagnosis/1",
+  "output": "runs/preference_wording_model_diagnosis_20260911",
+  "feature_output": "runs/preference_wording_features_20260911",
+  "feature_plan_sha256": "a9cb7f4bc2de18b57d8f122bb616886da7c6827ecc554b1e2037d6bcb9477649",
+  "preparation_plan_sha256": "a268364c8365259c415812d7d58fdf68b66f30165a5a943a28739aaf4d206a4d",
+  "adaptation_plan_sha256": "8fff34baf4b4d76741547d6860dc442410322b282f8db2d3e4b0e2c22be95fe1",
+  "numpy_script": "scripts/review_preference_adaptation.py",
+  "numpy_script_sha256": "9ca4c88c85acc94bb54076d429b8e8acd49dff17db63920b584a2278fbcc5686",
+  "models": {
+    "llm": {
+      "root": "runs/preference_adaptation_llm_20260911",
+      "checkpoint_sha256": "7fde479187e4670e58022770cd0b3a70b83eeee6af10a925ef5860c73e507c6e",
+      "tensor_sha256": "358e142cf0ec483a9782b71b270e35cc19da5f60d3d5892fe4d6d9aeacaa023a",
+      "coordinates_file_sha256": "722fa7979c7c09a8a881a866f56dfd8341bf5ec1228ceefe187ed6061d217767",
+      "dimensions": 3584,
+      "parameters": 12870150
+    },
+    "small": {
+      "root": "runs/preference_adaptation_small_20260911",
+      "checkpoint_sha256": "0370e572e7928855c90d020b3743a37bedccc67860a85c399734cd81c2c9b5bd",
+      "tensor_sha256": "f57fea59bedecc62cbfef8f10da7cbacf9c538b16fc5fa656fb6c3807f924ec7",
+      "dimensions": 1383,
+      "parameters": 387974
+    }
+  },
+  "limits": {
+    "maximum_wall_seconds": 180,
+    "maximum_mac_output_bytes": 134217728,
+    "maximum_mac_rss_bytes": 4294967296,
+    "minimum_mac_available_ram_bytes": 8589934592,
+    "minimum_free_disk_bytes": 8589934592,
+    "maximum_checkpoint_loads": 2,
+    "maximum_model_constructions": 2,
+    "torch_calls_per_model": 576,
+    "torch_rows_per_model": 576,
+    "numpy_rows_per_model": 576,
+    "coordinate_transform_rows": 576,
+    "maximum_backbone_forwards": 0,
+    "maximum_optimizer_updates": 0,
+    "maximum_native_cells": 0,
+    "maximum_held_out_rows": 0
+  },
+  "inference": {
+    "execution": "CPU float32 selected200 action head, eval/inference mode, one row per call, four Torch threads, deterministic algorithms; fixed Qwen BF16 sdpa features only when separately admitted",
+    "argmax": "exact lowest-index argmax of six finite raw logits; no epsilon/rounding/tie threshold",
+    "action_order": [
+      "KEEP",
+      "SWITCH_A",
+      "SWITCH_B",
+      "SWITCH_C",
+      "THROTTLE",
+      "RELEASE"
+    ],
+    "evidence": "persist actual raw logits and top2 margin before comparison; old batch outputs remain provenance and old failed review unchanged",
+    "scope": "Frozen normative diagnostic semantics, not full17280 single migration or online admission",
+    "weights": "Both existing selected200 checkpoints and existing TRAIN coordinates unchanged; no fits",
+    "safety": "Original verify/repair/safe escape/SLA/6-2-5-2-8/K3/1000ms unchanged"
+  },
+  "analysis": {
+    "selection": "all288 preselected cold states, original then opposite-role same-profile/variant wording, no deletion or score-based inclusion",
+    "groups": [
+      "all",
+      "source_role",
+      "condition",
+      "profile",
+      "label",
+      "source_role+condition"
+    ],
+    "outcomes": [
+      "original/swapped action",
+      "correct-to-correct",
+      "correct-to-wrong",
+      "wrong-to-correct",
+      "wrong-to-wrong",
+      "raw margin",
+      "supported-class recall"
+    ],
+    "numerics": "All576 per model actual single outputs and NumPy vectors persisted before allclose1e-4/exact argmax comparison; every disagreement retained; raw original batch reference reported separately without replacing old review",
+    "interpretation": "Wording intervention holds actual network fixed; no new six-class/heldout/online claim. All288 original head recomputations explicitly charged new diagnosis, not old review retry."
+  }
+}

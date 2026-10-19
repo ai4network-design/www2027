@@ -1,0 +1,28 @@
+{
+  "schema": "vera.nominal_mpc_calibration/1",
+  "native_parent": "contracts/public_factor_collection_20260910.json",
+  "native_parent_sha256": "e67770661aa4c316d6b3f1d0dfe8aad805c8cbe09b1d1f3c648f549898401e19",
+  "planner_sha256": "f2ae790aa017cf9c1f0e4ca19678afcdb63933110527b4789a7b185a5dfce6af",
+  "output": "runs/nominal_mpc_calibration_20260910",
+  "review_output": "runs/nominal_mpc_calibration_review_20260910",
+  "worlds": [{"seed":540000,"initial_path":3,"event_offset":0,"fg_offered_bps":2960000,"decisions":60}],
+  "arms": [{"name":"original_reference","planner_enabled":false},{"name":"nominal_mpc","planner_enabled":true}],
+  "condition": "shifted",
+  "train_factor_source_world": 400011,
+  "immutable_roots": {
+    "runs/feasible_reference_ablation_20260910": "96e8573c65d5b591995df33c5fa194a8b1d6d9e1b7c779125d4131f5e8b99ffd",
+    "runs/feasible_reference_ablation_review_20260910": "b8cfc5dccf13eea3c7badd019ab7289d1beb56898f2b83313d8a6c8a99a66121",
+    "runs/rescue_goal_combined_package_20260910/input": "b4b29a1fa3adcb3323719e2608ddc79f0623a203018ceab0832b28a4a897faa2"
+  },
+  "limits": {
+    "maximum_native_cells":2,"maximum_control_decisions":120,"maximum_model_loads":0,"maximum_model_forwards":0,
+    "maximum_optimizer_updates":0,"maximum_wall_seconds":180,"maximum_output_bytes":50000000,
+    "minimum_output_host_free_disk_bytes":2147483648,"minimum_available_ram_bytes":25769803776,"maximum_process_rss_bytes":8589934592,
+    "maximum_future_predictor_calls":259200,"maximum_projected_candidates":259560
+  },
+  "audit_limits": {
+    "maximum_rows":120,"maximum_candidate_calls":720,"maximum_saved_plan_predictor_calls":10800,
+    "maximum_wall_seconds":120,"maximum_output_bytes":40000000,"model_forwards":0,"numpy_head_rows":0,"beam_replays":0
+  },
+  "claims": "One engineering phase0 world at exact TRAIN physical factor and shifted schedule; not a held-out statistical test. Existing Mac native, two paired real action-next-feedback cells, prior alone off/on with unchanged deployment gates and6/2/5/2/8/K3. New horizon objective versus original one-step objective is explicit. No LLM/model/training/build/warmup, no old scientific replay or parameter choice from tests. Only current strict context, paid six current candidates and counted future nominal fluid forecasts. Preserve all costs/negative results/old assets; exclusive outputs and per-cell SHA/fsync, stop on failure, no retry/seed substitution. Native run and independent120row720current-candidate plus at most10800saved-plan-prediction audit each once; no full beam replay. Report real QoS/edit/direct-repair and full timing, search completeness/fallback/projection counts, not global optimality or packet future guarantee."
+}

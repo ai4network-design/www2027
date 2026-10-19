@@ -1,0 +1,40 @@
+{
+ "schema": "vera.seed_replay/1",
+ "status": "REGISTERED 2026-10-19 before any replay result",
+ "question": "Does the closed-loop ordering and the paired differences of the v2 maintenance worlds hold when each world is played three times with different ns-3 seeds (the registered run being replay 0)?",
+ "arms": [
+  "R0_reactive",
+  "M_rule",
+  "M_qwen7b_extract",
+  "M_oracle"
+ ],
+ "replays": [
+  1,
+  2
+ ],
+ "seed_rule": "h(notice_id + 'seed' + str(k), 2**31) for replay k; replay 0 reuses runs/maintenance_diagnostic_v2_20260930/primary (R0, oracle) and runs/converter_fix_20261001/closed_loop (rule, 7B)",
+ "metric": "satisfaction per world averaged over the three replays; within-world SD; paired differences on world means, provider-clustered bootstrap 10,000 resamples seed 20260930; descriptive, no decision rule",
+ "budgets": {
+  "model_calls": 0,
+  "training": 0,
+  "ns3_episodes": "4 arms x 2 replays x 477 = 3,816"
+ },
+ "sources": {
+  "scripts/run_maintenance_seeds.py": "f6114f7fa994e5ffbd957fec785f16026e740ff206276960eccaa89438da6395",
+  "scripts/summarise_seeds.py": "d53327b345164feb8346414380e8d62276795a47e6982736b921ec248aa18d19",
+  "scripts/run_maintenance_v2.py": "a94353c5b19c0118afbb94189281f1782a24a0fe8ca441f4d58ace6d4dc5fbaf",
+  "scripts/run_maintenance_diagnostic.py": "16379b47f53694dc21177daaac75f89d85b8b5718c7d0f7d5cdea276031f89bb",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "src/vera/maintenance_episode.py": "c7cfe89ac8ea8779cfd19ceed6f444b8aba254d21aaf890a5a47d19630a12d0b",
+  "src/vera/maintenance_shield.py": "fd281911479873488564404727ab0129a4c4dcdd92fbd5ade3e0d622ca22a631",
+  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+  "src/vera/maintenance_native.py": "42fcdc348e92929a71c5be940b6591e8ac7356812e5149200942bd768c2da468",
+  "src/vera/obligation_planner.py": "666777861aaee261270af778425ee01a84413f94755a3b879e1f76d7f4eaf626",
+  "src/vera/multiservice_control.py": "1e40182494bf2d4ee89de6e077a92c76c97b6e49033b8e95331b56223ead8e54",
+  "runs/converter_fix_20261001/compile_test/qwen7b_extract.jsonl": "255a0d615c2e314eaffe2e8a92dc600b1518ca59d9a5bf890d1b30b945809e7c",
+  "runs/ns3_maintenance_build_20260930/native_maint.json": "c502ea102d596c22b324fe0415db0da8fccf43a8908ac21e2709c49dca5e7d05",
+  "contracts/frozen_protocol_20260924_20261008.json": "4daff49892fd8b3efae37284add972ae384531773a1cba632eccce138981bfa3"
+ },
+ "amendments": []
+}

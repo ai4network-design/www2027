@@ -1,0 +1,45 @@
+{
+  "version": "no-prior-hypothetical-plan-feedback-v1",
+  "arms": [
+    "qwen7b",
+    "qwen3b"
+  ],
+  "calibration_ticks": [
+    0,
+    2,
+    5,
+    8
+  ],
+  "calibration_request": "Keep query mean delay below 25 ms and backup delivered throughput at least 5 Mbps. Respect all hard guarantees.",
+  "tasks": [
+    {
+      "seed": 704000,
+      "style": "explicit"
+    },
+    {
+      "seed": 704002,
+      "style": "explicit"
+    }
+  ],
+  "steps_per_cell": 24,
+  "maximum_calls_per_model": 52,
+  "maximum_total_calls": 104,
+  "maximum_real_steps": 96,
+  "gate": "Retain cold; all three warm intent packets complete and admitted within old timing. No replacement.",
+  "protocol": "Exact original terse after-first syntax/system instructions and semantics. Only actual action user message previous_model_prospect is null, suppressing old hypothetical-plan feedback. Actual previous_action_feedback, own declared goal and all other public fields remain byte-identical given the same state/history; internal common_input preserves old prospect lineage for independent audit, not model delivery. Initial messages without old prospect are byte-identical to terse. Every current now is newly generated; never execute a cached after.",
+  "limits": {
+    "input_tokens": 2048,
+    "output_tokens": 48,
+    "generation_ms": 850,
+    "total_ms": 1000,
+    "edits": 6,
+    "route_edits": 2,
+    "route_cooldown": 5,
+    "rate_min_dwell": 2,
+    "rate_max_dwell": 8
+  },
+  "unchanged": "Original weights, named sparse intent grammar/messages, public named state arithmetic, own-goal retention, hard safety/native and all original budgets. No training, planner choice, latent correct values, target operations or additional calls.",
+  "analysis": "Single prior-hypothesis-feedback ablation relative to terse on same physical GPU2, weights/budgets/two seen tasks. Original actual feedback is not removed. Both sizes receive same treatment. Preserve all old failures, cold calls and real establishment ticks; not a held-out, contemporaneous randomized or universal-superiority claim. No progress helper or nowfirst protocol promoted.",
+  "success": "Both cases full hard SLA and inclusive deadline; query achieved and retained; backup model cap before model migration leads to actual requested outcome. Report model-specific failures; no later baseline ranking before same-information interfaces are frozen.",
+  "environment_binding": "contracts/multiservice_gpu2_binding_20260912.json"
+}

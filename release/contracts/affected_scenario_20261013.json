@@ -1,0 +1,63 @@
+{
+ "schema": "vera.affected_scenario/1",
+ "status": "REGISTERED 2026-10-13 after the development check (Packet, 36 items: rule 17/36, 7B 36/36 resolved; 72 development calls) and before any test-split result",
+ "question": "Can the language layer tell WHICH path a maintenance affects from the announcement text, where a token-matching rule cannot, and does a wrong path cost satisfaction in the closed loop?",
+ "data": {
+  "items": "data/affected_items_20261013.json (scripts/affected_items.py): single-region notices of six region-type providers with a clock-time announcement and both automatic references; truth = structured affected component; candidates = all regions the provider ever listed; test 805 (Imperva 335, Linode 304, UpCloud 117, Wasabi 43, Scaleway 6), development 36 (Packet)",
+  "caveats": "five Linode notices have a structured region the text does not name (label noise, reported); the development provider is the only one with regions, so the rule and the answer resolver were developed on 36 items"
+ },
+ "step1_compile": {
+  "arms": [
+   "rule (scripts/affected_rule.py: token and code matching, no alias table)",
+   "qwen7b_extract",
+   "qwen72b_extract"
+  ],
+  "prompt": "scripts/affected_compile_eval.py EXTRACT_REGION (the announcement extract prompt plus one 'region' field copied from the candidate list), frozen",
+  "scoring": "region strict (exact string) and resolved (scripts/affected_compile_eval.resolve, identical for every arm); window start/end as before",
+  "analysis": "per provider and overall; paired wins/losses and mean difference, cluster bootstrap over providers (5) and over notices, both reported"
+ },
+ "step2_closed_loop": {
+  "worlds": "scripts/run_maintenance_affected.py: regions -> paths 1-3 by SHA-256(site|region); v1 clock (L in {4,5,6} by hash); each notice at 1.5 / 2 / 3 Mbps; 2,415 worlds per arm",
+  "arms": [
+   "R0_reactive",
+   "M_rule",
+   "M_qwen7b",
+   "M_qwen72b",
+   "M_oracle",
+   "X_oracle_time_rule_path",
+   "X_oracle_time_qwen7b_path"
+  ],
+  "belief": "path = hash of the resolved compiled region (no region -> no belief); window = compiled window mapped as v1; shield (escape fallback) and goal keeping unchanged",
+  "analysis": "paired M_qwen7b − M_rule, − R0; X_oracle_time_qwen7b_path − X_oracle_time_rule_path (path channel at perfect timing); M_oracle − each; breakdown by path correctness; descriptive, no verdict"
+ },
+ "budgets": {
+  "model_calls": {
+   "development": 72,
+   "test": 1610
+  },
+  "training": 0,
+  "ns3_episodes": 16905
+ },
+ "rule": "nothing edited after registration except by a recorded amendment before the affected step",
+ "sources": {
+  "scripts/affected_items.py": "768ba5acc351a089a9a318d515978b375b8d46bc100bc9bc0d515ef074af23cf",
+  "scripts/affected_rule.py": "5c544106d402c6b24cc7d4228ed0f82bd203209258777fc02402688a6b1697a8",
+  "scripts/affected_compile_eval.py": "7b3596202e635a025ae69f734175afa4e79d7e8c944f007ed09d007bc09f0104",
+  "scripts/run_maintenance_affected.py": "f9159f52b67452d935bde3bb7460a1c440e60699b40868d035203233b2c588af",
+  "scripts/summarise_affected_scenario.py": "6e9f2dfda03da31370d72f02b29ca0d5dd666b687528f31b34a76d903c48f903",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "scripts/offline_compile_eval.py": "d9510cfeb783032fb42101e42239a3d45a231128f2b52b4d43ac66c937e05522",
+  "src/vera/maintenance_episode.py": "202886000e1d12bad2652f1e2a4a09d989de52d1521ad1f29b68fe8a368acdb6",
+  "src/vera/maintenance_shield.py": "0dffebec62b3e566ed27f44bb184e34077da9ca7e5a740ac6baf9ae1019ee71a",
+  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+  "data/affected_items_20261013.json": "c95c3f007e99b8c645be9f3d7092648093c4716d01f353fb840ce12d7ae34215"
+ },
+ "amendments": [
+  {
+   "date": "2026-10-13",
+   "after": "the test compile outputs were seen; before any closed-loop episode",
+   "text": "Zone-level regions. UpCloud components are written 'ZONE: Product' (e.g. 'DE-FRA1: Network Connections'); the product is not a place, and the candidate list mixed 69 zone-product pairs so that a correct zone answer could not be resolved to one entry (7B answered 'US-SJO1', 72B copied the full pair). Items now take the zone as the region (candidates 69 -> 20; two notices become single-region and are excluded from the closed loop and the comparison because they have no compile outputs); the answer resolver maps a 'ZONE: Product' answer to its zone for every arm. Stored model outputs are re-scored (0 calls); pre-amendment items kept as runs/affected_scenario_20261013/items_before_amendment1.json; both scorings reported. Pinned sources updated."
+  }
+ ]
+}

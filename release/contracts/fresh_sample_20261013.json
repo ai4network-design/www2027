@@ -1,0 +1,55 @@
+{
+ "schema": "vera.fresh_sample/1",
+ "status": "REGISTERED 2026-10-13 after selection (136 fresh notices kept; 51 benchmark items: fresh-test 42 from 5 providers, Twilio 33; fresh-dev 9 from 4 providers; 35 notices with an end reference -> 105 closed-loop worlds per arm) and before any model or closed-loop result on them",
+ "question": "Do the maintenance compile benchmark and the maintenance closed loop (v2 construction) hold on notices published after every design decision was taken?",
+ "data": {
+  "collection": "data/maintenance_notices_fresh_20261013 (57 sites, the two most recent history pages each, robots-respecting HTML, 1 req/s)",
+  "selection": "scripts/fresh_sample.py: announcement (first Scheduled post) published after 2026-09-29T05:00Z, site/code absent from the 2026-09-29 and 2026-10-01 collections -> data/maintenance_fresh_items_20261013/notices.jsonl",
+  "parts": "provider split as the announcement benchmark; fresh-test providers (never used for development) are primary, fresh-dev providers (their earlier notices shaped the rule and prompts) secondary; both reported",
+  "revisions": "timing-changing updates among the fresh notices, if any, scored with the revision benchmark (descriptive; expected to be few)"
+ },
+ "step1_compile": {
+  "arms": [
+   "rule",
+   "qwen7b_extract",
+   "qwen7b_direct",
+   "qwen72b_extract",
+   "qwen72b_direct"
+  ],
+  "prompts": "unchanged (scripts/maintenance_compile_eval.py)",
+  "converter": "post-fix zone table (2026-10-01)",
+  "analysis": "start and window correct; paired comparison provider-clustered (scripts/compare_maintenance_compile.py) when providers >= 5, else clustered by notice and said so"
+ },
+ "step2_closed_loop": {
+  "construction": "v2 unchanged (scripts/run_maintenance_fresh.py over scripts/run_maintenance_v2.py): path 3, each notice at 1.5/2/3 Mbps, L by hash, escape fallback, goal keeping",
+  "arms": [
+   "R0_reactive",
+   "M_worst",
+   "M_rule",
+   "M_qwen7b_extract",
+   "M_qwen72b_direct",
+   "M_oracle"
+  ],
+  "decision": "the v2 decision rule applied as a check (7B extract vs R0 and vs M_worst lower bounds > 0, hard-SLA not above R0, no abort); reported as a fresh-sample replication"
+ },
+ "budgets": {
+  "model_calls": 1200,
+  "training": 0,
+  "ns3_episodes": 630
+ },
+ "rule": "nothing is edited after the pinned registration; the fresh items are selected by the script, not by hand",
+ "sources": {
+  "scripts/fresh_sample.py": "71dc8c3016ed3558426b0539e2d184ae04cca693ad3d2bc706eefa2c24df8443",
+  "scripts/run_maintenance_fresh.py": "f7fa18e901bb24b2ad09b133ae6455c9adf74c7e1deabb263a83c24b02ae7799",
+  "scripts/run_maintenance_v2.py": "a94353c5b19c0118afbb94189281f1782a24a0fe8ca441f4d58ace6d4dc5fbaf",
+  "scripts/run_maintenance_diagnostic.py": "16379b47f53694dc21177daaac75f89d85b8b5718c7d0f7d5cdea276031f89bb",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "scripts/compare_maintenance_compile.py": "7dcfa67bf9e83384cee65dc37ffddea8935bd06a233b68df00298a5759a44562",
+  "scripts/summarise_maintenance_diagnostic.py": "787f73cdff35e87fd563719d739cf294236d5527db80d4980f448d34aa350678",
+  "src/vera/maintenance_episode.py": "202886000e1d12bad2652f1e2a4a09d989de52d1521ad1f29b68fe8a368acdb6",
+  "src/vera/maintenance_shield.py": "0dffebec62b3e566ed27f44bb184e34077da9ca7e5a740ac6baf9ae1019ee71a",
+  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+  "data/maintenance_fresh_items_20261013/notices.jsonl": "9f06f6c23e6bd36ac2c579aad23ac088ccc71cd1a382d57a24d95af081bff8c2"
+ }
+}

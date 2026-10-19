@@ -1,0 +1,26 @@
+{
+  "schema": "vera.intent_weight_calibration/1",
+  "objective_sha256": "261b1b0006bcc441da595ebf511aa6057dca11518a8c54908c81ee1159057963",
+  "native_parent": "contracts/horizon_goal_collection_20260910.json",
+  "native_parent_sha256": "cd1d1540b986c63e8598bc2ee5afbb7098ae08f149106af5b4a2b9e094e3a77c",
+  "output": "runs/intent_weight_calibration_20260911",
+  "review_output": "runs/intent_weight_calibration_review_20260911",
+  "worlds": [{"seed": 580002, "initial_path": 3, "event_offset": 0, "fg_offered_bps": 2960000, "decisions": 60, "split": "engineering_calibration"}],
+  "arms": [
+    {"name": "certificate_first", "intent_weight": 0.0},
+    {"name": "intent_weight_075", "intent_weight": 0.75},
+    {"name": "intent_first", "intent_weight": 1.0}
+  ],
+  "limits": {
+    "maximum_native_cells": 3, "maximum_control_decisions": 180,
+    "maximum_model_loads": 0, "maximum_model_forwards": 0, "maximum_optimizer_updates": 0,
+    "maximum_wall_seconds": 300, "maximum_output_bytes": 150000000,
+    "minimum_output_host_free_disk_bytes": 4294967296,
+    "minimum_available_ram_bytes": 8589934592, "maximum_process_rss_bytes": 8589934592
+  },
+  "audit_limits": {
+    "maximum_rows": 180, "maximum_candidate_calls": 1080, "maximum_wall_seconds": 180,
+    "maximum_output_bytes": 80000000, "model_forwards": 0, "numpy_head_rows": 0
+  },
+  "claims": "One newly excluded engineering ID, deterministic phase0 at existing TRAIN load2.96Mbps/C/offset0, existing middle intent/protection schedule; three complete independently deployed60step trajectories. Not random-heldout, an LLM test, an intent counterfactual or a weight sweep for selection. Keep both known old objective endpoints; fixed0.75 is hypothesis, no choosing best lambda from results. Every current six-candidate prediction/verification and objective scoring is paid inside original1000ms driver. Full-set order only; exact original safety/residence/cooldown/min-dwell/QoS exception/escape/economy/soft ceiling/K3 and6/2/5/2/8 remain. Report all physical metrics, every real edit, both proxy and actual costs, repairs and deadlines, including negative tradeoffs. No retraining, tokenizer, feature, old trace replay, parameter tuning or new native build. Preserve source/record/assets during execution and unique180row1080candidate review; failed/partial IDs stay consumed, stop unstarted, no replay or seed swaps. New assets require private off-machine SHA verified backup before terminal. Subsequent raw-language and learned-objective interfaces require independent contracts and fair controls, not renaming v5/v6 models."
+}

@@ -1,0 +1,38 @@
+{
+ "schema": "vera.model_family/1",
+ "status": "REGISTERED 2026-10-14 before any Llama result (smoke: at most 30 development calls to verify the chat template and JSON output)",
+ "question": "Do the three compile benchmarks (announcement window, revision post, affected region) give the same picture with a different open model family (Llama 3.3 70B, Llama 3.1 8B) under the SAME prompts, zero-shot?",
+ "models": {
+  "llama70b": "unsloth/Llama-3.3-70B-Instruct, 4-bit NF4 (bitsandbytes), read-only reference to the llm_offload cache snapshot 99cd0d2c",
+  "llama8b": "unsloth/Meta-Llama-3.1-8B-Instruct, bf16, snapshot a2856192",
+  "registry": "runs/model_assets_llama_20261014/assets_20261014.json (per-file SHA-256; copy of .runtime/ubuntu-pro6000/assets.json)"
+ },
+ "benchmarks": {
+  "announcement": "data/maintenance_notices_20260929 test split (240), extract and direct, scripts/maintenance_compile_eval.py prompts unchanged; comparison scripts/compare_maintenance_compile.py",
+  "revision": "data/maintenance_revisions_merged_20261011.json test (155), extract and direct, scripts/revision_compile_eval.py prompts unchanged; scoring scripts/rescore_revision_compile.py (strict labels)",
+  "affected": "data/affected_items_20261013.json test (805), extract, scripts/affected_compile_eval.py prompt unchanged; scoring scripts/rescore_affected_compile.py (zone-level items, same resolver)"
+ },
+ "analysis": "the same paired comparisons as the Qwen runs (vs rule, vs the Qwen arm of the same size class); descriptive; no closed loop",
+ "budgets": {
+  "model_calls": {
+   "smoke": 30,
+   "test": 3190
+  },
+  "training": 0,
+  "ns3_episodes": 0
+ },
+ "sources": {
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/revision_compile_eval.py": "0ce6803bfa4e2b549eb095c85830085dd7d87cef32160db14a2f59a1967cc958",
+  "scripts/affected_compile_eval.py": "7b3596202e635a025ae69f734175afa4e79d7e8c944f007ed09d007bc09f0104",
+  "scripts/offline_compile_eval.py": "d9510cfeb783032fb42101e42239a3d45a231128f2b52b4d43ac66c937e05522",
+  "scripts/compare_maintenance_compile.py": "7dcfa67bf9e83384cee65dc37ffddea8935bd06a233b68df00298a5759a44562",
+  "scripts/rescore_revision_compile.py": "94218fab107feec52e4f901525e8247f94cd91788d59def77e9bbcf9d1d69340",
+  "scripts/rescore_affected_compile.py": "a5ba6b615389b5e272f9d9db864e7b6a08e35aecf9062c3455ebcfb5a646fa5b",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "scripts/affected_rule.py": "5c544106d402c6b24cc7d4228ed0f82bd203209258777fc02402688a6b1697a8",
+  "runs/model_assets_llama_20261014/assets_20261014.json": "0c8c8e6097f989ef52fed1ab1fea319c008c5fe354e91a78f930acfaff61c397",
+  "data/maintenance_revisions_merged_20261011.json": "48a6d278dc04d60f7304246d0bab148658e82b446dba76562827c5b627a418c6",
+  "data/affected_items_20261013.json": "c95c3f007e99b8c645be9f3d7092648093c4716d01f353fb840ce12d7ae34215"
+ }
+}

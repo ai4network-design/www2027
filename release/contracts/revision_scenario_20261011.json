@@ -1,0 +1,74 @@
+{
+ "schema": "vera.revision_scenario/1",
+ "status": "REGISTERED 2026-10-11 before any model result on revision posts (development check of the prompts on the 7 development items is the only model use before registration-time freeze; see 'rule')",
+ "question": "When a public maintenance thread revises the announced window (cancelled, moved, extended), does a language-model compiler read the revision where the development rule does not, and does reading it keep more obligations in the closed loop than ignoring it?",
+ "data": {
+  "items": "data/maintenance_revisions_merged_20261011.json: timing-changing update posts from the 2026-09-29 and 2026-10-01 collections (scripts/analyse_notice_updates.py), usable = announcement with a clock time, update with a clock time or a cancellation, posted before the end; test 155 (Imperva 88, Linode 27, Sinch 21, UpCloud 19), development 7",
+  "selection_caveat": "items were selected by timing keywords; the action label is derived from them, so a keyword rule reproduces it (arm rule_kw is that upper bound); automatic status transitions fired for most cancelled events, so cancelled truth is the text",
+  "split": "the part field of the merged file: computed per collection by analyse_notice_updates.py from the provider-group hash of the announcement benchmark; development 7 (New Relic 4, Supabase, Snowflake, Packet), test 155"
+ },
+ "step1_compile": {
+  "targets": "action (descriptive) and the new bound: new start vs automatic In-progress time for moved, new end vs automatic Completed time for extended; ±2 min strict, ±60 min loose",
+  "arms": [
+   "rule (development rule on the update text; no cancellation detection)",
+   "rule_kw (rule plus the selection keywords; upper bound)",
+   "qwen7b_extract",
+   "qwen7b_direct",
+   "qwen72b_extract",
+   "qwen72b_direct"
+  ],
+  "prompts": "scripts/revision_compile_eval.py DIRECT / EXTRACT, frozen at registration; announcements compiled with the announcement benchmark prompts (--target ann)",
+  "analysis": "paired wins/losses and mean difference on the strict and loose bound, cluster bootstrap over notices (only four test providers), 10,000 resamples, seed 0; descriptive action accuracy by kind",
+  "runner": "PYTHONPATH=src python scripts/revision_compile_eval.py models --part test --model qwen7b --model qwen72b --mode extract --mode direct --target upd|ann --out runs/revision_scenario_20261011/compile/{upd|ann}"
+ },
+ "step2_closed_loop": {
+  "worlds": "scripts/run_maintenance_revision.py worlds(): test items the rule can anchor (136: extended 101, cancelled 24, moved 11), path 3, 2 Mbps, 30-min clock, ns-3 seed by hash",
+  "arms": [
+   "R0_reactive",
+   "M_initial_rule",
+   "M_update_rule",
+   "M_update_rule_kw",
+   "M_initial_qwen7b_extract",
+   "M_update_qwen7b_extract",
+   "M_initial_qwen72b_direct",
+   "M_update_qwen72b_direct",
+   "M_oracle"
+  ],
+  "metric": "as v2 (satisfaction over 12 intervals, hard-SLA intervals, window satisfaction where a true window exists)",
+  "analysis": "paired differences M_update_c − M_initial_c (value of reading the revision) and M_update_qwen7b_extract − M_update_rule, cluster bootstrap over notices; breakdown by truth kind; descriptive, no advance/stop verdict",
+  "runner": "scripts/run_maintenance_revision.py --contract contracts/revision_scenario_20261011.json"
+ },
+ "budgets": {
+  "model_calls": {
+   "development": 40,
+   "test": 1240
+  },
+  "training": 0,
+  "ns3_episodes": 1224
+ },
+ "rule": "prompts, converter, selection and world construction are not edited after registration except by a recorded amendment before the affected step; a change after a test result forces a rerun of that step",
+ "sources": {
+  "scripts/revision_compile_eval.py": "0ce6803bfa4e2b549eb095c85830085dd7d87cef32160db14a2f59a1967cc958",
+  "scripts/analyse_notice_updates.py": "d8a3b9b29eb887bd4cc2434644be7ba0675d0b5d3aa1740d96258f6fa1932757",
+  "scripts/run_maintenance_revision.py": "36bb8a7cc554b86252d4319d26cea7cbfb4ffd4153bc032b5197d96a0f5ee002",
+  "scripts/maintenance_compile_eval.py": "338bffcbd6ca1dcf41e6c0ed4ba8be7d6005d1474d992ae9372d251bd33a5f91",
+  "scripts/maintenance_rule.py": "c407b6f6fa1c5030205e02c06051a3ac881d4ca089ed3177a0002e5694cf7da1",
+  "scripts/offline_compile_eval.py": "d9510cfeb783032fb42101e42239a3d45a231128f2b52b4d43ac66c937e05522",
+  "src/vera/maintenance_episode.py": "202886000e1d12bad2652f1e2a4a09d989de52d1521ad1f29b68fe8a368acdb6",
+  "src/vera/maintenance_shield.py": "0dffebec62b3e566ed27f44bb184e34077da9ca7e5a740ac6baf9ae1019ee71a",
+  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+  "data/maintenance_revisions_merged_20261011.json": "48a6d278dc04d60f7304246d0bab148658e82b446dba76562827c5b627a418c6"
+ },
+ "amendments": [
+  {
+   "date": "2026-10-11",
+   "before": "step 2 model arms (rule-based arms and R0/oracle already run on all 136 worlds; no model closed-loop result yet)",
+   "text": "Closed-loop analysis restricted to the cancelled and moved worlds (35). The 101 extended worlds are uninformative by construction: the maintenance is already in progress from interval 0 at 2 Mbps, every arm including the oracle scores 0.175 satisfaction with about 9.6 hard-SLA intervals per episode, because the end of a window is observable and the controller reacts to it; the revision only tells the controller something it will see anyway. The extended worlds stay in the run and are reported descriptively. Step 1 (compile) is unchanged and keeps all 155 items."
+  },
+  {
+   "date": "2026-10-13",
+   "after": "step 1 model outputs and step 2 were seen (post hoc, disclosed)",
+   "text": "Action labels corrected. The selection keyword rule took the first keyword in the order cancel, reschedule, postpone, extend; 15 Sinch updates that reschedule or postpone a window and only mention cancellation in boilerplate (\"if the maintenance is extended or cancelled\") were labelled cancelled, and the automatic In-progress transition had fired for all of them. Strict rule (scripts/analyse_notice_updates.py kind_of): boilerplate removed, cancellation needs a cancelling phrase, moving/postponing before extending, a restated window counts as a move. Selection unchanged (same 162 items, same ids and order); labels: cancelled 24 -> 9, moved 11 -> 26 (test). Stored model outputs are re-scored (0 calls); the 15 relabelled worlds are rebuilt and rerun for every arm. Both scorings are reported. Pinned sources updated to the new analyse_notice_updates.py and item file; the earlier item file is kept as runs/revision_scenario_20261011/items_before_amendment2.json."
+  }
+ ]
+}

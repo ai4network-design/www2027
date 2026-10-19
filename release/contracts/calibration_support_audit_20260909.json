@@ -1,0 +1,14 @@
+{
+  "schema": "vera.calibration_support_audit/1",
+  "baseline_plan": "contracts/control_calibration_baselines_20260909.json",
+  "baseline_plan_sha256": "3c7af2638a8cfdae93948af753f58b372b478e3daec4eb1e3498feb5633fd361",
+  "baseline_report_sha256": "9fd0fbc0e3dfa3ce75a3668cd97b8245dc83a0d4f71a2f9b3c5cccbfb8ed7307",
+  "baseline_tree_sha256": "c1999e82e9658cab11c15a62c0d99002e8e28d67294d307168fdb0c8757b356d",
+  "paired_review": "runs/control_calibration_baselines_review_20260909/report.json",
+  "paired_review_sha256": "163482f2b73c4ffb6306ce2e620ad8e1ca2876402df0f812d3fb49eba6f24428",
+  "output": "runs/calibration_support_audit_20260909",
+  "limits": {"existing_data_rows": 720, "existing_online_rows": 180, "maximum_teacher_candidate_checks": 4320, "maximum_nearest_train_examples_per_view": 6, "native_cells": 0, "model_loads": 0, "model_forwards": 0, "optimizer_updates": 0, "maximum_wall_seconds": 180, "maximum_output_bytes": 10000000},
+  "analysis": "Verify all720 original teacher labels from stored causal decision states; reproduce frozen small357features exactly, no checkpoint load or forward. Tabulate split, genuine action, first-state physical phase/role and observed-context support. Compare world340001 initial actual input with train-only360 examples using frozen small-feature L2 and cached Qwen-feature cosine/L2; distances are descriptive, not new predictive models or causal proof. Head features read only from previously audited CUDA fullreply and immutable old720 cache. Read at most180 existing paired records, no new simulation/inference.",
+  "gates": "Exact data/model/plan/native-source/rawtree identity,720 teacher/input reconstructions and finite arithmetic are evidence gates. Coverage support can fail scientifically without altering old labels or deleting rows. Inspect joint context counts and fixed scenario phase coupling before deciding new independent data design. Never fit, select, calibrate thresholds or evaluate a new predictor on this already observed world.",
+  "scope": "Only diagnosis of two learned controllers' shared reference disagreement. Current native seed-phased event formula is source evidence, not a model feature. No conclusion of seed leakage from correlation alone. No claims that nearest feature determines the learned decision. No new heldout/formal/real cell/training. Original budgets and all negative evidence unchanged."
+}

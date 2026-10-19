@@ -1,0 +1,11 @@
+{
+  "version":"structural-v2-original-model-engineering-calibration-v1",
+  "models":["qwen7b","qwen3b","qwen1p5b"],
+  "requests_from":"contracts/multiservice_semantic_screen_development_20260914.json:calibration_requests",
+  "calls_per_model":2,
+  "maximum_original_calls":6,
+  "maximum_native_intervals":0,
+  "scope":"Two already-known development requests per original model, including cold call. Engineering integration only, no unseen/generalization claim and no replay of the former 12-case evaluation. Keep malformed, late and semantically wrong calls; no retry or replacement.",
+  "gates":"CPU structural consistency and original tokenizer/budget walks first; then this finite original-model run and full raw-token/P0/cache audit. Keep original 2048/48/850ms/20GiB/12GiB limits. Structural correctness alone does not admit control deployment.",
+  "resource":"User-authorized three-GPU idle-first selection, explicit shared fallback; never stop other jobs. Same physical GPU for all models; shared timing not dedicated real-time qualification."
+}

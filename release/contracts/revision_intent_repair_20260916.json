@@ -1,0 +1,15 @@
+{
+ "schema":"vera.revision_intent_repair/1",
+ "models":["qwen7b","qwen3b","qwen1p5b"],
+ "arms":["typed","named","witness"],
+ "budget":{"total_calls":27,"calls_per_model":9,"max_new_tokens":48,"max_input_tokens":2048,"deadline_ms":850,"retries":0,"native_intervals":0},
+ "initializers":{"DEV-SINGLE":"typed","DEV-AMENDMENT":"compact"},
+ "initializers_rationale":"Chosen prospectively from prior known DEV successes solely to diagnose revisions. Not a general deployment selector or a new end-to-end method claim. Same initializer/base for all revision arms.",
+ "order":{"qwen7b":["typed","named","witness"],"qwen3b":["named","witness","typed"],"qwen1p5b":["witness","typed","named"]},
+ "sequence":"One typed COLD call, then SINGLE INITIAL and three revision branches, then AMENDMENT INITIAL and three branches. All three branches fork the exact same actual committed model-owned snapshot. No reference base, previous-run state or success-conditioned retries. Missing or wrong initial bases remain in every denominator.",
+ "requests":"Unchanged known development COLD, SINGLE and AMENDMENT requests, including previous compact-contract SINGLE patch. No new wording or independent test requests.",
+ "private_preflight_citations":{"DEV-SINGLE":{"2":0,"3":1},"DEV-AMENDMENT":{"2":0,"3":0}},
+ "fairness":"Each branch is charged the common initial-call cost plus its own revision cost. Physical execution is absent, and cold/load/startup costs are separately retained; branching is a controlled diagnostic, not free online retries. Named vs typed uses same output syntax but changes instructions and labeled state; witness additionally changes source/truth-table interface. Same full public information, no target training/examples.",
+ "acceptance":"Candidate revision gate requires both 7B revisions correct, timely and complete from correct admitted self-generated bases, with all unrequested fields/epoch preserved. All 18 planned revision branches are retained. A passed revision gate alone NEVER admits new independent scenarios: previous full-initial-contract and deployment gates remain unresolved.",
+ "limitations":"Citations certify source spans, numeric grounding and exact named-business presence, not semantic entailment or complete update coverage. Truth bits represent general Boolean functions over the two public events, not supervised control-action labels. Wrong supported Boolean functions and incorrect restore edits remain possible and scored as failures. No test-specific language classifier or gold allowed-field list reaches actors."
+}

@@ -1,0 +1,21 @@
+{
+  "schema":"vera.administrator_preference_calibration/1",
+  "objective_sha256":"8b1aa8134cbacb69b064abd108818447cb4313a045c4d890d3be566494892cae",
+  "support_report":"runs/administrator_preference_support_20260911/report.json",
+  "support_report_sha256":"84559bda2ffd2e5000315a4cdc5a768277afc70e57becec5cf79de9b522ef180",
+  "support_review":"runs/administrator_preference_support_review_20260911/report.json",
+  "support_review_sha256":"9d63c00de83c4bb26e8e327b34b8f641298328df99d76d258422d9f60510a08e",
+  "native_parent":"contracts/horizon_goal_collection_20260910.json",
+  "native_parent_sha256":"cd1d1540b986c63e8598bc2ee5afbb7098ae08f149106af5b4a2b9e094e3a77c",
+  "output":"runs/administrator_preference_calibration_20260911",
+  "review_output":"runs/administrator_preference_calibration_review_20260911",
+  "worlds":[
+    {"seed":590001,"initial_path":3,"event_offset":0,"fg_offered_bps":2960000,"decisions":60,"split":"engineering_calibration"},
+    {"seed":590002,"initial_path":3,"event_offset":0,"fg_offered_bps":2960000,"decisions":60,"split":"engineering_calibration"},
+    {"seed":590003,"initial_path":3,"event_offset":0,"fg_offered_bps":2960000,"decisions":60,"split":"engineering_calibration"}
+  ],
+  "arms":[{"name":"response","preference":"response"},{"name":"background","preference":"background"},{"name":"balanced","preference":"balanced"},{"name":"stability","preference":"stability"}],
+  "limits":{"maximum_native_cells":12,"maximum_control_decisions":720,"maximum_model_loads":0,"maximum_model_forwards":0,"maximum_optimizer_updates":0,"maximum_wall_seconds":300,"maximum_output_bytes":268435456,"minimum_output_host_free_disk_bytes":4294967296,"minimum_available_ram_bytes":8589934592,"maximum_process_rss_bytes":8589934592},
+  "audit_limits":{"maximum_rows":720,"maximum_candidate_calls":4320,"maximum_wall_seconds":180,"maximum_output_bytes":134217728,"model_forwards":0,"numpy_head_rows":0},
+  "claims":"One finite engineering intervention group, not an LLM or random-heldout generalization test. Keep existing TRAIN physical load2.96Mbps/C/offset0 and middle service/protection schedule, fully cross all three deterministic fault phases with all four prospectively fixed administrator preferences. Each raw request remains constant in one60step arm while six trusted SLAs change on the existing schedule. All initial physical inputs match within each world; each subsequent input is its own deployed-action feedback. No selecting positive430/546 states, changing weights or choosing best seed. Exact original safety/residence/escape/economy/soft ceiling/K3 and6/2/5/2/8/SLA/1000ms are retained, current six-candidate and preference cost paid in driver. Report all outcomes including tradeoffs, repairs, no-op/budget/real toggle counts and incomplete failure. Explicit profile/weights oracle only, not inferred language. No new model/token/fit/features/build or old experiment replay. Exclusive output, preserve source/record/native/support during execution and unique new720row4320candidate audit; stop unstarted on failure, no retry or substituted IDs. Calibration results are excluded from future model fit and weight tuning. Actual language/token/scaler role admission and complete matched on-policy data are separate future scopes. Archive every new raw/review/log/failure with actual private off-machine SHA verification before terminal."
+}

@@ -1,0 +1,388 @@
+{
+  "schema": "vera.sequential_revision/1",
+  "arms": [
+    "patch",
+    "full_rebuild"
+  ],
+  "ticks": 12,
+  "maximum_native_intervals": 144,
+  "new_model_calls": 0,
+  "training": 0,
+  "limits": {
+    "proposal_ms": 850,
+    "ack_ms": 1000,
+    "cell_seconds": 120,
+    "total_seconds": 1200
+  },
+  "frozen_sources": {
+    "src/vera/obligation_retention.py": "b2583fd1028de5744c379471c52d9b6524142163d1ad54637cbf8a6e6c652ff1",
+    "src/vera/multiservice_cooperative_control.py": "7883c82ef6587b25824114c97ceaf3b63df6debf8bda3ad3b3912510fd9da564",
+    "src/vera/multiservice_control.py": "dbd1a19acc63eb30980e1005260b39e71f66c0ccc4ace1c7ec609d4b674d5882",
+    "src/vera/multiservice_cooperative.py": "0f9cab6603e62cbb3f5b0d2af40346752eb43ea5452f63f1039ce0691af1db6a",
+    "src/vera/multiservice_native.py": "cb6f91570ff91ada57da11c6f0a3386092e5c04bc71c48b2b28d84843325e6c7",
+    "src/vera/ns3/ns3_multiservice_online.cc": "d0c8832a7b002b2994867892162c89382e25f77f4b59812b1f202e20952a52f6",
+    "src/vera/obligation_admission.py": "a24b8f79b6fd990c759a218ea904dec32e33c97de9d9a9a70c8a1e0e292ac77f",
+    "src/vera/obligation_static_rule.py": "b341d3a8fbac164875b4071b76d0344de24c94f1887eb32416eb021a1f1e77a4",
+    "src/vera/multibusiness_revision.py": "5fbbcf0a422e068d34445435600a141deb3679ea36e3459e84262c1d2eec517f",
+    "scripts/run_multibusiness_revision.py": "92936e7127e333d6e41614fc4c917f891cacc84443527e14347eba4c791678c8",
+    "tests/test_multibusiness_revision.py": "cac6f1dedc060f0ebc87e5b5c09c11af88949ee688de949c506805472812b972",
+    "contracts/multibusiness_revision_20260921.json": "00ad6238effe3852a6d65a36b92f0b69d820ea96b74434c55b764cc0d05afc98"
+  },
+  "cases": [
+    {
+      "id": "sequence_feasible_922131",
+      "kind": "sequence_feasible",
+      "world": 922131,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 40,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "release_tick": 10,
+      "requests": [
+        {
+          "tick": 2,
+          "request": {
+            "base_version": 1,
+            "obligation_id": "query.qos",
+            "field": "delay_ms",
+            "value": 14
+          },
+          "expected_status": "applied"
+        },
+        {
+          "tick": 7,
+          "request": {
+            "base_version": 2,
+            "obligation_id": "video.qos",
+            "field": "delay_ms",
+            "value": 20
+          },
+          "expected_status": "applied"
+        }
+      ],
+      "setup_intervals": 0
+    },
+    {
+      "id": "sequence_conflict_922131",
+      "kind": "sequence_conflict",
+      "world": 922131,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 40,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "release_tick": 10,
+      "requests": [
+        {
+          "tick": 2,
+          "request": {
+            "base_version": 1,
+            "obligation_id": "query.qos",
+            "field": "delay_ms",
+            "value": 14
+          },
+          "expected_status": "applied"
+        },
+        {
+          "tick": 7,
+          "request": {
+            "base_version": 2,
+            "obligation_id": "video.qos",
+            "field": "delay_ms",
+            "value": 12
+          },
+          "expected_status": "deferred"
+        }
+      ],
+      "setup_intervals": 0
+    },
+    {
+      "id": "cap_restore_922131",
+      "kind": "cap_restore",
+      "world": 922131,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 14,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "release_tick": 7,
+      "requests": [],
+      "setup_intervals": 2
+    },
+    {
+      "id": "sequence_feasible_922947",
+      "kind": "sequence_feasible",
+      "world": 922947,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 40,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "release_tick": 10,
+      "requests": [
+        {
+          "tick": 2,
+          "request": {
+            "base_version": 1,
+            "obligation_id": "query.qos",
+            "field": "delay_ms",
+            "value": 14
+          },
+          "expected_status": "applied"
+        },
+        {
+          "tick": 7,
+          "request": {
+            "base_version": 2,
+            "obligation_id": "video.qos",
+            "field": "delay_ms",
+            "value": 20
+          },
+          "expected_status": "applied"
+        }
+      ],
+      "setup_intervals": 0
+    },
+    {
+      "id": "sequence_conflict_922947",
+      "kind": "sequence_conflict",
+      "world": 922947,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 40,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "release_tick": 10,
+      "requests": [
+        {
+          "tick": 2,
+          "request": {
+            "base_version": 1,
+            "obligation_id": "query.qos",
+            "field": "delay_ms",
+            "value": 14
+          },
+          "expected_status": "applied"
+        },
+        {
+          "tick": 7,
+          "request": {
+            "base_version": 2,
+            "obligation_id": "video.qos",
+            "field": "delay_ms",
+            "value": 12
+          },
+          "expected_status": "deferred"
+        }
+      ],
+      "setup_intervals": 0
+    },
+    {
+      "id": "cap_restore_922947",
+      "kind": "cap_restore",
+      "world": 922947,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 14,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "release_tick": 7,
+      "requests": [],
+      "setup_intervals": 2
+    }
+  ],
+  "purpose": "Engineering validation of query-then-video typed amendments and separate non-vacuous cap/recovery fixture. Correct full rebuild versus scoped patch, not research novelty.",
+  "information": "Both arms same prior snapshots and versioned typed amendments; original byte epoch/history unchanged. Future amendments and release time are never supplied to planner or static rule.",
+  "controller": "Frozen multiservice_control.plan horizon2 and select, frozen static rule; restore with existing escape as previous run. No complex admission assess.",
+  "stop": "One 3prototype x2newseed x2arm x12 group, 144 maximum native intervals, no retries or tuning after results. Ubuntu CPU only; fail prefixes retained. No training, model/GPU, parser changes.",
+  "metrics": "Score original and active QoS separately, first query amendment after second revision, all unchanged fields relative to immediate prior version, original absolute backup deadline and received progress, every request including deferred video, actual cap on event arrival, time to uncap and measured backup throughput after recovery. Record all-window initial setup violations; only cap fixture allows first2 interval establishment for backup QoS settled metric.",
+  "gate": "Sequence: first applied, second accepted in feasible case or explicitly deferred in conflicting case; first query QoS preserved after second, other active obligations actual met, original deadline and release conserved, epoch and history never reset. Restoration separate: real cap at release, original backup deadline met, recovery<=2, restored backup throughput>=5.9Mbps, settled backup QoS met. Do not infer combined revisions-while-capped coverage.",
+  "interpretation": "If tie, retain as engineering infrastructure only. No superiority claim; typed supplied amendments do not test original-language comprehension; independent cap fixture contains no amendments."
+}

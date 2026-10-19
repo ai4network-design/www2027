@@ -1,0 +1,30 @@
+{
+ "schema": "vera.controls/1",
+ "status": "REGISTERED 2026-10-14 before any result (smoke: 2 worlds x 2 arms to verify the runner)",
+ "question": "Is the forecast-aware goal keeping more than preparing early? And how sensitive is the maintenance closed loop to the search budget and to the lead time between notice and start?",
+ "worlds": "the 477 v2 worlds (contracts/maintenance_diagnostic_v2_20260930.json); lead-sensitivity arms rebuild the same notices at a fixed lead L in {2, 6} (the hash-drawn L in {4,5,6} is the reference)",
+ "beliefs": "7B extract after the converter fix (runs/converter_fix_20261001/compile_test/qwen7b_extract.jsonl, pinned) and the oracle; shield with escape fallback unchanged",
+ "arms": {
+  "C_lead1_qwen7b / C_lead2_qwen7b / C_lead3_qwen7b / C_lead2_oracle": "fixed-lead heuristic: no goal keeping; k intervals before the believed start, when the proposed configuration is not robust under the belief, take the first step of the shortest escape",
+  "C_greedy_qwen7b / C_greedy_oracle": "goal keeping with the search capped at one action ahead",
+  "S_nodes2000_* / S_nodes100000_*": "goal keeping with the search node budget 2,000 or 100,000 (default 20,000)",
+  "S_L2_* / S_L6_* / R0_L2 / R0_L6": "lead 2 or 6 intervals for every notice; reactive reference on the same worlds"
+ },
+ "references": "M_qwen7b_extract and M_rule of runs/converter_fix_20261001 (post-fix beliefs), M_oracle and R0_reactive of runs/maintenance_diagnostic_v2_20260930",
+ "analysis": "paired differences control − reference with provider-clustered bootstrap (scripts/summarise_controls.py); descriptive, no verdict; decision time per interval reported for the node-budget arms",
+ "budgets": {
+  "model_calls": 0,
+  "ns3_episodes": 7636
+ },
+ "sources": {
+  "scripts/run_maintenance_controls.py": "256937425d96e3cfd7bffbfab94fe1017c2e6e91c5e9cdd9cfb8973adc851f2d",
+  "scripts/summarise_controls.py": "5c3b99793bc698d109a44404c3bfbf1077a9bf2d775ebdf43acfb47ea04e780f",
+  "scripts/run_maintenance_v2.py": "a94353c5b19c0118afbb94189281f1782a24a0fe8ca441f4d58ace6d4dc5fbaf",
+  "scripts/run_maintenance_diagnostic.py": "16379b47f53694dc21177daaac75f89d85b8b5718c7d0f7d5cdea276031f89bb",
+  "scripts/summarise_maintenance_diagnostic.py": "787f73cdff35e87fd563719d739cf294236d5527db80d4980f448d34aa350678",
+  "src/vera/maintenance_episode.py": "c7cfe89ac8ea8779cfd19ceed6f444b8aba254d21aaf890a5a47d19630a12d0b",
+  "src/vera/maintenance_shield.py": "61ae7dd8b8735fc7983d3146a90ed840ac6ea69e6cbf67858a4399f734cc157a",
+  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+  "runs/converter_fix_20261001/compile_test/qwen7b_extract.jsonl": "255a0d615c2e314eaffe2e8a92dc600b1518ca59d9a5bf890d1b30b945809e7c"
+ }
+}

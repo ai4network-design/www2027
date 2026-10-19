@@ -1,0 +1,303 @@
+{
+  "schema": "vera.raw_revision_diagnostic/1",
+  "arms": [
+    "rule",
+    "full_rebuild",
+    "patch"
+  ],
+  "ticks": 12,
+  "release_tick": 10,
+  "maximum_native_intervals": 144,
+  "maximum_model_calls": 16,
+  "training": 0,
+  "model": "qwen7b",
+  "model_calls_per_message": 1,
+  "max_new_tokens": 768,
+  "max_input_tokens": 4096,
+  "compiler_seconds": 15,
+  "total_seconds": 900,
+  "maximum_gpu_bytes": 25769803776,
+  "limits": {
+    "proposal_ms": 850,
+    "ack_ms": 1000,
+    "cell_seconds": 120,
+    "total_seconds": 1200
+  },
+  "frozen_sources": {
+    "src/vera/obligation_retention.py": "b2583fd1028de5744c379471c52d9b6524142163d1ad54637cbf8a6e6c652ff1",
+    "src/vera/multiservice_cooperative_control.py": "7883c82ef6587b25824114c97ceaf3b63df6debf8bda3ad3b3912510fd9da564",
+    "src/vera/multiservice_control.py": "dbd1a19acc63eb30980e1005260b39e71f66c0ccc4ace1c7ec609d4b674d5882",
+    "src/vera/multiservice_cooperative.py": "0f9cab6603e62cbb3f5b0d2af40346752eb43ea5452f63f1039ce0691af1db6a",
+    "src/vera/multiservice_native.py": "cb6f91570ff91ada57da11c6f0a3386092e5c04bc71c48b2b28d84843325e6c7",
+    "src/vera/ns3/ns3_multiservice_online.cc": "d0c8832a7b002b2994867892162c89382e25f77f4b59812b1f202e20952a52f6",
+    "src/vera/obligation_admission.py": "a24b8f79b6fd990c759a218ea904dec32e33c97de9d9a9a70c8a1e0e292ac77f",
+    "src/vera/obligation_static_rule.py": "b341d3a8fbac164875b4071b76d0344de24c94f1887eb32416eb021a1f1e77a4",
+    "src/vera/multibusiness_revision.py": "5fbbcf0a422e068d34445435600a141deb3679ea36e3459e84262c1d2eec517f",
+    "scripts/run_multibusiness_revision.py": "92936e7127e333d6e41614fc4c917f891cacc84443527e14347eba4c791678c8",
+    "tests/test_multibusiness_revision.py": "cac6f1dedc060f0ebc87e5b5c09c11af88949ee688de949c506805472812b972",
+    "contracts/multibusiness_revision_20260921.json": "00ad6238effe3852a6d65a36b92f0b69d820ea96b74434c55b764cc0d05afc98"
+  },
+  "cases": [
+    {
+      "id": "direct",
+      "world": 923111,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 40,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "requests": [
+        {
+          "tick": 2,
+          "text": "请把 query 的平均时延上限改成14 ms，其他要求保持不变。",
+          "reference_request": {
+            "base_version": 1,
+            "obligation_id": "query.qos",
+            "field": "delay_ms",
+            "value": 14
+          },
+          "expected_rule_status": "applied"
+        },
+        {
+          "tick": 7,
+          "text": "现在只把 video 的平均时延上限改成20 ms。query 的上一项修改继续生效，备份截止和会议结束后的恢复要求不变。",
+          "reference_request": {
+            "base_version": 2,
+            "obligation_id": "video.qos",
+            "field": "delay_ms",
+            "value": 20
+          },
+          "expected_rule_status": "applied"
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "world": 923248,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 40,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "requests": [
+        {
+          "tick": 2,
+          "text": "这次调整的是 query。它的平均时延上限设为14 ms。其他业务沿用原约定。",
+          "reference_request": {
+            "base_version": 1,
+            "obligation_id": "query.qos",
+            "field": "delay_ms",
+            "value": 14
+          },
+          "expected_rule_status": "applied"
+        },
+        {
+          "tick": 7,
+          "text": "下面只调整 video。它的平均时延上限改为20 ms。已有义务继续有效。",
+          "reference_request": {
+            "base_version": 2,
+            "obligation_id": "video.qos",
+            "field": "delay_ms",
+            "value": 20
+          },
+          "expected_rule_status": "applied"
+        }
+      ]
+    },
+    {
+      "id": "units",
+      "world": 923385,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 40,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "requests": [
+        {
+          "tick": 2,
+          "text": "query 的平均时延上限从40 ms改为0.014 s，其他要求不动。",
+          "reference_request": {
+            "base_version": 1,
+            "obligation_id": "query.qos",
+            "field": "delay_ms",
+            "value": 14
+          },
+          "expected_rule_status": "applied"
+        },
+        {
+          "tick": 7,
+          "text": "video 的平均时延上限从25 ms改为0.020 s。此前对 query 的修改继续有效。备份仍按原定截止完成，会议结束后仍须恢复带宽。",
+          "reference_request": {
+            "base_version": 2,
+            "obligation_id": "video.qos",
+            "field": "delay_ms",
+            "value": 20
+          },
+          "expected_rule_status": "applied"
+        }
+      ]
+    },
+    {
+      "id": "conflict",
+      "world": 923522,
+      "initial_ledger": {
+        "version": 1,
+        "epoch_tick": 0,
+        "obligations": {
+          "query.qos": {
+            "service": "query",
+            "delay_ms": 40,
+            "min_mbps": 1.8,
+            "release_event": "ended"
+          },
+          "video.qos": {
+            "service": "video",
+            "delay_ms": 25,
+            "min_mbps": 3.6,
+            "release_event": "ended"
+          },
+          "backup.qos": {
+            "service": "backup",
+            "delay_ms": 40,
+            "min_mbps": 3.8,
+            "release_event": "ended"
+          },
+          "backup.deadline": {
+            "service": "backup",
+            "total_bytes": 4000000,
+            "deadline_tick": 8
+          },
+          "recovery": {
+            "target": "all_caps_removed",
+            "condition_events": [
+              "ended"
+            ],
+            "max_intervals": 2
+          }
+        }
+      },
+      "requests": [
+        {
+          "tick": 2,
+          "text": "将 query 的平均时延上限调整为14毫秒；未提及的要求全部保留。",
+          "reference_request": {
+            "base_version": 1,
+            "obligation_id": "query.qos",
+            "field": "delay_ms",
+            "value": 14
+          },
+          "expected_rule_status": "applied"
+        },
+        {
+          "tick": 7,
+          "text": "仅将 video 的平均时延上限收紧到12毫秒。保留 query 的当前要求，也保留备份截止及旧解除条件。",
+          "reference_request": {
+            "base_version": 2,
+            "obligation_id": "video.qos",
+            "field": "delay_ms",
+            "value": 12
+          },
+          "expected_rule_status": "deferred"
+        }
+      ]
+    }
+  ],
+  "scope": "Agent-authored Chinese administrator-like wording from the prior frozen engineering scenarios, not collected real administrator utterances or external blind data. Tests actual model generation, not hand-injected omissions.",
+  "timing": "Compiler synchronously pauses native simulation, bounded15s, included in separate compiler metrics; numerical850ms/ACK1000ms budgets unchanged and measured after compile. This is semantic execution-loss diagnosis, NOT online realtime admission. Report compiler850ms fraction without claiming wall-clock deadlines met.",
+  "comparison": "Frozen base Qwen2.5-7B-Instruct, no adapter/training, greedy unmasked JSON. Shared instructions and own accepted prior/messages, only full-ledger versus patch output representation differs. Rule sees same current raw text and prior state, no reference. Full receives same preservation validator. Bad scope/schema or failed static admission retains whole previous accepted state. No gold request used in receiving/admission; references audit only.",
+  "gate": "Continue semantic mechanism only if fewer real unmodified-obligation failures than strong rule, no deadline/recovery regression, and no lower attainment of requested revisions. Tie or merely schema accuracy improvement is insufficient; small constructed group never supports general claim.",
+  "stop": "One prospective16call/144intervalgroup. No retries,prompt tuning,new training,complex preview or automatic expansion. Original interfaces and historic budgets untouched."
+}
