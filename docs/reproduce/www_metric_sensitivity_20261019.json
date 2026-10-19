@@ -1,0 +1,126 @@
+{
+  "schema": "www.metric_sensitivity/1",
+  "purpose": "Reformat existing paired comparisons without new statistics.",
+  "intervals": "Stored paired bootstrap 95% intervals, reused unchanged at full precision.",
+  "sources": {
+    "T1": {
+      "path": "docs/reproduce/converter_fix_20261001_compile_comparison.json",
+      "sha256": "e3b1a2344c6eea836e10da0c730e8e5e49028be96441c59637e0ee15f6837ad7"
+    },
+    "T2": {
+      "path": "docs/reproduce/revision_scenario_20261011_compile_comparison.json",
+      "sha256": "57b1985fe890eee6fdaeedb2b88e5520dc69b9027ac41725c4e7a9cd0bb4880b"
+    }
+  },
+  "limitations": [
+    "Post-hoc presentation of saved metrics; no new predictions, scoring, bootstrap, or experiments.",
+    "All differences are Qwen2.5 7B extract minus the hand rule (T1) or keyword-augmented rule (T2).",
+    "T1 all-available scoring requires both boundaries for 159 notices and only the start for 81 notices.",
+    "T1 intervals are provider-clustered; T2 intervals are notice-clustered and do not estimate transfer to new providers.",
+    "The two T1 rows use the same 240 notices; start-only is a metric, not the 81-notice subset lacking an end reference.",
+    "Metric sensitivity does not distinguish reading errors from automatic-reference errors or validate semantic truth.",
+    "No inference is made about unreported thresholds or separate scores for the 159/81 reference subsets."
+  ],
+  "rows": [
+    {
+      "task": "T1",
+      "metric": "start only",
+      "tolerance_minutes": 2,
+      "n": 240,
+      "denominator_unit": "notices",
+      "arms": [
+        "7b_extract_fix",
+        "rule"
+      ],
+      "counts": [
+        198,
+        189
+      ],
+      "source_pair": "7b_extract_fix vs rule, start",
+      "wins": 13,
+      "losses": 4,
+      "delta": 0.0375,
+      "ci95": [
+        -0.0211864406779661,
+        0.12380952380952381
+      ],
+      "cluster_unit": "provider",
+      "tex_label": "T1: start"
+    },
+    {
+      "task": "T1",
+      "metric": "all available boundaries",
+      "tolerance_minutes": 2,
+      "n": 240,
+      "denominator_unit": "notices",
+      "arms": [
+        "7b_extract_fix",
+        "rule"
+      ],
+      "counts": [
+        173,
+        154
+      ],
+      "source_pair": "7b_extract_fix vs rule, window",
+      "wins": 23,
+      "losses": 4,
+      "delta": 0.07916666666666666,
+      "ci95": [
+        0.012861736334405145,
+        0.19111111111111112
+      ],
+      "cluster_unit": "provider",
+      "tex_label": "T1: available"
+    },
+    {
+      "task": "T2",
+      "metric": "strict boundary",
+      "tolerance_minutes": 2,
+      "n": 146,
+      "denominator_unit": "revision boundary targets",
+      "arms": [
+        "qwen7b_extract",
+        "rule_kw"
+      ],
+      "counts": [
+        43,
+        31
+      ],
+      "source_pair": "qwen7b_extract vs rule_kw, bound strict",
+      "wins": 16,
+      "losses": 4,
+      "delta": 0.0821917808219178,
+      "ci95": [
+        0.02,
+        0.1506849315068493
+      ],
+      "cluster_unit": "notice",
+      "tex_label": "T2: $\\pm2$ min"
+    },
+    {
+      "task": "T2",
+      "metric": "loose boundary",
+      "tolerance_minutes": 60,
+      "n": 146,
+      "denominator_unit": "revision boundary targets",
+      "arms": [
+        "qwen7b_extract",
+        "rule_kw"
+      ],
+      "counts": [
+        95,
+        94
+      ],
+      "source_pair": "qwen7b_extract vs rule_kw, bound loose",
+      "wins": 16,
+      "losses": 15,
+      "delta": 0.00684931506849315,
+      "ci95": [
+        -0.072992700729927,
+        0.08783783783783784
+      ],
+      "cluster_unit": "notice",
+      "tex_label": "T2: $\\pm60$ min"
+    }
+  ]
+}

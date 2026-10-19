@@ -1,0 +1,193 @@
+{
+ "schema": "vera.frozen_protocol/1",
+ "status": "DESIGN_FROZEN with amendments A and B adopted (2026-09-23) and amendment D adopted (2026-09-25, inside the window, before any formal execution); execution gated on corpus freeze receipt; not started",
+ "window": {
+  "start": "2026-09-24",
+  "end": "2026-10-08",
+  "rule": "no task, metric, arm, prompt, grid, budget or parser change inside the window; a bug fix is recorded in the record and forces a full rerun of every arm"
+ },
+ "one_task": {
+  "name": "ledger v2 obligation closed loop with open administrator requests, including release-time estimates",
+  "services": [
+   "query",
+   "video",
+   "backup"
+  ],
+  "base_ledger_from": "data/open_requests/scenario_cards.json#base_ledger",
+  "episode": "12 native intervals; single request at tick 2; sequence at ticks 2 and 7; pair (release-time statement then backup latency request) at ticks 2 and 4; the conference actually ends at the release tick stated on the scenario card (default 10), backup 4 MB deadline tick 8, recovery within 2 intervals",
+  "input_corpus": "data/open_requests/corpus.json frozen by docs/reproduce/open_requests_freeze_<date>.json; eligible in_schema_single, in_schema_sequence and in_schema_pair items enter the primary comparison; beyond_schema items are reported as coverage gaps",
+  "world_seed": "sha256(item id) modulo 2^31; one seed per item; identical for all arms",
+  "runner_lineage": "scripts/run_frozen_protocol.py; executor src/vera/frozen_protocol.py; ledger src/vera/obligation_ledger.py; planner src/vera/obligation_planner.py; admission assess_timed over src/vera/obligation_static_rule.py; language interfaces src/vera/revision_v2.py; SHA of each pinned at STARTED time",
+  "ledger": "obligation_ledger v2: six QoS fields, backup.deadline total_bytes/deadline_tick, recovery.max_intervals, priority.order, release_estimate.earliest_tick; one field per message",
+  "admission": "static_estimate: static feasibility rule whose recovery check holds the candidate configuration until the administrator-stated earliest release tick and requires the real escape certificate to fit the recovery window; without an estimate it is the plain static rule",
+  "planner": "obligation_planner: same candidates and safety layer as the frozen planner; priority-weighted violations, deadline as required rate, recovery-window cap count"
+ },
+ "one_metric": {
+  "name": "administrator_obligation_satisfaction",
+  "definition": "fraction of native intervals in the episode in which every obligation valid at that interval according to the independent annotation (base ledger plus each annotated reference request from its message tick onward) is met by realised QoS; a request that an arm rejects, defers or misparses leaves its obligation unmet from its message tick; hard-SLA violations make the interval unmet",
+  "paired": "per corpus item, difference arm minus rule",
+  "secondary_reported_not_decisive": [
+   "parse agreement with annotation",
+   "deferred/rejected count",
+   "deadline bytes shortfall",
+   "recovery intervals",
+   "edits",
+   "compile ms",
+   "numeric proposal ms"
+  ]
+ },
+ "arms": {
+  "rule": "src/vera/revision_v2.py rule_request: transparent same-information rule written before any corpus item existed; covers the six QoS fields, deadline tick/bytes, recovery window, priority order and release-time estimates (relative/absolute, approximate wording minus one tick); abstains otherwise",
+  "qwen7b_two_stage_lenient": "DECISIVE language arm (amendment A, 2026-09-23): frozen Qwen2.5-7B-Instruct, two-stage compilation - stage 1 picks the obligation type from the closed list of all ledger v2 obligation types plus none, stage 2 returns only the value; engine patches the ledger; stage-1 decoding accepts a bare closed-list identifier without quotes; 2 calls per message; no prompt edits inside the window",
+  "qwen1p5b_two_stage_lenient": "frozen Qwen2.5-1.5B-Instruct, identical two-stage prompts and budgets; small pretrained LM comparator",
+  "qwen7b_full_rebuild": "ABLATION, not decisive: one-stage full-ledger rebuild with the ledger v2 prompt",
+  "annotated_oracle": "annotation reference requests fed directly; extra-information ceiling, never a comparator for the language claim"
+ },
+ "sample_size": {
+  "minimum_paired_items": 30,
+  "rule": "if the freeze receipt has fewer than 30 eligible in_schema items the protocol does not start; no synthetic padding"
+ },
+ "budgets": {
+  "model_calls_per_episode_per_lm_arm": 4,
+  "max_new_tokens": 768,
+  "max_input_tokens": 4096,
+  "compile_seconds": 15,
+  "proposal_ms": 850,
+  "ack_ms": 1000,
+  "native_intervals_per_episode": 12,
+  "unchanged": "850/1000 ms numeric budgets and 6/2/5/2/8 operational limits as in contracts/multiservice_comparison_20260911.json",
+  "cell_seconds": 180,
+  "maximum_model_calls": 400
+ },
+ "infrastructure_ledger": {
+  "infrastructure_failure": [
+   "model weights fail to load",
+   "CUDA OOM before first token",
+   "ns-3 build or IPC handshake error",
+   "SSH or filesystem error",
+   "process killed by host"
+  ],
+  "handling": "log to runs/<group>/infrastructure.jsonl, retry the identical cell up to 2 times, never count as a scientific result",
+  "scientific_failure": [
+   "unparseable or schema-violating model output",
+   "generation exceeding compile budget",
+   "planner returns no certified action"
+  ],
+  "handling_scientific": "count as unmet from the message tick; no retry; no prompt change",
+  "max_retries": 2
+ },
+ "analysis": {
+  "estimator": "mean paired difference of administrator_obligation_satisfaction, arm minus rule, over eligible items",
+  "uncertainty": "percentile bootstrap over items, 10000 resamples, seed 0, 95% interval",
+  "advance": "lower bound of qwen7b_two_stage_lenient minus rule > 0 AND no increase in hard-SLA violation intervals AND deadline shortfall not worse AND (amendment D) recovery violation intervals of qwen7b_two_stage_lenient, summed over the paired items, not above the rule arm; the mean satisfaction may not compensate a deadline or recovery regression; report qwen1p5b_two_stage_lenient minus rule and qwen7b_full_rebuild minus rule alongside; parity of 1.5B with 7B is not evidence against language value",
+  "tie": "if the interval covers 0 write the tie up as the result and stop; do not pivot, re-prompt or add arms before 2026-10-08",
+  "negative": "if rule beats qwen7b_two_stage_lenient with lower bound > 0 the language claim on this task is closed",
+  "resamples": 10000,
+  "seed": 0,
+  "decisive_arm": "qwen7b_two_stage_lenient",
+  "gates": {
+   "hard_sla": "sum of hard-SLA violation intervals, decisive arm <= rule, over paired items",
+   "deadline": "deadline misses and summed shortfall bytes, decisive arm <= rule, deadline judged on the observation at state tick D",
+   "recovery": "amendment D: sum of recovery violation intervals, decisive arm <= rule",
+   "failed_gate": "decision \"blocked\"; the mean difference is reported but does not advance"
+  }
+ },
+ "host": "Ubuntu RTX PRO 6000 only; Mac for editing and audits",
+ "reporting": "per AGENTS 2026-09-19 rule: explicit next-step recommendation, what to keep, what to change and why, smallest useful next experiment, evidence for advance or stop",
+ "prerequisites": [
+  "docs/reproduce/open_requests_freeze_<date>.json exists with eligible_in_schema >= 30",
+  "SSH key access to the Ubuntu host established by the user",
+  "STARTED entry with pinned SHAs"
+ ],
+ "diagnostic_basis": "docs/reproduce/decision_space_results_20260923.md: 64/182 archived planner states change action under single-field delay revisions, almost always by rerouting query or video; min_mbps, deadline, recovery and priority dimensions have zero action-level decision space in the frozen planner; docs/reproduce/release_estimate_results_20260923.md and two_stage_results_20260923.md motivate amendment B (agent-authored pilot evidence only)",
+ "base_ledger": {
+  "version": 1,
+  "epoch_tick": 0,
+  "obligations": {
+   "query.qos": {
+    "service": "query",
+    "delay_ms": 40,
+    "min_mbps": 1.8,
+    "release_event": "ended"
+   },
+   "video.qos": {
+    "service": "video",
+    "delay_ms": 25,
+    "min_mbps": 3.6,
+    "release_event": "ended"
+   },
+   "backup.qos": {
+    "service": "backup",
+    "delay_ms": 40,
+    "min_mbps": 3.8,
+    "release_event": "ended"
+   },
+   "backup.deadline": {
+    "service": "backup",
+    "total_bytes": 4000000,
+    "deadline_tick": 8
+   },
+   "recovery": {
+    "target": "all_caps_removed",
+    "condition_events": [
+     "ended"
+    ],
+    "max_intervals": 2
+   }
+  }
+ },
+ "ticks": 12,
+ "release_tick": 10,
+ "request_ticks_single": [
+  2
+ ],
+ "request_ticks_sequence": [
+  2,
+  7
+ ],
+ "runner": "scripts/run_frozen_protocol.py --native real --corpus data/open_requests/corpus.json --receipt docs/reproduce/open_requests_freeze_<date>.json --arm rule --arm qwen7b_two_stage_lenient --arm qwen1p5b_two_stage_lenient --arm qwen7b_full_rebuild --arm annotated_oracle --ledger v2 --planner obligation --admission static_estimate",
+ "metric_implementation": "frozen_protocol.interval_met on the annotated ledger v2: hard SLA; every unreleased qos obligation; backup deadline at its deadline tick; recovery from the card release tick + max_intervals - 1; aborted intervals unmet; release_estimate and priority are not scored obligations (priority enters the secondary weighted metric only)",
+ "request_ticks_triple": [
+  2,
+  4,
+  7
+ ],
+ "request_ticks_pair": [
+  2,
+  4
+ ],
+ "amendments": [
+  {
+   "id": "A",
+   "date": "2026-09-23",
+   "status": "ADOPTED before the window",
+   "change": "language arms replaced by two-stage compilation with lenient stage-1 decoding; one-stage full rebuild kept as ablation; per-episode LM call cap 2 -> 4; decisive comparison qwen7b_two_stage_lenient minus rule",
+   "basis": "docs/reproduce/two_stage_results_20260923.md: on the agent-authored release-estimate pilot the one-stage 7B bound 0/20 estimates to the right obligation and scored 0.646; two-stage lenient bound 40/40 and matched the annotated ceiling 0.812 (rule 0.742). Pilot evidence only; the amendment fixes an arm definition, not a result.",
+   "unchanged": "task (ledger v1, six QoS fields), metric, sample size, window, infrastructure ledger, rule and oracle arms, all budgets except the LM call cap"
+  },
+  {
+   "id": "B",
+   "date": "2026-09-23",
+   "status": "ADOPTED before the window (user decision 2026-09-23)",
+   "change": "switch the task to ledger v2 with the release_estimate obligation, admission static_estimate and the obligation-aware planner; corpus categories to include release-time statements paired with a backup latency request; metric unchanged",
+   "basis": "docs/reproduce/decision_space_results_20260923.md predicts that on the v1 task language can only change actions through a delay threshold, so a tie with the rule is the likely outcome; docs/reproduce/release_estimate_results_20260923.md and two_stage_results_20260923.md show a channel where language information changes realised outcomes and telemetry-only policies cannot (pilot evidence, agent-authored corpus).",
+   "risk": "v2 machinery has only agent-authored pilot evidence; adopting B changes the task, which the protocol forbids inside the window, hence it must be decided before the window starts",
+   "unchanged": "metric, sample size (>=30 eligible items), window, bootstrap decision rules, infrastructure ledger, budgets; the language arms of amendment A",
+   "corpus": "scenario cards C15-C18 give the true conference end minute; the author states their own expectation in their own words at minute 2 and then asks for backup latency; annotators record earliest_tick; the true end minute never comes from the author"
+  },
+  {
+   "id": "D",
+   "date": "2026-09-25",
+   "status": "ADOPTED inside the window (user decision 2026-09-25), before any formal execution",
+   "change": "advance additionally requires the recovery violation intervals of the decisive arm, summed over the paired items, not to exceed the rule arm; the mean satisfaction may not compensate a deadline or recovery regression; the hard-SLA and deadline conditions already in the advance clause are executed as gates (decision \"blocked\" when any gate fails)",
+   "basis": "docs/reproduce/anticipatory_feasibility_review_20260924.md section 3.2 and docs/reproduce/fixes108_release_diagnostic_20260924.md section 2: on the agent-authored rehearsal (ineligible) the decisive arm gained +0.037 [+0.002, +0.081] with 12 recovery violation intervals against the rule arm's 6, which the pre-D clause would have read as advance",
+   "window_note": "the window rule forbids protocol changes inside 2026-09-24..2026-10-08; D changes the decision rule after the window opened. No formal run exists (execution is gated on a corpus freeze receipt that has not been issued), so no result is re-decided and nothing needs rerunning. This is recorded, not hidden.",
+   "related_fixes": "bug fixes recorded 2026-09-24 that apply to any run: deadline judged on the observation at state tick D (commit 580f7265; archived cells audited in runs/deadline_rescore_20260924, 8 of 2,424 cells change); decisive arm read from analysis.decisive_arm instead of a hard-coded qwen7b_full_rebuild",
+   "implementation": "src/vera/frozen_protocol.py analyse(): recovery gate applied when this contract lists amendment D as ADOPTED",
+   "unchanged": "task, metric, arms, sample size, window dates, budgets, bootstrap settings, infrastructure ledger, amendments A and B"
+  }
+ ],
+ "ledger": "v2",
+ "planner": "obligation",
+ "admission": "static_estimate"
+}

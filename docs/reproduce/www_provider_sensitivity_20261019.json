@@ -1,0 +1,753 @@
+{
+  "schema_version": 1,
+  "analysis_date": "2026-10-19",
+  "status": "post-hoc descriptive sensitivity",
+  "generated_at_utc": "2026-10-19T08:29:04.496824+00:00",
+  "inputs": {
+    "t1": {
+      "path": "paper_www2027/tables/per_provider_body.tex",
+      "sha256": "548d5c31bc17a42d59d9c1703352dc7622a3a3865b324aa296f1726c923782c9"
+    },
+    "t3": {
+      "path": "docs/reproduce/sota_baselines_20261015_affected_comparison.json",
+      "sha256": "e0d3c2566608743f90c82b7a6f87966933c68e498b59e42fbbd3beb02838ded0"
+    }
+  },
+  "script_sha256": "1bb311c8fe610d055b1b9413b96118c0f7f1e36d1fcdca7b61800e5417d0ab6e",
+  "definitions": {
+    "micro": "notice-weighted accuracy difference",
+    "macro": "equal-provider mean accuracy difference",
+    "omission": "remaining micro difference after omitting one provider; not a CI or new CV"
+  },
+  "comparisons": [
+    {
+      "task": "T1",
+      "comparator": "rule",
+      "n": 240,
+      "providers": 15,
+      "qwen7b_correct": 173,
+      "baseline_correct": 154,
+      "micro_qwen7b": 0.7208333333333333,
+      "micro_baseline": 0.6416666666666667,
+      "micro_delta": 0.07916666666666666,
+      "macro_qwen7b": 0.6575292397660819,
+      "macro_baseline": 0.6097190129796035,
+      "macro_delta": 0.047810226786478394,
+      "provider_signs": {
+        "positive": 5,
+        "zero": 9,
+        "negative": 1
+      },
+      "per_provider": [
+        {
+          "provider": "imperva.com",
+          "n": 54,
+          "qwen7b_correct": 47,
+          "baseline_correct": 47,
+          "qwen7b_rate": 0.8703703703703703,
+          "baseline_rate": 0.8703703703703703,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "twilio.com",
+          "n": 41,
+          "qwen7b_correct": 41,
+          "baseline_correct": 40,
+          "qwen7b_rate": 1.0,
+          "baseline_rate": 0.975609756097561,
+          "delta_count": 1,
+          "delta": 0.024390243902439025
+        },
+        {
+          "provider": "scaleway.com",
+          "n": 38,
+          "qwen7b_correct": 13,
+          "baseline_correct": 9,
+          "qwen7b_rate": 0.34210526315789475,
+          "baseline_rate": 0.23684210526315788,
+          "delta_count": 4,
+          "delta": 0.10526315789473684
+        },
+        {
+          "provider": "upcloud.com",
+          "n": 27,
+          "qwen7b_correct": 20,
+          "baseline_correct": 20,
+          "qwen7b_rate": 0.7407407407407407,
+          "baseline_rate": 0.7407407407407407,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "linode.com",
+          "n": 18,
+          "qwen7b_correct": 13,
+          "baseline_correct": 13,
+          "qwen7b_rate": 0.7222222222222222,
+          "baseline_rate": 0.7222222222222222,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "wasabi.com",
+          "n": 16,
+          "qwen7b_correct": 11,
+          "baseline_correct": 11,
+          "qwen7b_rate": 0.6875,
+          "baseline_rate": 0.6875,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "epicgames.com",
+          "n": 16,
+          "qwen7b_correct": 8,
+          "baseline_correct": 1,
+          "qwen7b_rate": 0.5,
+          "baseline_rate": 0.0625,
+          "delta_count": 7,
+          "delta": 0.4375
+        },
+        {
+          "provider": "plivo.com",
+          "n": 8,
+          "qwen7b_correct": 8,
+          "baseline_correct": 2,
+          "qwen7b_rate": 1.0,
+          "baseline_rate": 0.25,
+          "delta_count": 6,
+          "delta": 0.75
+        },
+        {
+          "provider": "dropbox.com",
+          "n": 5,
+          "qwen7b_correct": 1,
+          "baseline_correct": 1,
+          "qwen7b_rate": 0.2,
+          "baseline_rate": 0.2,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "bunny.net",
+          "n": 5,
+          "qwen7b_correct": 4,
+          "baseline_correct": 2,
+          "qwen7b_rate": 0.8,
+          "baseline_rate": 0.4,
+          "delta_count": 2,
+          "delta": 0.4
+        },
+        {
+          "provider": "segment.com",
+          "n": 4,
+          "qwen7b_correct": 3,
+          "baseline_correct": 3,
+          "qwen7b_rate": 0.75,
+          "baseline_rate": 0.75,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "render.com",
+          "n": 4,
+          "qwen7b_correct": 1,
+          "baseline_correct": 1,
+          "qwen7b_rate": 0.25,
+          "baseline_rate": 0.25,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "elastic.co",
+          "n": 2,
+          "qwen7b_correct": 2,
+          "baseline_correct": 2,
+          "qwen7b_rate": 1.0,
+          "baseline_rate": 1.0,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "mongodb.com",
+          "n": 1,
+          "qwen7b_correct": 1,
+          "baseline_correct": 1,
+          "qwen7b_rate": 1.0,
+          "baseline_rate": 1.0,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "frame.io",
+          "n": 1,
+          "qwen7b_correct": 0,
+          "baseline_correct": 1,
+          "qwen7b_rate": 0.0,
+          "baseline_rate": 1.0,
+          "delta_count": -1,
+          "delta": -1.0
+        }
+      ],
+      "leave_one_provider_out": [
+        {
+          "omitted_provider": "imperva.com",
+          "omitted_n": 54,
+          "remaining_n": 186,
+          "remaining_qwen7b_correct": 126,
+          "remaining_baseline_correct": 107,
+          "delta": 0.10215053763440861
+        },
+        {
+          "omitted_provider": "twilio.com",
+          "omitted_n": 41,
+          "remaining_n": 199,
+          "remaining_qwen7b_correct": 132,
+          "remaining_baseline_correct": 114,
+          "delta": 0.09045226130653267
+        },
+        {
+          "omitted_provider": "scaleway.com",
+          "omitted_n": 38,
+          "remaining_n": 202,
+          "remaining_qwen7b_correct": 160,
+          "remaining_baseline_correct": 145,
+          "delta": 0.07425742574257425
+        },
+        {
+          "omitted_provider": "upcloud.com",
+          "omitted_n": 27,
+          "remaining_n": 213,
+          "remaining_qwen7b_correct": 153,
+          "remaining_baseline_correct": 134,
+          "delta": 0.0892018779342723
+        },
+        {
+          "omitted_provider": "linode.com",
+          "omitted_n": 18,
+          "remaining_n": 222,
+          "remaining_qwen7b_correct": 160,
+          "remaining_baseline_correct": 141,
+          "delta": 0.08558558558558559
+        },
+        {
+          "omitted_provider": "wasabi.com",
+          "omitted_n": 16,
+          "remaining_n": 224,
+          "remaining_qwen7b_correct": 162,
+          "remaining_baseline_correct": 143,
+          "delta": 0.08482142857142858
+        },
+        {
+          "omitted_provider": "epicgames.com",
+          "omitted_n": 16,
+          "remaining_n": 224,
+          "remaining_qwen7b_correct": 165,
+          "remaining_baseline_correct": 153,
+          "delta": 0.05357142857142857
+        },
+        {
+          "omitted_provider": "plivo.com",
+          "omitted_n": 8,
+          "remaining_n": 232,
+          "remaining_qwen7b_correct": 165,
+          "remaining_baseline_correct": 152,
+          "delta": 0.05603448275862069
+        },
+        {
+          "omitted_provider": "dropbox.com",
+          "omitted_n": 5,
+          "remaining_n": 235,
+          "remaining_qwen7b_correct": 172,
+          "remaining_baseline_correct": 153,
+          "delta": 0.08085106382978724
+        },
+        {
+          "omitted_provider": "bunny.net",
+          "omitted_n": 5,
+          "remaining_n": 235,
+          "remaining_qwen7b_correct": 169,
+          "remaining_baseline_correct": 152,
+          "delta": 0.07234042553191489
+        },
+        {
+          "omitted_provider": "segment.com",
+          "omitted_n": 4,
+          "remaining_n": 236,
+          "remaining_qwen7b_correct": 170,
+          "remaining_baseline_correct": 151,
+          "delta": 0.08050847457627118
+        },
+        {
+          "omitted_provider": "render.com",
+          "omitted_n": 4,
+          "remaining_n": 236,
+          "remaining_qwen7b_correct": 172,
+          "remaining_baseline_correct": 153,
+          "delta": 0.08050847457627118
+        },
+        {
+          "omitted_provider": "elastic.co",
+          "omitted_n": 2,
+          "remaining_n": 238,
+          "remaining_qwen7b_correct": 171,
+          "remaining_baseline_correct": 152,
+          "delta": 0.07983193277310924
+        },
+        {
+          "omitted_provider": "mongodb.com",
+          "omitted_n": 1,
+          "remaining_n": 239,
+          "remaining_qwen7b_correct": 172,
+          "remaining_baseline_correct": 153,
+          "delta": 0.0794979079497908
+        },
+        {
+          "omitted_provider": "frame.io",
+          "omitted_n": 1,
+          "remaining_n": 239,
+          "remaining_qwen7b_correct": 173,
+          "remaining_baseline_correct": 153,
+          "delta": 0.08368200836820083
+        }
+      ],
+      "leave_one_provider_out_range": {
+        "min": 0.05357142857142857,
+        "max": 0.10215053763440861,
+        "min_omitted_providers": [
+          "epicgames.com"
+        ],
+        "max_omitted_providers": [
+          "imperva.com"
+        ]
+      }
+    },
+    {
+      "task": "T1",
+      "comparator": "sutime",
+      "n": 240,
+      "providers": 15,
+      "qwen7b_correct": 173,
+      "baseline_correct": 105,
+      "micro_qwen7b": 0.7208333333333333,
+      "micro_baseline": 0.4375,
+      "micro_delta": 0.2833333333333333,
+      "macro_qwen7b": 0.6575292397660819,
+      "macro_baseline": 0.5122969064485966,
+      "macro_delta": 0.14523233331748522,
+      "provider_signs": {
+        "positive": 8,
+        "zero": 6,
+        "negative": 1
+      },
+      "per_provider": [
+        {
+          "provider": "imperva.com",
+          "n": 54,
+          "qwen7b_correct": 47,
+          "baseline_correct": 47,
+          "qwen7b_rate": 0.8703703703703703,
+          "baseline_rate": 0.8703703703703703,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "twilio.com",
+          "n": 41,
+          "qwen7b_correct": 41,
+          "baseline_correct": 1,
+          "qwen7b_rate": 1.0,
+          "baseline_rate": 0.024390243902439025,
+          "delta_count": 40,
+          "delta": 0.975609756097561
+        },
+        {
+          "provider": "scaleway.com",
+          "n": 38,
+          "qwen7b_correct": 13,
+          "baseline_correct": 8,
+          "qwen7b_rate": 0.34210526315789475,
+          "baseline_rate": 0.21052631578947367,
+          "delta_count": 5,
+          "delta": 0.13157894736842105
+        },
+        {
+          "provider": "upcloud.com",
+          "n": 27,
+          "qwen7b_correct": 20,
+          "baseline_correct": 15,
+          "qwen7b_rate": 0.7407407407407407,
+          "baseline_rate": 0.5555555555555556,
+          "delta_count": 5,
+          "delta": 0.18518518518518517
+        },
+        {
+          "provider": "linode.com",
+          "n": 18,
+          "qwen7b_correct": 13,
+          "baseline_correct": 11,
+          "qwen7b_rate": 0.7222222222222222,
+          "baseline_rate": 0.6111111111111112,
+          "delta_count": 2,
+          "delta": 0.1111111111111111
+        },
+        {
+          "provider": "wasabi.com",
+          "n": 16,
+          "qwen7b_correct": 11,
+          "baseline_correct": 10,
+          "qwen7b_rate": 0.6875,
+          "baseline_rate": 0.625,
+          "delta_count": 1,
+          "delta": 0.0625
+        },
+        {
+          "provider": "epicgames.com",
+          "n": 16,
+          "qwen7b_correct": 8,
+          "baseline_correct": 1,
+          "qwen7b_rate": 0.5,
+          "baseline_rate": 0.0625,
+          "delta_count": 7,
+          "delta": 0.4375
+        },
+        {
+          "provider": "plivo.com",
+          "n": 8,
+          "qwen7b_correct": 8,
+          "baseline_correct": 1,
+          "qwen7b_rate": 1.0,
+          "baseline_rate": 0.125,
+          "delta_count": 7,
+          "delta": 0.875
+        },
+        {
+          "provider": "dropbox.com",
+          "n": 5,
+          "qwen7b_correct": 1,
+          "baseline_correct": 1,
+          "qwen7b_rate": 0.2,
+          "baseline_rate": 0.2,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "bunny.net",
+          "n": 5,
+          "qwen7b_correct": 4,
+          "baseline_correct": 2,
+          "qwen7b_rate": 0.8,
+          "baseline_rate": 0.4,
+          "delta_count": 2,
+          "delta": 0.4
+        },
+        {
+          "provider": "segment.com",
+          "n": 4,
+          "qwen7b_correct": 3,
+          "baseline_correct": 3,
+          "qwen7b_rate": 0.75,
+          "baseline_rate": 0.75,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "render.com",
+          "n": 4,
+          "qwen7b_correct": 1,
+          "baseline_correct": 1,
+          "qwen7b_rate": 0.25,
+          "baseline_rate": 0.25,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "elastic.co",
+          "n": 2,
+          "qwen7b_correct": 2,
+          "baseline_correct": 2,
+          "qwen7b_rate": 1.0,
+          "baseline_rate": 1.0,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "mongodb.com",
+          "n": 1,
+          "qwen7b_correct": 1,
+          "baseline_correct": 1,
+          "qwen7b_rate": 1.0,
+          "baseline_rate": 1.0,
+          "delta_count": 0,
+          "delta": 0.0
+        },
+        {
+          "provider": "frame.io",
+          "n": 1,
+          "qwen7b_correct": 0,
+          "baseline_correct": 1,
+          "qwen7b_rate": 0.0,
+          "baseline_rate": 1.0,
+          "delta_count": -1,
+          "delta": -1.0
+        }
+      ],
+      "leave_one_provider_out": [
+        {
+          "omitted_provider": "imperva.com",
+          "omitted_n": 54,
+          "remaining_n": 186,
+          "remaining_qwen7b_correct": 126,
+          "remaining_baseline_correct": 58,
+          "delta": 0.3655913978494624
+        },
+        {
+          "omitted_provider": "twilio.com",
+          "omitted_n": 41,
+          "remaining_n": 199,
+          "remaining_qwen7b_correct": 132,
+          "remaining_baseline_correct": 104,
+          "delta": 0.1407035175879397
+        },
+        {
+          "omitted_provider": "scaleway.com",
+          "omitted_n": 38,
+          "remaining_n": 202,
+          "remaining_qwen7b_correct": 160,
+          "remaining_baseline_correct": 97,
+          "delta": 0.3118811881188119
+        },
+        {
+          "omitted_provider": "upcloud.com",
+          "omitted_n": 27,
+          "remaining_n": 213,
+          "remaining_qwen7b_correct": 153,
+          "remaining_baseline_correct": 90,
+          "delta": 0.29577464788732394
+        },
+        {
+          "omitted_provider": "linode.com",
+          "omitted_n": 18,
+          "remaining_n": 222,
+          "remaining_qwen7b_correct": 160,
+          "remaining_baseline_correct": 94,
+          "delta": 0.2972972972972973
+        },
+        {
+          "omitted_provider": "wasabi.com",
+          "omitted_n": 16,
+          "remaining_n": 224,
+          "remaining_qwen7b_correct": 162,
+          "remaining_baseline_correct": 95,
+          "delta": 0.29910714285714285
+        },
+        {
+          "omitted_provider": "epicgames.com",
+          "omitted_n": 16,
+          "remaining_n": 224,
+          "remaining_qwen7b_correct": 165,
+          "remaining_baseline_correct": 104,
+          "delta": 0.27232142857142855
+        },
+        {
+          "omitted_provider": "plivo.com",
+          "omitted_n": 8,
+          "remaining_n": 232,
+          "remaining_qwen7b_correct": 165,
+          "remaining_baseline_correct": 104,
+          "delta": 0.2629310344827586
+        },
+        {
+          "omitted_provider": "dropbox.com",
+          "omitted_n": 5,
+          "remaining_n": 235,
+          "remaining_qwen7b_correct": 172,
+          "remaining_baseline_correct": 104,
+          "delta": 0.28936170212765955
+        },
+        {
+          "omitted_provider": "bunny.net",
+          "omitted_n": 5,
+          "remaining_n": 235,
+          "remaining_qwen7b_correct": 169,
+          "remaining_baseline_correct": 103,
+          "delta": 0.28085106382978725
+        },
+        {
+          "omitted_provider": "segment.com",
+          "omitted_n": 4,
+          "remaining_n": 236,
+          "remaining_qwen7b_correct": 170,
+          "remaining_baseline_correct": 102,
+          "delta": 0.288135593220339
+        },
+        {
+          "omitted_provider": "render.com",
+          "omitted_n": 4,
+          "remaining_n": 236,
+          "remaining_qwen7b_correct": 172,
+          "remaining_baseline_correct": 104,
+          "delta": 0.288135593220339
+        },
+        {
+          "omitted_provider": "elastic.co",
+          "omitted_n": 2,
+          "remaining_n": 238,
+          "remaining_qwen7b_correct": 171,
+          "remaining_baseline_correct": 103,
+          "delta": 0.2857142857142857
+        },
+        {
+          "omitted_provider": "mongodb.com",
+          "omitted_n": 1,
+          "remaining_n": 239,
+          "remaining_qwen7b_correct": 172,
+          "remaining_baseline_correct": 104,
+          "delta": 0.28451882845188287
+        },
+        {
+          "omitted_provider": "frame.io",
+          "omitted_n": 1,
+          "remaining_n": 239,
+          "remaining_qwen7b_correct": 173,
+          "remaining_baseline_correct": 104,
+          "delta": 0.28870292887029286
+        }
+      ],
+      "leave_one_provider_out_range": {
+        "min": 0.1407035175879397,
+        "max": 0.3655913978494624,
+        "min_omitted_providers": [
+          "twilio.com"
+        ],
+        "max_omitted_providers": [
+          "imperva.com"
+        ]
+      }
+    },
+    {
+      "task": "T3",
+      "comparator": "rapidfuzz",
+      "n": 805,
+      "providers": 5,
+      "qwen7b_correct": 766,
+      "baseline_correct": 729,
+      "micro_qwen7b": 0.9515527950310559,
+      "micro_baseline": 0.9055900621118013,
+      "micro_delta": 0.04596273291925466,
+      "macro_qwen7b": 0.8379647204613407,
+      "macro_baseline": 0.7821069018589069,
+      "macro_delta": 0.05585781860243397,
+      "provider_signs": {
+        "positive": 3,
+        "zero": 0,
+        "negative": 2
+      },
+      "per_provider": [
+        {
+          "provider": "imperva.com",
+          "n": 335,
+          "qwen7b_correct": 321,
+          "baseline_correct": 329,
+          "qwen7b_rate": 0.9582089552238806,
+          "baseline_rate": 0.982089552238806,
+          "delta_count": -8,
+          "delta": -0.023880597014925373
+        },
+        {
+          "provider": "linode.com",
+          "n": 304,
+          "qwen7b_correct": 299,
+          "baseline_correct": 294,
+          "qwen7b_rate": 0.9835526315789473,
+          "baseline_rate": 0.9671052631578947,
+          "delta_count": 5,
+          "delta": 0.01644736842105263
+        },
+        {
+          "provider": "upcloud.com",
+          "n": 117,
+          "qwen7b_correct": 117,
+          "baseline_correct": 83,
+          "qwen7b_rate": 1.0,
+          "baseline_rate": 0.7094017094017094,
+          "delta_count": 34,
+          "delta": 0.2905982905982906
+        },
+        {
+          "provider": "wasabi.com",
+          "n": 43,
+          "qwen7b_correct": 25,
+          "baseline_correct": 18,
+          "qwen7b_rate": 0.5813953488372093,
+          "baseline_rate": 0.4186046511627907,
+          "delta_count": 7,
+          "delta": 0.16279069767441862
+        },
+        {
+          "provider": "scaleway.com",
+          "n": 6,
+          "qwen7b_correct": 4,
+          "baseline_correct": 5,
+          "qwen7b_rate": 0.6666666666666666,
+          "baseline_rate": 0.8333333333333334,
+          "delta_count": -1,
+          "delta": -0.16666666666666666
+        }
+      ],
+      "leave_one_provider_out": [
+        {
+          "omitted_provider": "imperva.com",
+          "omitted_n": 335,
+          "remaining_n": 470,
+          "remaining_qwen7b_correct": 445,
+          "remaining_baseline_correct": 400,
+          "delta": 0.09574468085106383
+        },
+        {
+          "omitted_provider": "linode.com",
+          "omitted_n": 304,
+          "remaining_n": 501,
+          "remaining_qwen7b_correct": 467,
+          "remaining_baseline_correct": 435,
+          "delta": 0.06387225548902195
+        },
+        {
+          "omitted_provider": "upcloud.com",
+          "omitted_n": 117,
+          "remaining_n": 688,
+          "remaining_qwen7b_correct": 649,
+          "remaining_baseline_correct": 646,
+          "delta": 0.00436046511627907
+        },
+        {
+          "omitted_provider": "wasabi.com",
+          "omitted_n": 43,
+          "remaining_n": 762,
+          "remaining_qwen7b_correct": 741,
+          "remaining_baseline_correct": 711,
+          "delta": 0.03937007874015748
+        },
+        {
+          "omitted_provider": "scaleway.com",
+          "omitted_n": 6,
+          "remaining_n": 799,
+          "remaining_qwen7b_correct": 762,
+          "remaining_baseline_correct": 724,
+          "delta": 0.04755944931163955
+        }
+      ],
+      "leave_one_provider_out_range": {
+        "min": 0.00436046511627907,
+        "max": 0.09574468085106383,
+        "min_omitted_providers": [
+          "upcloud.com"
+        ],
+        "max_omitted_providers": [
+          "imperva.com"
+        ]
+      }
+    }
+  ]
+}

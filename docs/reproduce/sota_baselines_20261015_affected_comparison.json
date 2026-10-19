@@ -1,0 +1,163 @@
+{
+ "n": 805,
+ "arms": {
+  "rule": {
+   "strict": 685,
+   "resolved": 685,
+   "by_site": {
+    "status.imperva.com": "315/335",
+    "status.linode.com": "274/304",
+    "status.scaleway.com": "3/6",
+    "status.upcloud.com": "77/117",
+    "status.wasabi.com": "16/43"
+   },
+   "start_ok": 725,
+   "end_ok": 337
+  },
+  "qwen7b_extract": {
+   "strict": 738,
+   "resolved": 766,
+   "by_site": {
+    "status.imperva.com": "321/335",
+    "status.linode.com": "299/304",
+    "status.scaleway.com": "4/6",
+    "status.upcloud.com": "117/117",
+    "status.wasabi.com": "25/43"
+   },
+   "start_ok": 739,
+   "end_ok": 355
+  },
+  "qwen72b_extract": {
+   "strict": 661,
+   "resolved": 777,
+   "by_site": {
+    "status.imperva.com": "321/335",
+    "status.linode.com": "302/304",
+    "status.scaleway.com": "5/6",
+    "status.upcloud.com": "116/117",
+    "status.wasabi.com": "33/43"
+   },
+   "start_ok": 739,
+   "end_ok": 360
+  },
+  "rapidfuzz": {
+   "strict": 729,
+   "resolved": 729,
+   "by_site": {
+    "status.imperva.com": "329/335",
+    "status.linode.com": "294/304",
+    "status.scaleway.com": "5/6",
+    "status.upcloud.com": "83/117",
+    "status.wasabi.com": "18/43"
+   },
+   "start_ok": 0,
+   "end_ok": 0
+  },
+  "embed_bge-small-en-v1.5": {
+   "strict": 728,
+   "resolved": 728,
+   "by_site": {
+    "status.imperva.com": "327/335",
+    "status.linode.com": "285/304",
+    "status.scaleway.com": "3/6",
+    "status.upcloud.com": "97/117",
+    "status.wasabi.com": "16/43"
+   },
+   "start_ok": 0,
+   "end_ok": 0
+  }
+ },
+ "pairs": {
+  "qwen7b_extract vs rule": {
+   "wins": 98,
+   "losses": 17,
+   "diff": 0.10062111801242236,
+   "site_ci": [
+    0.031724137931034485,
+    0.314878892733564
+   ],
+   "notice_ci": [
+    0.07577639751552795,
+    0.12546583850931678
+   ]
+  },
+  "qwen72b_extract vs rule": {
+   "wins": 105,
+   "losses": 13,
+   "diff": 0.11428571428571428,
+   "site_ci": [
+    0.03650190114068441,
+    0.3581395348837209
+   ],
+   "notice_ci": [
+    0.08819875776397515,
+    0.1391304347826087
+   ]
+  },
+  "qwen72b_extract vs qwen7b_extract": {
+   "wins": 12,
+   "losses": 1,
+   "diff": 0.013664596273291925,
+   "site_ci": [
+    -0.001098901098901099,
+    0.07906976744186046
+   ],
+   "notice_ci": [
+    0.004968944099378882,
+    0.02236024844720497
+   ]
+  },
+  "qwen7b_extract vs rapidfuzz": {
+   "wins": 58,
+   "losses": 21,
+   "diff": 0.04596273291925466,
+   "site_ci": [
+    -0.015209125475285171,
+    0.25259515570934254
+   ],
+   "notice_ci": [
+    0.024844720496894408,
+    0.0670807453416149
+   ]
+  },
+  "rapidfuzz vs rule": {
+   "wins": 55,
+   "losses": 11,
+   "diff": 0.0546583850931677,
+   "site_ci": [
+    0.043528064146620846,
+    0.07348242811501597
+   ],
+   "notice_ci": [
+    0.03602484472049689,
+    0.07453416149068323
+   ]
+  },
+  "qwen7b_extract vs embed_bge-small-en-v1.5": {
+   "wins": 59,
+   "losses": 21,
+   "diff": 0.04720496894409938,
+   "site_ci": [
+    -0.0022813688212927757,
+    0.18604651162790697
+   ],
+   "notice_ci": [
+    0.02608695652173913,
+    0.06956521739130435
+   ]
+  },
+  "embed_bge-small-en-v1.5 vs rule": {
+   "wins": 68,
+   "losses": 25,
+   "diff": 0.05341614906832298,
+   "site_ci": [
+    0.02553191489361702,
+    0.1384083044982699
+   ],
+   "notice_ci": [
+    0.031055900621118012,
+    0.07577639751552795
+   ]
+  }
+ }
+}

@@ -1,0 +1,190 @@
+{
+  "schema": "www.reading_cases/1",
+  "purpose": "Two condition-selected archival readings explaining reference agreement and mismatch, not semantic labels or accuracy estimates.",
+  "sources": {
+    "qwen7b_extract": {
+      "path": "runs/converter_fix_20261001/compile_test/qwen7b_extract.jsonl",
+      "sha256": "255a0d615c2e314eaffe2e8a92dc600b1518ca59d9a5bf890d1b30b945809e7c",
+      "bytes": 321564
+    },
+    "sutime_glue": {
+      "path": "runs/sota_baselines_20261015/time/ann_test_sutime_glue.jsonl",
+      "sha256": "bc59a37f002dbb13bab25742ac0d69cfa2813b06339a978b1d7abd28a9232cb9",
+      "bytes": 283740
+    }
+  },
+  "selection": {
+    "rule_document": "docs/reproduce/www_reading_cases_20261019_selection.md",
+    "rule_sha256": "4eea5cf25992361a79f2f2581125765885f000456994f9a60572000ae6e7442c",
+    "recorded_at_utc": "2026-10-19T12:14:00Z",
+    "common_ids": 240,
+    "order": "lexicographic common notice ID",
+    "rules": [
+      "first 7B available-reference match and SUTime mismatch",
+      "first 7B available-reference mismatch, regardless of SUTime"
+    ],
+    "outcome_based": true,
+    "replacements": 0
+  },
+  "limitations": [
+    "Examples are selected conditional on saved reference agreement; they do not estimate error frequency, accuracy, or causal effects.",
+    "Both first qualifying IDs happen to be from the same provider; no provider representativeness is claimed.",
+    "Automatic references are unchanged and not independently validated. A match need not imply correct transcription; a mismatch need not imply a reading error.",
+    "Only short original-text excerpts and saved model/tool outputs are public. Repeating selection and checking excerpt offsets against full text requires the original archived inputs.",
+    "Public-case verification checks only saved JSON, deterministic UTC/CEST conversion and frozen reference scoring; it does not rerun either reader or infer model reasoning.",
+    "SUTime has no stored model raw/extracted fields; their null values denote absent fields, not failed model calls."
+  ],
+  "cases": [
+    {
+      "role": "7B reference agreement; SUTime reference mismatch",
+      "id": "status.bunny.net/p0b83ch7b6rc",
+      "common_id_rank": 4,
+      "site": "status.bunny.net",
+      "posted_utc": "2024-11-04T17:25",
+      "text_sha256": "50c5e97bf11e9230517d43bb5554bd38c7067c01cec42583bfabc204055871e4",
+      "text_characters": 329,
+      "excerpt": {
+        "text": "this maintenance is scheduled to begin at 03:30 UTC on the 5th of November … We expect the maintenance  to result in no more than 2 hours of downtime for API services.",
+        "spans": [
+          {
+            "start": 73,
+            "end": 147,
+            "text": "this maintenance is scheduled to begin at 03:30 UTC on the 5th of November"
+          },
+          {
+            "start": 202,
+            "end": 292,
+            "text": "We expect the maintenance  to result in no more than 2 hours of downtime for API services."
+          }
+        ],
+        "offset_unit": "zero-based Unicode characters in the archived text; end exclusive"
+      },
+      "reference": {
+        "start_utc": "2024-11-05T03:30",
+        "end_utc": "2024-11-05T05:30"
+      },
+      "arms": {
+        "qwen7b_extract": {
+          "raw": "{\"date\": \"2024-11-05\", \"start\": \"03:30\", \"end\": \"05:30\", \"tz\": \"UTC\"}",
+          "extracted": {
+            "date": "2024-11-05",
+            "start": "03:30",
+            "end": "05:30",
+            "tz": "UTC"
+          },
+          "pred": {
+            "start_utc": "2024-11-05T03:30",
+            "end_utc": "2024-11-05T05:30"
+          },
+          "score": {
+            "start_ok": true,
+            "end_ok": true
+          },
+          "source_line": 239,
+          "source_row_sha256": "f21fa95f765291db685931ae8012bdc7dc2f863514969dc90242897c2df652fc",
+          "available_reference_match": true
+        },
+        "sutime_glue": {
+          "raw": null,
+          "extracted": null,
+          "pred": {
+            "start_utc": "2024-11-05T03:30",
+            "end_utc": null
+          },
+          "score": {
+            "start_ok": true,
+            "end_ok": false
+          },
+          "source_line": 239,
+          "source_row_sha256": "284f01b6612505e78158722d454209cf2ce3de2c0fa43c11b92d3b5313970593",
+          "available_reference_match": false,
+          "expressions": [
+            {
+              "text": "03:30 UTC on the 5th of November",
+              "clock": true,
+              "date": true
+            }
+          ]
+        }
+      },
+      "interpretation": "The saved 7B output supplies 05:30, two hours after the stated start. The prose gives an expected downtime upper bound, not an explicit end clock. Matching the platform's end reference therefore does not establish exact transcription or semantic correctness.",
+      "paper_note": "The supplied end equals start plus the stated downtime upper bound; no end clock is explicit. Reference agreement is not exact transcription."
+    },
+    {
+      "role": "7B reference mismatch",
+      "id": "status.bunny.net/hqm95hckjf66",
+      "common_id_rank": 3,
+      "site": "status.bunny.net",
+      "posted_utc": "2026-04-28T09:14",
+      "text_sha256": "39924479c85a19e97b87d667e7589fae080353e70b4b4ecc15d7998602d48f62",
+      "text_characters": 655,
+      "excerpt": {
+        "text": "you may experience downtime on the Magic Containers service between 10:00 and 11:00 CEST on Thursday, 30th of April",
+        "spans": [
+          {
+            "start": 147,
+            "end": 262,
+            "text": "you may experience downtime on the Magic Containers service between 10:00 and 11:00 CEST on Thursday, 30th of April"
+          }
+        ],
+        "offset_unit": "zero-based Unicode characters in the archived text; end exclusive"
+      },
+      "reference": {
+        "start_utc": "2026-04-30T09:00",
+        "end_utc": "2026-04-30T10:00"
+      },
+      "arms": {
+        "qwen7b_extract": {
+          "raw": "{\"date\": \"2026-04-30\", \"start\": \"10:00\", \"end\": \"11:00\", \"end_date\": null, \"tz\": \"CEST\"}",
+          "extracted": {
+            "date": "2026-04-30",
+            "start": "10:00",
+            "end": "11:00",
+            "end_date": null,
+            "tz": "CEST"
+          },
+          "pred": {
+            "start_utc": "2026-04-30T08:00",
+            "end_utc": "2026-04-30T09:00"
+          },
+          "score": {
+            "start_ok": false,
+            "end_ok": false
+          },
+          "source_line": 237,
+          "source_row_sha256": "6dc0a87ceac3493bbe71552683326973de4e5cd80f60d8d63b9a4cf07c4701af",
+          "available_reference_match": false
+        },
+        "sutime_glue": {
+          "raw": null,
+          "extracted": null,
+          "pred": {
+            "start_utc": "2026-04-30T08:00",
+            "end_utc": "2026-04-30T11:00"
+          },
+          "score": {
+            "start_ok": false,
+            "end_ok": false
+          },
+          "source_line": 237,
+          "source_row_sha256": "80810fc1e2307e7034c2bc774a633f8b0752316f6d3a4d80f7b905c12b882563",
+          "available_reference_match": false,
+          "expressions": [
+            {
+              "text": "10:00",
+              "clock": true,
+              "date": false
+            },
+            {
+              "text": "11:00 CEST on Thursday, 30th of April",
+              "clock": true,
+              "date": true
+            }
+          ]
+        }
+      },
+      "interpretation": "The saved 7B output copies 10:00-11:00 CEST, which converts to 08:00-09:00 UTC. The platform references are one hour later. The discrepancy cannot establish a model reading error or adjudicate the provider's intended schedule; the automatic references remain unchanged.",
+      "paper_note": "The quoted CEST clocks convert to 08:00--09:00 UTC; the platform references are one hour later. This mismatch alone does not identify a reading error."
+    }
+  ]
+}

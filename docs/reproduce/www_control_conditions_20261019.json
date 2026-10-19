@@ -1,0 +1,197 @@
+{
+  "schema": "www.control_conditions/1",
+  "kind": "presentation_of_saved_summaries_only",
+  "sources": {
+    "capacity_report": {
+      "path": "runs/converter_fix_20261001/summary_closed_loop.md",
+      "sha256": "2d8861a89beb97db07205eed386e466097bda473249c8fbe5e99b95118a48963",
+      "bytes": 3964,
+      "text": "# Maintenance diagnostic (primary)\n\n477 worlds, 14 providers.\n\n| arm | satisfaction | window sat. | hard-SLA int./ep. | uncertified/ep. | aborted | goal steps |\n|---|---|---|---|---|---|---|\n| R0_reactive | 0.512 [0.484, 0.568] | 0.000 | 5.86 | 5.90 | 0 | 0 |\n| M_worst | 0.287 [0.276, 0.307] | 0.000 | 0.00 | 0.55 | 0 | 0 |\n| M_oracle | 0.753 [0.728, 0.791] | 0.545 | 0.00 | 0.87 | 0 | 361 |\n| M_qwen7b_direct | 0.626 [0.573, 0.717] | 0.319 | 1.79 | 2.36 | 0 | 215 |\n| M_rule | 0.656 [0.589, 0.728] | 0.426 | 0.75 | 1.48 | 0 | 284 |\n| M_qwen7b_extract | 0.688 [0.622, 0.750] | 0.455 | 0.62 | 1.40 | 0 | 306 |\n| M_qwen1p5b_lora | 0.673 [0.600, 0.739] | 0.449 | 0.57 | 1.34 | 0 | 302 |\n| M_qwen32b_extract | 0.686 [0.621, 0.747] | 0.463 | 0.52 | 1.30 | 0 | 311 |\n| M_qwen72b_extract | 0.681 [0.616, 0.741] | 0.459 | 0.52 | 1.30 | 0 | 309 |\n| M_rule_prefix | 0.646 [0.565, 0.728] | 0.405 | 0.96 | 1.64 | 0 | 269 |\n| M_qwen7b_extract_prefix | 0.678 [0.595, 0.750] | 0.434 | 0.82 | 1.56 | 0 | 291 |\n| M_qwen1p5b_lora_prefix | 0.663 [0.572, 0.739] | 0.428 | 0.77 | 1.50 | 0 | 287 |\n| M_qwen32b_extract_prefix | 0.676 [0.594, 0.747] | 0.442 | 0.72 | 1.46 | 0 | 296 |\n| M_qwen72b_extract_prefix | 0.671 [0.589, 0.741] | 0.438 | 0.72 | 1.46 | 0 | 294 |\n| M_qwen32b_direct | 0.687 [0.639, 0.748] | 0.447 | 0.60 | 1.37 | 0 | 298 |\n| M_qwen72b_direct | 0.692 [0.647, 0.749] | 0.459 | 0.48 | 1.29 | 0 | 306 |\n\n| pair | Δ satisfaction [95%] | Δ window sat. [95%] | Δ hard-SLA int./ep. [95%] |\n|---|---|---|---|\n| M_rule − M_rule_prefix | +0.010 [+0.000, +0.028] | +0.021 [+0.000, +0.057] | -0.20 [-0.55, +0.00] |\n| M_qwen7b_extract − M_qwen7b_extract_prefix | +0.010 [+0.000, +0.028] | +0.021 [+0.000, +0.057] | -0.20 [-0.55, +0.00] |\n| M_qwen1p5b_lora − M_qwen1p5b_lora_prefix | +0.010 [+0.000, +0.028] | +0.021 [+0.000, +0.057] | -0.20 [-0.55, +0.00] |\n| M_qwen32b_extract − M_qwen32b_extract_prefix | +0.010 [+0.000, +0.028] | +0.021 [+0.000, +0.057] | -0.20 [-0.55, +0.00] |\n| M_qwen72b_extract − M_qwen72b_extract_prefix | +0.010 [+0.000, +0.028] | +0.021 [+0.000, +0.057] | -0.20 [-0.55, +0.00] |\n| M_qwen7b_extract − M_rule | +0.032 [+0.003, +0.076] | +0.029 [-0.019, +0.088] | -0.14 [-0.65, +0.27] |\n| M_qwen32b_extract − M_rule | +0.030 [+0.001, +0.073] | +0.038 [-0.002, +0.095] | -0.24 [-0.76, +0.08] |\n| M_qwen72b_extract − M_rule | +0.025 [-0.006, +0.067] | +0.034 [-0.010, +0.092] | -0.24 [-0.76, +0.08] |\n| M_qwen1p5b_lora − M_rule | +0.017 [-0.020, +0.062] | +0.023 [-0.030, +0.087] | -0.19 [-0.75, +0.19] |\n| M_qwen7b_extract − R0_reactive | +0.176 [+0.106, +0.229] | +0.455 [+0.348, +0.535] | -5.24 [-5.99, -4.23] |\n| M_rule − R0_reactive | +0.144 [+0.072, +0.204] | +0.426 [+0.320, +0.525] | -5.10 [-5.74, -4.21] |\n| M_oracle − M_qwen7b_extract | +0.064 [+0.015, +0.128] | +0.090 [+0.012, +0.195] | -0.62 [-1.47, -0.02] |\n| M_oracle − M_qwen32b_extract | +0.067 [+0.017, +0.130] | +0.082 [+0.007, +0.185] | -0.52 [-1.37, +0.00] |\n| M_qwen72b_direct − M_qwen72b_extract | +0.011 [-0.017, +0.046] | +0.000 [-0.043, +0.046] | -0.03 [-0.62, +0.48] |\n\nSatisfaction by (path, remaining Mbps), descriptive:\n\n| path, Mbps | n | R0_reactive | M_worst | M_oracle | M_qwen7b_direct | M_rule | M_qwen7b_extract | M_qwen1p5b_lora | M_qwen32b_extract | M_qwen72b_extract | M_rule_prefix | M_qwen7b_extract_prefix | M_qwen1p5b_lora_prefix | M_qwen32b_extract_prefix | M_qwen72b_extract_prefix | M_qwen32b_direct | M_qwen72b_direct |\n|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n| 3, 1.5 | 159 | 0.512 | 0.287 | 0.465 | 0.453 | 0.416 | 0.437 | 0.419 | 0.427 | 0.422 | 0.419 | 0.439 | 0.422 | 0.429 | 0.425 | 0.441 | 0.438 |\n| 3, 2.0 | 159 | 0.512 | 0.287 | 0.793 | 0.642 | 0.688 | 0.722 | 0.707 | 0.721 | 0.715 | 0.671 | 0.705 | 0.690 | 0.704 | 0.699 | 0.715 | 0.717 |\n| 3, 3.0 | 159 | 0.512 | 0.287 | 1.000 | 0.782 | 0.865 | 0.906 | 0.893 | 0.910 | 0.906 | 0.848 | 0.889 | 0.876 | 0.894 | 0.889 | 0.905 | 0.922 |\n"
+    },
+    "main": {
+      "path": "docs/reproduce/converter_fix_20261001_summary_closed_loop.json",
+      "sha256": "469c8f57150df8e625bafd74af21bec1a56f3c9d4ca044e42946dace22e72f09",
+      "bytes": 8265
+    },
+    "controls": {
+      "path": "docs/reproduce/controls_20261014_summary_controls.json",
+      "sha256": "8e425220683bffe01cc5229b33336645beda8c00f906bed6d704f6c4ce2c6cef",
+      "bytes": 6506
+    },
+    "revision": {
+      "path": "docs/reproduce/revision_scenario_v2_20261013_summary_closed_loop_cancelled_moved.json",
+      "sha256": "e2dd859011bcf08792df49e97ddf1565444ed754183a023b79a8ca5fa995a212",
+      "bytes": 5240
+    },
+    "revision_contract": {
+      "path": "contracts/revision_scenario_v2_20261013.json",
+      "sha256": "0cce5858d44faaa92537d3bdda7405b5bcb03512a817ed3e6cc09aba90a9742c",
+      "bytes": 2767
+    },
+    "revision_cluster_code": {
+      "path": "scripts/summarise_revision_scenario.py",
+      "sha256": "a2681566ddf7f799b9897cebb725f05ca4ad330bbc9e15a5e46eea7f2834e098",
+      "bytes": 3582
+    },
+    "metric_code": {
+      "path": "scripts/summarise_maintenance_diagnostic.py",
+      "sha256": "787f73cdff35e87fd563719d739cf294236d5527db80d4980f448d34aa350678",
+      "bytes": 5699
+    },
+    "episode_code": {
+      "path": "src/vera/maintenance_episode.py",
+      "sha256": "c7cfe89ac8ea8779cfd19ceed6f444b8aba254d21aaf890a5a47d19630a12d0b",
+      "bytes": 6579
+    },
+    "native_tick_code": {
+      "path": "src/vera/ns3/ns3_multiservice_maint.cc",
+      "sha256": "95a182a4af36d35f5244d9d37ef99c2633ec12684045156689319e600af0f225",
+      "bytes": 12094
+    }
+  },
+  "capacity": [
+    {
+      "path": 3,
+      "remaining_mbps": "1.5",
+      "worlds": 159,
+      "satisfaction_printed": {
+        "R0_reactive": "0.512",
+        "M_rule": "0.416",
+        "M_qwen7b_extract": "0.437",
+        "M_oracle": "0.465"
+      }
+    },
+    {
+      "path": 3,
+      "remaining_mbps": "2.0",
+      "worlds": 159,
+      "satisfaction_printed": {
+        "R0_reactive": "0.512",
+        "M_rule": "0.688",
+        "M_qwen7b_extract": "0.722",
+        "M_oracle": "0.793"
+      }
+    },
+    {
+      "path": 3,
+      "remaining_mbps": "3.0",
+      "worlds": 159,
+      "satisfaction_printed": {
+        "R0_reactive": "0.512",
+        "M_rule": "0.865",
+        "M_qwen7b_extract": "0.906",
+        "M_oracle": "1.000"
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "arm": "R0_reactive",
+      "label": "Reactive",
+      "worlds": 477,
+      "window_satisfaction": 0.0,
+      "uncertified_per_episode": 5.89727463312369,
+      "saved_fields": {
+        "sat": 0.5120545073375262,
+        "win": 0.0,
+        "hard": 5.855345911949685,
+        "unc": 5.89727463312369,
+        "aborted": 0,
+        "goal": 0,
+        "sat_ci": [
+          0.48410852713178293,
+          0.5684818481848185
+        ]
+      }
+    },
+    {
+      "arm": "M_rule",
+      "label": "Rule",
+      "worlds": 477,
+      "window_satisfaction": 0.42557651991614254,
+      "uncertified_per_episode": 1.4821802935010482,
+      "saved_fields": {
+        "sat": 0.6563591893780573,
+        "win": 0.42557651991614254,
+        "hard": 0.7547169811320755,
+        "unc": 1.4821802935010482,
+        "aborted": 0,
+        "goal": 284,
+        "sat_ci": [
+          0.5887723387723388,
+          0.7282359679266895
+        ]
+      }
+    },
+    {
+      "arm": "C_lead1_qwen7b",
+      "label": "Fixed lead-1",
+      "worlds": 477,
+      "window_satisfaction": 0.0,
+      "uncertified_per_episode": 0.8259958071278826,
+      "saved_fields": {
+        "sat": 0.43693221523410203,
+        "win": 0.0,
+        "hard": 0.6163522012578616,
+        "unc": 0.8259958071278826,
+        "aborted": 0,
+        "goal": 0,
+        "sat_ci": [
+          0.40241034685479127,
+          0.49915824915824913
+        ]
+      }
+    },
+    {
+      "arm": "M_qwen7b_extract",
+      "label": "7B lookahead",
+      "worlds": 477,
+      "window_satisfaction": 0.4549266247379455,
+      "uncertified_per_episode": 1.3962264150943395,
+      "saved_fields": {
+        "sat": 0.6881551362683438,
+        "win": 0.4549266247379455,
+        "hard": 0.6163522012578616,
+        "unc": 1.3962264150943395,
+        "aborted": 0,
+        "goal": 306,
+        "sat_ci": [
+          0.6217460317460318,
+          0.7502458210422812
+        ]
+      }
+    },
+    {
+      "arm": "M_oracle",
+      "label": "True window",
+      "worlds": 477,
+      "window_satisfaction": 0.5450733752620545,
+      "uncertified_per_episode": 0.8742138364779874,
+      "saved_fields": {
+        "sat": 0.7526205450733753,
+        "win": 0.5450733752620545,
+        "hard": 0.0,
+        "unc": 0.8742138364779874,
+        "aborted": 0,
+        "goal": 361,
+        "sat_ci": [
+          0.7284527518172378,
+          0.7907706093189965
+        ]
+      }
+    }
+  ],
+  "revision_units": {
+    "items": 35,
+    "notice_clusters": 30,
+    "worlds": 210,
+    "legacy_cluster_field": "providers",
+    "cluster_unit": "notice"
+  },
+  "limitations": [
+    "No new estimates, confidence intervals, resampling, models, or simulation.",
+    "Capacity means retain the original report's three-decimal precision.",
+    "Uncertified and realised violation are different properties; their joint distribution is not inferred.",
+    "Search failure is not an infeasibility proof; simulation scores exclude decision latency."
+  ]
+}

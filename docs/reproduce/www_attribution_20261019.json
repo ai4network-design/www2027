@@ -1,0 +1,107 @@
+{
+  "purpose": "Post-hoc presentation of previously stored paired contrasts; no new statistics.",
+  "metric": "realised all-obligation satisfaction",
+  "intervals": "Existing provider-clustered paired bootstrap 95% intervals, reused unchanged except sign reversal.",
+  "limitations": [
+    "Contrasts are not an additive attribution or a complete factorial experiment.",
+    "System contrast changes information and control policy; reader contrast holds controller fixed.",
+    "Planner contrast holds the post-fix 7B belief fixed.",
+    "Fresh zero interval reflects identical observed scores, not population equivalence."
+  ],
+  "sources": {
+    "main": {
+      "path": "docs/reproduce/converter_fix_20261001_summary_closed_loop.json",
+      "sha256": "469c8f57150df8e625bafd74af21bec1a56f3c9d4ca044e42946dace22e72f09"
+    },
+    "controls": {
+      "path": "docs/reproduce/controls_20261014_summary_controls.json",
+      "sha256": "8e425220683bffe01cc5229b33336645beda8c00f906bed6d704f6c4ce2c6cef"
+    },
+    "fresh": {
+      "path": "docs/reproduce/fresh_sample_20261013_summary_closed_loop.json",
+      "sha256": "c779c3c6322e9884dd92b829b2e9d6c938a3a39fe47aa3de08aca362c1020dde"
+    }
+  },
+  "rows": [
+    {
+      "label": "System: 7B vs. reactive",
+      "source": "main",
+      "source_pair": "M_qwen7b_extract - R0_reactive",
+      "sign_reversed": false,
+      "worlds": 477,
+      "arms": [
+        "M_qwen7b_extract",
+        "R0_reactive"
+      ],
+      "means": [
+        0.6881551362683438,
+        0.5120545073375262
+      ],
+      "delta": 0.1761006289308176,
+      "ci95": [
+        0.10635464231354642,
+        0.22880870561282932
+      ]
+    },
+    {
+      "label": "Reader: 7B vs. rule",
+      "source": "main",
+      "source_pair": "M_qwen7b_extract - M_rule",
+      "sign_reversed": false,
+      "worlds": 477,
+      "arms": [
+        "M_qwen7b_extract",
+        "M_rule"
+      ],
+      "means": [
+        0.6881551362683438,
+        0.6563591893780573
+      ],
+      "delta": 0.03179594689028652,
+      "ci95": [
+        0.0030234315948601672,
+        0.07620452310717798
+      ]
+    },
+    {
+      "label": "Planner: lookahead vs. lead-1",
+      "source": "controls",
+      "source_pair": "C_lead1_qwen7b - M_qwen7b_extract",
+      "sign_reversed": true,
+      "worlds": 477,
+      "arms": [
+        "M_qwen7b_extract",
+        "C_lead1_qwen7b"
+      ],
+      "means": [
+        0.6881551362683438,
+        0.43693221523410203
+      ],
+      "delta": 0.25122292103424176,
+      "ci95": [
+        0.18858932461873637,
+        0.2971509971509972
+      ]
+    },
+    {
+      "label": "Reader on fresh notices",
+      "source": "fresh",
+      "source_pair": "M_qwen7b_extract - M_rule",
+      "sign_reversed": false,
+      "worlds": 105,
+      "arms": [
+        "M_qwen7b_extract",
+        "M_rule"
+      ],
+      "means": [
+        0.7134920634920635,
+        0.7134920634920635
+      ],
+      "delta": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

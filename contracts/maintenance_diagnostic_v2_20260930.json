@@ -1,93 +1,93 @@
 {
- "schema": "vera.maintenance_diagnostic/2",
- "status": "REGISTERED 2026-09-30 before any v2 result (user decision 2026-09-30); design-corrected replication of v1",
- "question": "When a public maintenance notice announces a capacity drop on one path, does a controller that compiles the notice's window with a language model (7B copies date, times and zone; code converts) and prepares for it keep more base obligations than a controller that only reacts to observed capacity, and than one that knows the path but not the timing?",
- "claim_scope": "Timing comes from real public notice text (test providers of the public benchmark); the affected path and remaining capacity are assigned by hash, not stated by the notices. Real starts are automatic and equal to the announced start, so this measures the value of a correctly compiled window, not calibration of administrator estimates. Path fixed to 3 and each notice appears at three capacities, so worlds of one notice are dependent; uncertainty clusters by provider.",
- "world": {
-  "native": "runs/ns3_maintenance_build_20260930/native_maint.json (source src/vera/ns3/ns3_multiservice_maint.cc)",
-  "worlds": "the 159 v1 test notices x remaining capacity {1.5, 2, 3} Mbps on path 3 = 477 worlds per arm (scripts/run_maintenance_v2.py worlds())",
-  "clock": "one interval = 30 min; interval 0 = reference start - L x 30 min, L in {4,5,6} by hash; true window [L, min(12, L + ceil(duration/30 min)))",
-  "assignment": "path 3 for every world; capacity enumerated; L and ns-3 seed as v1 (SHA-256 of the notice id, shared across the three capacities)",
-  "episode": "12 intervals, base ledger of the frozen contract, notice shown at interval 2, one episode per world and arm"
- },
- "arms": {
-  "R0_reactive": "no belief, no maintenance shield; the frozen obligation planner reacts to observed capacity",
-  "M_worst": "true path and capacity, timing unknown: window [2, 12)",
-  "M_rule": "window from scripts/maintenance_rule.py (development-written rule)",
-  "M_qwen7b_extract": "window from the stored 7B extract-then-convert outputs (decisive language arm)",
-  "M_qwen7b_direct": "window from the stored 7B direct-UTC outputs",
-  "M_qwen1p5b_lora": "window from the stored development-split LoRA 1.5B extract outputs",
-  "M_oracle": "true window (extra information)"
- },
- "belief_mapping": "compiled UTC start floor-mapped, end ceil-mapped with the world clock; missing or unparseable start -> [2, 12); missing end or end <= start -> end 12. Path and capacity of every belief arm are the true ones (language supplies timing only). Known converter gap: city-named zones (e.g. 'Paris Time') are not converted; outputs are used as stored.",
- "control": {
-  "shield": "maintenance invariant (src/vera/maintenance_shield.py): before s_b a legal path of at most s_b - t actions reaches a configuration robust with path p at c_b; inside [s_b, e_b) the executed configuration is robust; MAX_NODES 6000; fallback = shortest escape: before s_b the first step of a witness path reaching robustness by s_b; if none, or once the window has opened, the first step of the shortest legal path to a robust configuration within the rest of the believed window (same node budget)",
-  "planning": "forecast-aware goal keeping on every belief arm of the primary analysis: before s_b, an action that lowers the best (violations, gap) of the base obligations reachable under the belief by s_b is replaced by the first step towards that best configuration (bounded breadth-first search, max 20,000 nodes, history-feature dedupe)",
-  "uncertified": "when no action is certified the configuration is held and the interval recorded as uncertified; hard-SLA violations are scored intervals, not aborts"
- },
- "metrics": {
-  "primary": "satisfaction = share of the 12 intervals with the hard SLA met and every base obligation met",
-  "secondary": [
-   "window satisfaction (true-window intervals only)",
-   "hard-SLA violation intervals per episode",
-   "uncertified intervals",
-   "aborted episodes",
-   "goal steps"
+  "schema": "vera.maintenance_diagnostic/2",
+  "status": "REGISTERED 2026-09-30 before any v2 result (user decision 2026-09-30); design-corrected replication of v1",
+  "question": "When a public maintenance notice announces a capacity drop on one path, does a controller that compiles the notice's window with a language model (7B copies date, times and zone; code converts) and prepares for it keep more base obligations than a controller that only reacts to observed capacity, and than one that knows the path but not the timing?",
+  "claim_scope": "Timing comes from real public notice text (test providers of the public benchmark); the affected path and remaining capacity are assigned by hash, not stated by the notices. Real starts are automatic and equal to the announced start, so this measures the value of a correctly compiled window, not calibration of administrator estimates. Path fixed to 3 and each notice appears at three capacities, so worlds of one notice are dependent; uncertainty clusters by provider.",
+  "world": {
+    "native": "runs/ns3_maintenance_build_20260930/native_maint.json (source src/vera/ns3/ns3_multiservice_maint.cc)",
+    "worlds": "the 159 v1 test notices x remaining capacity {1.5, 2, 3} Mbps on path 3 = 477 worlds per arm (scripts/run_maintenance_v2.py worlds())",
+    "clock": "one interval = 30 min; interval 0 = reference start - L x 30 min, L in {4,5,6} by hash; true window [L, min(12, L + ceil(duration/30 min)))",
+    "assignment": "path 3 for every world; capacity enumerated; L and ns-3 seed as v1 (SHA-256 of the notice id, shared across the three capacities)",
+    "episode": "12 intervals, base ledger of the frozen contract, notice shown at interval 2, one episode per world and arm"
+  },
+  "arms": {
+    "R0_reactive": "no belief, no maintenance shield; the frozen obligation planner reacts to observed capacity",
+    "M_worst": "true path and capacity, timing unknown: window [2, 12)",
+    "M_rule": "window from scripts/maintenance_rule.py (development-written rule)",
+    "M_qwen7b_extract": "window from the stored 7B extract-then-convert outputs (decisive language arm)",
+    "M_qwen7b_direct": "window from the stored 7B direct-UTC outputs",
+    "M_qwen1p5b_lora": "window from the stored development-split LoRA 1.5B extract outputs",
+    "M_oracle": "true window (extra information)"
+  },
+  "belief_mapping": "compiled UTC start floor-mapped, end ceil-mapped with the world clock; missing or unparseable start -> [2, 12); missing end or end <= start -> end 12. Path and capacity of every belief arm are the true ones (language supplies timing only). Known converter gap: city-named zones (e.g. 'Paris Time') are not converted; outputs are used as stored.",
+  "control": {
+    "shield": "maintenance invariant (src/vera/maintenance_shield.py): before s_b a legal path of at most s_b - t actions reaches a configuration robust with path p at c_b; inside [s_b, e_b) the executed configuration is robust; MAX_NODES 6000; fallback = shortest escape: before s_b the first step of a witness path reaching robustness by s_b; if none, or once the window has opened, the first step of the shortest legal path to a robust configuration within the rest of the believed window (same node budget)",
+    "planning": "forecast-aware goal keeping on every belief arm of the primary analysis: before s_b, an action that lowers the best (violations, gap) of the base obligations reachable under the belief by s_b is replaced by the first step towards that best configuration (bounded breadth-first search, max 20,000 nodes, history-feature dedupe)",
+    "uncertified": "when no action is certified the configuration is held and the interval recorded as uncertified; hard-SLA violations are scored intervals, not aborts"
+  },
+  "metrics": {
+    "primary": "satisfaction = share of the 12 intervals with the hard SLA met and every base obligation met",
+    "secondary": [
+      "window satisfaction (true-window intervals only)",
+      "hard-SLA violation intervals per episode",
+      "uncertified intervals",
+      "aborted episodes",
+      "goal steps"
+    ]
+  },
+  "analysis": {
+    "pairing": "over worlds",
+    "uncertainty": "cluster bootstrap over providers, 10,000 resamples, seed 20260930, 95% percentile",
+    "decisive_arm": "M_qwen7b_extract",
+    "decision": "advance if M_qwen7b_extract - R0_reactive and M_qwen7b_extract - M_worst both have lower bounds above zero, its hard-SLA intervals per episode are not above R0_reactive, and it has no aborted episode; narrow if only one of the two lower bounds is above zero; otherwise stop",
+    "descriptive": [
+      "M_oracle - M_qwen7b_extract (headroom left by compilation)",
+      "M_qwen7b_extract - M_rule / - M_qwen7b_direct",
+      "M_qwen1p5b_lora - M_qwen7b_extract",
+      "breakdown by (path, capacity)"
+    ],
+    "secondary_ablation": "M_qwen7b_extract_noplan and M_oracle_noplan: same beliefs with the shield only (no goal keeping), separate directory, not part of the decision"
+  },
+  "budgets": {
+    "model_calls": 0,
+    "training": 0,
+    "ns3_episodes": {
+      "smoke": 6,
+      "primary": 3339,
+      "secondary": 954,
+      "void_attempt_1": "about 2,200 episodes of R0_reactive, M_worst, M_oracle, M_rule, M_oracle_noplan before the language arms crashed; kept in runs/maintenance_diagnostic_v2_20260930_attempt1_void, not analysed"
+    }
+  },
+  "host": "Ubuntu RTX PRO 6000 server; repository path redacted",
+  "runner": "PYTHONPATH=src python scripts/run_maintenance_v2.py --contract contracts/maintenance_diagnostic_v2_20260930.json --arm <arm> --out runs/maintenance_diagnostic_v2_20260930/{primary|secondary}/<arm> [--shard i/n; then an unsharded pass assembles report.json]; summary: scripts/summarise_maintenance_diagnostic.py (unchanged)",
+  "rule": "no change of worlds, arms, beliefs, search bounds, metric or decision after registration; a bug fix is recorded and forces a full rerun of every arm",
+  "sources": {
+    "src/vera/maintenance_shield.py": "0dffebec62b3e566ed27f44bb184e34077da9ca7e5a740ac6baf9ae1019ee71a",
+    "src/vera/maintenance_episode.py": "d11643d22751aff51c61fbe6b60e387812d040317622d4c02e3264b8aa88f05b",
+    "src/vera/maintenance_native.py": "58be9a611f9c3445fb261e26f4abd9e2e7967f8e69dd2c80ceb3c3f4f7e74544",
+    "src/vera/multiservice_control.py": "dbd1a19acc63eb30980e1005260b39e71f66c0ccc4ace1c7ec609d4b674d5882",
+    "src/vera/obligation_planner.py": "666777861aaee261270af778425ee01a84413f94755a3b879e1f76d7f4eaf626",
+    "src/vera/obligation_ledger.py": "1cdd5822fe2427b17bc4b9ba87c8f16203e1455203bc4d7e89f55177ed135bff",
+    "src/vera/frozen_protocol.py": "e733500e5d850c61391885a01bc86031ad7dc477baa64e65e499fa34a48a9cc7",
+    "src/vera/ns3/ns3_multiservice_maint.cc": "95a182a4af36d35f5244d9d37ef99c2633ec12684045156689319e600af0f225",
+    "scripts/run_maintenance_diagnostic.py": "16379b47f53694dc21177daaac75f89d85b8b5718c7d0f7d5cdea276031f89bb",
+    "scripts/summarise_maintenance_diagnostic.py": "787f73cdff35e87fd563719d739cf294236d5527db80d4980f448d34aa350678",
+    "scripts/maintenance_compile_eval.py": "9e1c3070ef6c7e36d7040439986be43417d18e447f8f6903c22a87ee5fc50883",
+    "scripts/maintenance_rule.py": "5043fdb2e0a14e12dfa5bc2bdfe6de195e15c2cbd1da5f3e32ed0ccdd26e7eca",
+    "contracts/frozen_protocol_20260924_20261008.json": "4daff49892fd8b3efae37284add972ae384531773a1cba632eccce138981bfa3",
+    "runs/ns3_maintenance_build_20260930/native_maint.json": "c502ea102d596c22b324fe0415db0da8fccf43a8908ac21e2709c49dca5e7d05",
+    "runs/maintenance_compile_20260929/test_7b/qwen7b_extract.jsonl": "07bfa155545ae218c6d3c1d4b644cb5341c9b91076fa8062823f31819b90b76a",
+    "runs/maintenance_compile_20260929/test_7b/qwen7b_direct.jsonl": "2af1ca0a2fb9bf839e0dc0e48553591df8c7b3f67e7a1bc328ca20fd1fc8a7f3",
+    "runs/maintenance_compile_20260929/test_lora/qwen1p5b_lora_extract.jsonl": "ab822f5dffdd248056889514a329c4aa15cda52a5a2b562eac6f0a97f8b1d83b",
+    "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
+    "scripts/run_maintenance_v2.py": "a94353c5b19c0118afbb94189281f1782a24a0fe8ca441f4d58ace6d4dc5fbaf",
+    "contracts/maintenance_diagnostic_20260930.json": "ebc335906973299743d63acbd43be2122651e2b91af2d96a99b318e3b5fdd7ff"
+  },
+  "relation_to_v1": "v1 (contracts/maintenance_diagnostic_20260930.json) was run and its results seen before this contract. Two design corrections, both motivated by v1: (1) the registered M_worst comparator degenerated into the reactive controller because the shield fallback searched one step once the believed window had opened; the registered fallback is now the shortest escape (src/vera/maintenance_escape.py), tested post hoc in v1 exploratory_escape; (2) only the 59 path-3 worlds separated the arms; every notice is now played on path 3 at each remaining capacity. The notices, clock mapping, beliefs, planner, search bounds, metric and decision rule are those of v1. This is a replication with a corrected design on notices whose v1 results were already seen, NOT a fresh-sample test; a fresh-sample test needs notices posted after the 2026-09-29 collection.",
+  "amendments": [
+    {
+      "date": "2026-09-30",
+      "text": "Runner bug fix before any language-arm result: stored compile outputs are keyed by notice id, the v2 world id carries a capacity suffix, so every language arm raised KeyError at start. Fix: beliefs are looked up by notice id and take the world capacity. Per the contract rule the partial first attempt (non-language arms only, never summarised) is void and every arm is rerun from scratch in runs/maintenance_diagnostic_v2_20260930/."
+    }
   ]
- },
- "analysis": {
-  "pairing": "over worlds",
-  "uncertainty": "cluster bootstrap over providers, 10,000 resamples, seed 20260930, 95% percentile",
-  "decisive_arm": "M_qwen7b_extract",
-  "decision": "advance if M_qwen7b_extract - R0_reactive and M_qwen7b_extract - M_worst both have lower bounds above zero, its hard-SLA intervals per episode are not above R0_reactive, and it has no aborted episode; narrow if only one of the two lower bounds is above zero; otherwise stop",
-  "descriptive": [
-   "M_oracle - M_qwen7b_extract (headroom left by compilation)",
-   "M_qwen7b_extract - M_rule / - M_qwen7b_direct",
-   "M_qwen1p5b_lora - M_qwen7b_extract",
-   "breakdown by (path, capacity)"
-  ],
-  "secondary_ablation": "M_qwen7b_extract_noplan and M_oracle_noplan: same beliefs with the shield only (no goal keeping), separate directory, not part of the decision"
- },
- "budgets": {
-  "model_calls": 0,
-  "training": 0,
-  "ns3_episodes": {
-   "smoke": 6,
-   "primary": 3339,
-   "secondary": 954,
-   "void_attempt_1": "about 2,200 episodes of R0_reactive, M_worst, M_oracle, M_rule, M_oracle_noplan before the language arms crashed; kept in runs/maintenance_diagnostic_v2_20260930_attempt1_void, not analysed"
-  }
- },
- "host": "Ubuntu RTX PRO 6000 server, <repo>",
- "runner": "PYTHONPATH=src python scripts/run_maintenance_v2.py --contract contracts/maintenance_diagnostic_v2_20260930.json --arm <arm> --out runs/maintenance_diagnostic_v2_20260930/{primary|secondary}/<arm> [--shard i/n; then an unsharded pass assembles report.json]; summary: scripts/summarise_maintenance_diagnostic.py (unchanged)",
- "rule": "no change of worlds, arms, beliefs, search bounds, metric or decision after registration; a bug fix is recorded and forces a full rerun of every arm",
- "sources": {
-  "src/vera/maintenance_shield.py": "0dffebec62b3e566ed27f44bb184e34077da9ca7e5a740ac6baf9ae1019ee71a",
-  "src/vera/maintenance_episode.py": "d11643d22751aff51c61fbe6b60e387812d040317622d4c02e3264b8aa88f05b",
-  "src/vera/maintenance_native.py": "58be9a611f9c3445fb261e26f4abd9e2e7967f8e69dd2c80ceb3c3f4f7e74544",
-  "src/vera/multiservice_control.py": "dbd1a19acc63eb30980e1005260b39e71f66c0ccc4ace1c7ec609d4b674d5882",
-  "src/vera/obligation_planner.py": "666777861aaee261270af778425ee01a84413f94755a3b879e1f76d7f4eaf626",
-  "src/vera/obligation_ledger.py": "1cdd5822fe2427b17bc4b9ba87c8f16203e1455203bc4d7e89f55177ed135bff",
-  "src/vera/frozen_protocol.py": "e733500e5d850c61391885a01bc86031ad7dc477baa64e65e499fa34a48a9cc7",
-  "src/vera/ns3/ns3_multiservice_maint.cc": "95a182a4af36d35f5244d9d37ef99c2633ec12684045156689319e600af0f225",
-  "scripts/run_maintenance_diagnostic.py": "16379b47f53694dc21177daaac75f89d85b8b5718c7d0f7d5cdea276031f89bb",
-  "scripts/summarise_maintenance_diagnostic.py": "787f73cdff35e87fd563719d739cf294236d5527db80d4980f448d34aa350678",
-  "scripts/maintenance_compile_eval.py": "9e1c3070ef6c7e36d7040439986be43417d18e447f8f6903c22a87ee5fc50883",
-  "scripts/maintenance_rule.py": "5043fdb2e0a14e12dfa5bc2bdfe6de195e15c2cbd1da5f3e32ed0ccdd26e7eca",
-  "contracts/frozen_protocol_20260924_20261008.json": "4daff49892fd8b3efae37284add972ae384531773a1cba632eccce138981bfa3",
-  "runs/ns3_maintenance_build_20260930/native_maint.json": "c502ea102d596c22b324fe0415db0da8fccf43a8908ac21e2709c49dca5e7d05",
-  "runs/maintenance_compile_20260929/test_7b/qwen7b_extract.jsonl": "07bfa155545ae218c6d3c1d4b644cb5341c9b91076fa8062823f31819b90b76a",
-  "runs/maintenance_compile_20260929/test_7b/qwen7b_direct.jsonl": "2af1ca0a2fb9bf839e0dc0e48553591df8c7b3f67e7a1bc328ca20fd1fc8a7f3",
-  "runs/maintenance_compile_20260929/test_lora/qwen1p5b_lora_extract.jsonl": "ab822f5dffdd248056889514a329c4aa15cda52a5a2b562eac6f0a97f8b1d83b",
-  "src/vera/maintenance_escape.py": "49449989b79b4101a507b0061c15164af9758d504699ec8d505a0240fc99f1b4",
-  "scripts/run_maintenance_v2.py": "a94353c5b19c0118afbb94189281f1782a24a0fe8ca441f4d58ace6d4dc5fbaf",
-  "contracts/maintenance_diagnostic_20260930.json": "ebc335906973299743d63acbd43be2122651e2b91af2d96a99b318e3b5fdd7ff"
- },
- "relation_to_v1": "v1 (contracts/maintenance_diagnostic_20260930.json) was run and its results seen before this contract. Two design corrections, both motivated by v1: (1) the registered M_worst comparator degenerated into the reactive controller because the shield fallback searched one step once the believed window had opened; the registered fallback is now the shortest escape (src/vera/maintenance_escape.py), tested post hoc in v1 exploratory_escape; (2) only the 59 path-3 worlds separated the arms; every notice is now played on path 3 at each remaining capacity. The notices, clock mapping, beliefs, planner, search bounds, metric and decision rule are those of v1. This is a replication with a corrected design on notices whose v1 results were already seen, NOT a fresh-sample test; a fresh-sample test needs notices posted after the 2026-09-29 collection.",
- "amendments": [
-  {
-   "date": "2026-09-30",
-   "text": "Runner bug fix before any language-arm result: stored compile outputs are keyed by notice id, the v2 world id carries a capacity suffix, so every language arm raised KeyError at start. Fix: beliefs are looked up by notice id and take the world capacity. Per the contract rule the partial first attempt (non-language arms only, never summarised) is void and every arm is rerun from scratch in runs/maintenance_diagnostic_v2_20260930/."
-  }
- ]
 }
